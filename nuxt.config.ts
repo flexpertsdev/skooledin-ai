@@ -47,5 +47,47 @@ export default defineNuxtConfig({
   image: {
     quality: 80,
     format: ['webp', 'avif', 'jpeg']
+  },
+  
+  // Auto-import components and composables
+  components: {
+    global: true,
+    dirs: [
+      '~/components',
+      '~/components/layout',
+      '~/components/navigation',
+      '~/components/overlay',
+      '~/components/ui',
+      '~/components/content'
+    ]
+  },
+  
+  imports: {
+    dirs: [
+      'composables',
+      'composables/*/index.ts',
+      'utils',
+      'utils/*/index.ts'
+    ]
+  },
+  
+  // Performance optimizations
+  experimental: {
+    payloadExtraction: false,
+    renderJsonPayloads: true,
+    componentIslands: true
+  },
+  
+  nitro: {
+    prerender: {
+      routes: ['/demo', '/demo/navigation', '/demo/overlays', '/demo/layouts', '/demo/content', '/demo/carousel']
+    },
+    compressPublicAssets: true
+  },
+  
+  vite: {
+    optimizeDeps: {
+      include: ['vue', 'vue-router', '@vueuse/core', 'pinia']
+    }
   }
 })

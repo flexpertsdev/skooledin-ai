@@ -46,15 +46,19 @@
             <p>Carousel, PageView, MasonryGrid</p>
           </div>
         </NuxtLink>
+        
+        <NuxtLink to="/demo/forms" class="demo-link">
+          <div class="demo-card">
+            <div class="demo-icon">📝</div>
+            <h3>Form Components</h3>
+            <p>ChatInput, BottomSheetSelect, ChoiceButtons</p>
+          </div>
+        </NuxtLink>
       </div>
 
       <div class="coming-soon">
-        <h2>Coming Soon</h2>
+        <h2>More Features</h2>
         <div class="coming-soon-grid">
-          <div class="coming-soon-card">
-            <h4>Form Components</h4>
-            <p>ChatInput, BottomSheetSelect, ChoiceButtons</p>
-          </div>
           <div class="coming-soon-card">
             <h4>Theme System</h4>
             <p>Dynamic theming with persistence</p>
@@ -62,6 +66,10 @@
           <div class="coming-soon-card">
             <h4>Gesture Support</h4>
             <p>Swipe, pinch, and custom gestures</p>
+          </div>
+          <div class="coming-soon-card">
+            <h4>Performance Tools</h4>
+            <p>Optimization and monitoring</p>
           </div>
         </div>
       </div>
