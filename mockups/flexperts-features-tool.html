@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Flexperts - Features Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+        }
+        
+        /* CSS Variables for Theme */
+        :root {
+            /* Light Mode */
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F9FAFB;
+            --bg-tertiary: #F3F4F6;
+            --bg-quaternary: #E5E7EB;
+            --bg-canvas: #FAFBFC;
+            
+            --text-primary: #111827;
+            --text-secondary: #4B5563;
+            --text-tertiary: #6B7280;
+            --text-muted: #9CA3AF;
+            
+            --border-primary: #E5E7EB;
+            --border-secondary: #D1D5DB;
+            
+            --brand-primary: #22C55E;
+            --brand-primary-hover: #16A34A;
+            --brand-primary-light: #DCFCE7;
+            
+            /* Enhanced icon colors for light mode */
+            --icon-blue: #3B82F6;
+            --icon-purple: #8B5CF6;
+            --icon-green: #10B981;
+            --icon-yellow: #F59E0B;
+            --icon-red: #EF4444;
+            --icon-gray: #6B7280;
+            
+            /* Button specific colors */
+            --button-text-primary: #FFFFFF;
+            --button-text-secondary: #111827;
+            --button-bg-primary: #22C55E;
+            --button-bg-secondary: #E5E7EB;
+            
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+        
+        .dark {
+            /* Dark Mode - Based on #14191C */
+            --bg-primary: #1F2428;
+            --bg-secondary: #14191C;
+            --bg-tertiary: #2D3339;
+            --bg-quaternary: #3A4046;
+            --bg-canvas: #0D1117;
+            
+            --text-primary: #F7F9FA;
+            --text-secondary: #D1D9E0;
+            --text-tertiary: #A0AEC0;
+            --text-muted: #8B949E;
+            
+            --border-primary: #30363D;
+            --border-secondary: #3A4046;
+            
+            --brand-primary: #16C181;
+            --brand-primary-hover: #10A574;
+            --brand-primary-light: #0F7860;
+            
+            /* Enhanced icon colors for dark mode */
+            --icon-blue: #60A5FA;
+            --icon-purple: #A78BFA;
+            --icon-green: #34D399;
+            --icon-yellow: #FBBF24;
+            --icon-red: #F87171;
+            --icon-gray: #9CA3AF;
+            
+            /* Button specific colors for dark mode */
+            --button-text-primary: #0D1117;
+            --button-text-secondary: #F7F9FA;
+            --button-bg-primary: #16C181;
+            --button-bg-secondary: #3A4046;
+            
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4);
+        }
+        
+        /* Theme-aware classes */
+        .bg-primary { background-color: var(--bg-primary); }
+        .bg-secondary { background-color: var(--bg-secondary); }
+        .bg-tertiary { background-color: var(--bg-tertiary); }
+        .bg-quaternary { background-color: var(--bg-quaternary); }
+        .bg-canvas { background-color: var(--bg-canvas); }
+        
+        .text-primary { color: var(--text-primary); }
+        .text-secondary { color: var(--text-secondary); }
+        .text-tertiary { color: var(--text-tertiary); }
+        .text-muted { color: var(--text-muted); }
+        
+        .border-primary { border-color: var(--border-primary); }
+        .border-secondary { border-color: var(--border-secondary); }
+        
+        .brand-primary { background-color: var(--brand-primary); }
+        .brand-primary-hover:hover { background-color: var(--brand-primary-hover); }
+        .brand-primary-text { color: var(--brand-primary); }
+        .brand-primary-light { background-color: var(--brand-primary-light); }
+        
+        /* Shadow utilities */
+        .shadow-theme-sm { box-shadow: var(--shadow-sm); }
+        .shadow-theme-md { box-shadow: var(--shadow-md); }
+        .shadow-theme-lg { box-shadow: var(--shadow-lg); }
+        
+        /* Safe area for mobile devices */
+        .safe-top { padding-top: env(safe-area-inset-top); }
+        .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+        
+        /* Hide scrollbar */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Properties panel */
+        .property-input {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-primary);
+            border-radius: 6px;
+            padding: 8px 12px;
+            width: 100%;
+            color: var(--text-primary);
+        }
+        
+        .property-input:focus {
+            outline: none;
+            border-color: var(--brand-primary);
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+        }
+        
+        /* Feature card */
+        .feature-card {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-primary);
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .feature-card:hover {
+            border-color: var(--brand-primary);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+        
+        .feature-card.selected {
+            border-color: var(--brand-primary);
+            box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.2);
+        }
+        
+        /* Priority badge */
+        .priority-badge {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        
+        .priority-badge.high {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+        
+        .priority-badge.medium {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+        
+        .priority-badge.low {
+            background: #DBEAFE;
+            color: #1E40AF;
+        }
+        
+        .dark .priority-badge.high {
+            background: #7F1D1D;
+            color: #FCA5A5;
+        }
+        
+        .dark .priority-badge.medium {
+            background: #78350F;
+            color: #FDE68A;
+        }
+        
+        .dark .priority-badge.low {
+            background: #1E3A8A;
+            color: #BFDBFE;
+        }
+        
+        /* Status indicator */
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .status-indicator.planned {
+            background: #6B7280;
+        }
+        
+        .status-indicator.in-progress {
+            background: #3B82F6;
+        }
+        
+        .status-indicator.completed {
+            background: #10B981;
+        }
+        
+        /* Progress bar */
+        .progress-bar {
+            height: 4px;
+            background: var(--bg-tertiary);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--brand-primary);
+            transition: width 0.3s ease;
+        }
+        
+        /* Kanban column */
+        .kanban-column {
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            min-height: 500px;
+        }
+        
+        /* Tag */
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 8px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-primary);
+            border-radius: 4px;
+            font-size: 11px;
+        }
+        
+        /* Chat bubbles */
+        .chat-bubble { max-width: 70%; }
+        .chat-bubble.sent {
+            background: var(--brand-primary);
+            color: white;
+            border-radius: 18px 18px 4px 18px;
+        }
+        .chat-bubble.received {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border-radius: 18px 18px 18px 4px;
+        }
+    </style>
+</head>
+<body class="bg-canvas h-screen overflow-hidden">
+    <!-- Main App Container -->
+    <div class="flex h-full">
+        <!-- Left Sidebar - AI Chat -->
+        <aside class="w-80 bg-primary border-r border-primary flex flex-col">
+            <!-- Chat Header -->
+            <div class="p-4 border-b border-primary">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 brand-primary rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-primary">Feature Planner</h3>
+                        <p class="text-xs text-secondary">Plan & prioritize features</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chat Messages -->
+            <div class="flex-1 overflow-y-auto p-4 space-y-4">
+                <div class="flex gap-2">
+                    <div class="w-8 h-8 brand-primary rounded-full flex-shrink-0"></div>
+                    <div class="chat-bubble received p-3">
+                        <p class="text-sm">Hi! I'm your Feature Planning Assistant. I can help you:</p>
+                        <ul class="text-sm mt-2 space-y-1">
+                            <li>• Generate user stories and epics</li>
+                            <li>• Prioritize features based on impact</li>
+                            <li>• Break down complex features</li>
+                            <li>• Create sprint plans</li>
+                        </ul>
+                        <p class="text-sm mt-2">What would you like to work on today?</p>
+                    </div>
+                </div>
+                
+                <div class="flex gap-2 justify-end">
+                    <div class="chat-bubble sent p-3">
+                        <p class="text-sm">I need to plan features for a user authentication system</p>
+                    </div>
+                </div>
+                
+                <div class="flex gap-2">
+                    <div class="w-8 h-8 brand-primary rounded-full flex-shrink-0"></div>
+                    <div class="chat-bubble received p-3">
+                        <p class="text-sm mb-3">Great! I'll help you create a comprehensive authentication system. Here's what I've generated:</p>
+                        <div class="bg-primary rounded-lg p-3 space-y-2">
+                            <div class="text-xs font-semibold text-muted mb-2">EPIC: USER AUTHENTICATION</div>
+                            <div class="space-y-1">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm">1. User Registration</span>
+                                    <span class="priority-badge high">High</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm">2. Login with OAuth</span>
+                                    <span class="priority-badge high">High</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm">3. Password Reset</span>
+                                    <span class="priority-badge medium">Medium</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm">4. Two-Factor Auth</span>
+                                    <span class="priority-badge medium">Medium</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm">5. Remember Me</span>
+                                    <span class="priority-badge low">Low</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-sm mt-3">Would you like me to break down any of these features into detailed user stories?</p>
+                    </div>
+                </div>
+                
+                <div class="flex gap-2 justify-end">
+                    <div class="chat-bubble sent p-3">
+                        <p class="text-sm">Yes, please break down the OAuth login feature</p>
+                    </div>
+                </div>
+                
+                <div class="flex gap-2">
+                    <div class="w-8 h-8 brand-primary rounded-full flex-shrink-0"></div>
+                    <div class="chat-bubble received p-3">
+                        <p class="text-sm mb-3">Here's the breakdown for OAuth login:</p>
+                        <div class="bg-primary rounded-lg p-3 space-y-3">
+                            <div>
+                                <div class="text-xs font-semibold text-muted mb-1">USER STORY #1</div>
+                                <p class="text-sm font-medium">As a user, I want to sign in with Google</p>
+                                <p class="text-xs text-secondary mt-1">Acceptance: Google OAuth integration, profile data retrieval</p>
+                                <div class="flex gap-1 mt-2">
+                                    <span class="tag">#frontend</span>
+                                    <span class="tag">#backend</span>
+                                    <span class="text-xs text-secondary ml-auto">5 pts</span>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="text-xs font-semibold text-muted mb-1">USER STORY #2</div>
+                                <p class="text-sm font-medium">As a user, I want to sign in with GitHub</p>
+                                <p class="text-xs text-secondary mt-1">Acceptance: GitHub OAuth, fetch email and username</p>
+                                <div class="flex gap-1 mt-2">
+                                    <span class="tag">#frontend</span>
+                                    <span class="tag">#backend</span>
+                                    <span class="text-xs text-secondary ml-auto">3 pts</span>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="text-xs font-semibold text-muted mb-1">USER STORY #3</div>
+                                <p class="text-sm font-medium">As a user, I want to link OAuth to existing account</p>
+                                <p class="text-xs text-secondary mt-1">Acceptance: Account linking, duplicate prevention</p>
+                                <div class="flex gap-1 mt-2">
+                                    <span class="tag">#backend</span>
+                                    <span class="tag">#database</span>
+                                    <span class="text-xs text-secondary ml-auto">8 pts</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="text-sm brand-primary-text font-medium mt-3">+ Add all to current sprint</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chat Input -->
+            <div class="p-4 border-t border-primary">
+                <div class="flex gap-2">
+                    <button class="p-2 hover:bg-tertiary rounded-lg transition-colors">
+                        <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path>
+                        </svg>
+                    </button>
+                    <input type="text" placeholder="Ask about features, user stories, or priorities..." class="flex-1 px-4 py-2 bg-tertiary rounded-lg text-sm">
+                    <button class="p-2 brand-primary rounded-lg text-white brand-primary-hover">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Features Area -->
+        <main class="flex-1 flex flex-col">
+            <!-- Top Toolbar -->
+            <header class="bg-primary border-b border-primary px-4 py-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <!-- Back Button -->
+                        <a href="flexperts-home-app-v3.html" class="p-2 hover:bg-tertiary rounded-lg transition-colors inline-block">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                            </svg>
+                        </a>
+                        
+                        <h1 class="font-semibold text-primary text-sm sm:text-base">Features</h1>
+                        
+                        <!-- View Toggle -->
+                        <div class="hidden sm:flex items-center gap-1 bg-tertiary rounded-lg p-1">
+                            <button class="px-2 py-1 text-xs font-medium bg-primary text-primary rounded shadow-sm">
+                                Board
+                            </button>
+                            <button class="px-2 py-1 text-xs font-medium text-secondary hover:text-primary">
+                                List
+                            </button>
+                            <button class="px-2 py-1 text-xs font-medium text-secondary hover:text-primary">
+                                Timeline
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-2">
+                        <!-- Sprint Selector -->
+                        <select class="property-input text-sm px-2 py-1.5 w-32">
+                            <option>Sprint 12</option>
+                            <option>Sprint 13</option>
+                            <option>Sprint 14</option>
+                            <option>Backlog</option>
+                        </select>
+                        
+                        <!-- Actions -->
+                        <button class="hidden lg:block px-3 py-1.5 text-sm font-medium bg-tertiary hover:bg-quaternary rounded-lg text-primary transition-colors">
+                            Add Feature
+                        </button>
+                        <button class="hidden lg:block px-3 py-1.5 text-sm font-medium brand-primary text-white rounded-lg brand-primary-hover transition-colors">
+                            Report
+                        </button>
+                        
+                        <!-- Theme Toggle -->
+                        <button onclick="toggleTheme()" class="p-2 hover:bg-tertiary rounded-lg transition-colors">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                            </svg>
+                        </button>
+                        
+                        <!-- Settings -->
+                        <button onclick="window.location.href='flexperts-settings.html'" class="p-2 hover:bg-tertiary rounded-lg transition-colors">
+                            <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Kanban Board -->
+            <div class="flex-1 overflow-x-auto overflow-y-auto p-6">
+                <div class="flex gap-4 min-h-full">
+                    <!-- Planned Column -->
+                    <div class="w-64 flex-shrink-0">
+                        <div class="kanban-column p-4 h-full">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-medium text-primary flex items-center gap-2">
+                                    <span class="status-indicator planned"></span>
+                                    Planned
+                                </h3>
+                                <span class="text-xs text-secondary bg-primary px-2 py-1 rounded">8</span>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <!-- Feature Card -->
+                                <div class="feature-card p-4">
+                                    <div class="flex items-start justify-between mb-2">
+                                        <span class="text-xs text-muted font-mono">#F-101</span>
+                                        <span class="priority-badge high">High</span>
+                                    </div>
+                                    <h4 class="font-medium text-sm text-primary mb-2">User Login with OAuth</h4>
+                                    <p class="text-xs text-secondary mb-3">Implement social login with Google, GitHub, and Twitter OAuth providers</p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex gap-1">
+                                            <span class="tag">#auth</span>
+                                            <span class="tag">#frontend</span>
+                                        </div>
+                                        <div class="flex items-center gap-1">
+                                            <div class="w-6 h-6 bg-gray-200 rounded-full"></div>
+                                            <span class="text-xs text-secondary">5 pts</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Feature Card -->
+                                <div class="feature-card p-4">
+                                    <div class="flex items-start justify-between mb-2">
+                                        <span class="text-xs text-muted font-mono">#F-102</span>
+                                        <span class="priority-badge medium">Medium</span>
+                                    </div>
+                                    <h4 class="font-medium text-sm text-primary mb-2">Password Reset Flow</h4>
+                                    <p class="text-xs text-secondary mb-3">Email-based password reset with secure token generation</p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex gap-1">
+                                            <span class="tag">#auth</span>
+                                            <span class="tag">#email</span>
+                                        </div>
+                                        <div class="flex items-center gap-1">
+                                            <div class="w-6 h-6 bg-gray-200 rounded-full"></div>
+                                            <span class="text-xs text-secondary">3 pts</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Feature Card -->
+                                <div class="feature-card p-4">
+                                    <div class="flex items-start justify-between mb-2">
+                                        <span class="text-xs text-muted font-mono">#F-103</span>
+                                        <span class="priority-badge low">Low</span>
+                                    </div>
+                                    <h4 class="font-medium text-sm text-primary mb-2">Remember Me Option</h4>
+                                    <p class="text-xs text-secondary mb-3">Persistent login sessions with secure cookie storage</p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex gap-1">
+                                            <span class="tag">#auth</span>
+                                        </div>
+                                        <div class="flex items-center gap-1">
+                                            <div class="w-6 h-6 bg-gray-200 rounded-full"></div>
+                                            <span class="text-xs text-secondary">1 pt</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- In Progress Column -->
+                    <div class="w-64 flex-shrink-0">
+                        <div class="kanban-column p-4 h-full">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-medium text-primary flex items-center gap-2">
+                                    <span class="status-indicator in-progress"></span>
+                                    In Progress
+                                </h3>
+                                <span class="text-xs text-secondary bg-primary px-2 py-1 rounded">3</span>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <!-- Feature Card -->
+                                <div class="feature-card selected p-4">
+                                    <div class="flex items-start justify-between mb-2">
+                                        <span class="text-xs text-muted font-mono">#F-098</span>
+                                        <span class="priority-badge high">High</span>
+                                    </div>
+                                    <h4 class="font-medium text-sm text-primary mb-2">User Profile Settings</h4>
+                                    <p class="text-xs text-secondary mb-3">Profile editing, avatar upload, and preference management</p>
+                                    <div class="mb-2">
+                                        <div class="flex items-center justify-between text-xs mb-1">
+                                            <span class="text-secondary">Progress</span>
+                                            <span class="text-primary font-medium">60%</span>
+                                        </div>
+                                        <div class="progress-bar">
+                                            <div class="progress-bar-fill" style="width: 60%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex gap-1">
+                                            <span class="tag">#profile</span>
+                                            <span class="tag">#ui</span>
+                                        </div>
+                                        <div class="flex items-center gap-1">
+                                            <div class="w-6 h-6 bg-blue-500 rounded-full"></div>
+                                            <span class="text-xs text-secondary">8 pts</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Feature Card -->
+                                <div class="feature-card p-4">
+                                    <div class="flex items-start justify-between mb-2">
+                                        <span class="text-xs text-muted font-mono">#F-099</span>
+                                        <span class="priority-badge medium">Medium</span>
+                                    </div>
+                                    <h4 class="font-medium text-sm text-primary mb-2">Email Notifications</h4>
+                                    <p class="text-xs text-secondary mb-3">Configurable email alerts for user activities</p>
+                                    <div class="mb-2">
+                                        <div class="flex items-center justify-between text-xs mb-1">
+                                            <span class="text-secondary">Progress</span>
+                                            <span class="text-primary font-medium">30%</span>
+                                        </div>
+                                        <div class="progress-bar">
+                                            <div class="progress-bar-fill" style="width: 30%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex gap-1">
+                                            <span class="tag">#email</span>
+                                            <span class="tag">#backend</span>
+                                        </div>
+                                        <div class="flex items-center gap-1">
+                                            <div class="w-6 h-6 bg-purple-500 rounded-full"></div>
+                                            <span class="text-xs text-secondary">5 pts</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Review Column -->
+                    <div class="w-64 flex-shrink-0">
+                        <div class="kanban-column p-4 h-full">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-medium text-primary flex items-center gap-2">
+                                    <span class="status-indicator in-progress"></span>
+                                    Review
+                                </h3>
+                                <span class="text-xs text-secondary bg-primary px-2 py-1 rounded">2</span>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <!-- Feature Card -->
+                                <div class="feature-card p-4">
+                                    <div class="flex items-start justify-between mb-2">
+                                        <span class="text-xs text-muted font-mono">#F-095</span>
+                                        <span class="priority-badge high">High</span>
+                                    </div>
+                                    <h4 class="font-medium text-sm text-primary mb-2">Two-Factor Authentication</h4>
+                                    <p class="text-xs text-secondary mb-3">TOTP-based 2FA with QR code generation</p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex gap-1">
+                                            <span class="tag">#auth</span>
+                                            <span class="tag">#security</span>
+                                        </div>
+                                        <div class="flex items-center gap-1">
+                                            <div class="w-6 h-6 bg-green-500 rounded-full"></div>
+                                            <span class="text-xs text-secondary">13 pts</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Completed Column -->
+                    <div class="w-64 flex-shrink-0">
+                        <div class="kanban-column p-4 h-full">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-medium text-primary flex items-center gap-2">
+                                    <span class="status-indicator completed"></span>
+                                    Completed
+                                </h3>
+                                <span class="text-xs text-secondary bg-primary px-2 py-1 rounded">12</span>
+                            </div>
+                            
+                            <div class="space-y-3 opacity-60">
+                                <!-- Feature Card -->
+                                <div class="feature-card p-4">
+                                    <div class="flex items-start justify-between mb-2">
+                                        <span class="text-xs text-muted font-mono">#F-089</span>
+                                        <span class="priority-badge high">High</span>
+                                    </div>
+                                    <h4 class="font-medium text-sm text-primary mb-2">User Registration</h4>
+                                    <p class="text-xs text-secondary mb-3">Basic user registration with email verification</p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex gap-1">
+                                            <span class="tag">#auth</span>
+                                        </div>
+                                        <div class="flex items-center gap-1">
+                                            <div class="w-6 h-6 bg-green-500 rounded-full"></div>
+                                            <span class="text-xs text-secondary">8 pts</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Feature Card -->
+                                <div class="feature-card p-4">
+                                    <div class="flex items-start justify-between mb-2">
+                                        <span class="text-xs text-muted font-mono">#F-091</span>
+                                        <span class="priority-badge medium">Medium</span>
+                                    </div>
+                                    <h4 class="font-medium text-sm text-primary mb-2">JWT Token Implementation</h4>
+                                    <p class="text-xs text-secondary mb-3">Secure token generation and validation</p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex gap-1">
+                                            <span class="tag">#auth</span>
+                                            <span class="tag">#api</span>
+                                        </div>
+                                        <div class="flex items-center gap-1">
+                                            <div class="w-6 h-6 bg-gray-400 rounded-full"></div>
+                                            <span class="text-xs text-secondary">5 pts</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Theme toggle
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+        }
+        
+        // Feature card selection
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                document.querySelectorAll('.feature-card').forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+            });
+        });
+        
+        // Simple drag and drop placeholder
+        let draggedElement = null;
+        
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.draggable = true;
+            
+            card.addEventListener('dragstart', (e) => {
+                draggedElement = card;
+                card.style.opacity = '0.5';
+            });
+            
+            card.addEventListener('dragend', (e) => {
+                card.style.opacity = '';
+            });
+        });
+        
+        document.querySelectorAll('.kanban-column').forEach(column => {
+            column.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                column.style.backgroundColor = 'var(--bg-quaternary)';
+            });
+            
+            column.addEventListener('dragleave', (e) => {
+                column.style.backgroundColor = '';
+            });
+            
+            column.addEventListener('drop', (e) => {
+                e.preventDefault();
+                column.style.backgroundColor = '';
+                if (draggedElement) {
+                    const spacer = column.querySelector('.space-y-3');
+                    if (spacer) {
+                        spacer.appendChild(draggedElement);
+                    }
+                }
+            });
+        });
+        
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+</body>
+</html>

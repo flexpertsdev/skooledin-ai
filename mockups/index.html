@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexperts Mockups Index</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared/styles.css">
+    <style>
+        .mockup-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .mockup-card {
+            background: var(--background-primary);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            transition: all 0.2s;
+        }
+        
+        .mockup-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+        
+        .mockup-card h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.25rem;
+            color: var(--foreground-primary);
+        }
+        
+        .mockup-card p {
+            margin: 0 0 1rem 0;
+            color: var(--foreground-secondary);
+            font-size: 0.875rem;
+        }
+        
+        .mockup-card a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .mockup-card a:hover {
+            text-decoration: underline;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+        
+        .status-active {
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+        }
+        
+        .status-implemented {
+            background-color: var(--secondary-light);
+            color: var(--secondary);
+        }
+        
+        .status-draft {
+            background-color: var(--background-tertiary);
+            color: var(--foreground-secondary);
+        }
+        
+        .section-header {
+            margin-top: 3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .section-header h2 {
+            margin: 0;
+        }
+        
+        .section-header .count {
+            background-color: var(--background-tertiary);
+            color: var(--foreground-secondary);
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="bg-secondary">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 2rem 1rem;">
+        <h1 class="text-3xl font-bold mb-2">Flexperts Mockups</h1>
+        <p class="text-secondary mb-6">Visual prototypes and design iterations for the Flexperts platform</p>
+        
+        <!-- Quick Links -->
+        <div class="card mb-6">
+            <h3 class="text-lg font-semibold mb-3">Quick Links</h3>
+            <div class="flex gap-4 flex-wrap">
+                <a href="shared/styles.css" class="btn btn-secondary btn-sm">Shared Styles</a>
+                <a href="components/sidebar.html" class="btn btn-secondary btn-sm">Sidebar Component</a>
+                <a href="components/ai-chat.html" class="btn btn-secondary btn-sm">AI Chat Component</a>
+                <a href="dashboard-v2.html" class="btn btn-primary btn-sm">Latest Dashboard</a>
+            </div>
+        </div>
+        
+        <!-- Active/Current Mockups -->
+        <div class="section-header">
+            <h2 class="text-2xl font-bold">🚀 Active Mockups</h2>
+            <span class="count">5</span>
+        </div>
+        <div class="mockup-grid">
+            <div class="mockup-card">
+                <h3>Dashboard v2 <span class="status-badge status-active">Active</span></h3>
+                <p>Unified dashboard with tool grid, AI chat, and responsive layout</p>
+                <a href="dashboard-v2.html">View Mockup →</a>
+            </div>
+            
+            <div class="mockup-card">
+                <h3>Landing Page <span class="status-badge status-active">Active</span></h3>
+                <p>Marketing landing page with hero, features, and CTA sections</p>
+                <a href="../mockups/flexperts-landing-page.html">View Mockup →</a>
+            </div>
+            
+            <div class="mockup-card">
+                <h3>Journey Builder <span class="status-badge status-active">Active</span></h3>
+                <p>Visual flow editor for creating user journeys</p>
+                <a href="../mockups/flexperts-journey-builder.html">View Mockup →</a>
+            </div>
+            
+            <div class="mockup-card">
+                <h3>Login/Signup <span class="status-badge status-active">Active</span></h3>
+                <p>Authentication flows with social login options</p>
+                <a href="../mockups/flexperts-login-signup.html">View Mockup →</a>
+            </div>
+            
+            <div class="mockup-card">
+                <h3>Settings <span class="status-badge status-active">Active</span></h3>
+                <p>User settings and preferences management</p>
+                <a href="../mockups/flexperts-settings.html">View Mockup →</a>
+            </div>
+        </div>
+        
+        <!-- Component Library -->
+        <div class="section-header">
+            <h2 class="text-2xl font-bold">🧩 Component Library</h2>
+            <span class="count">2</span>
+        </div>
+        <div class="mockup-grid">
+            <div class="mockup-card">
+                <h3>Sidebar Navigation <span class="status-badge status-draft">Draft</span></h3>
+                <p>Reusable sidebar component with collapsible sections</p>
+                <a href="components/sidebar.html">View Component →</a>
+            </div>
+            
+            <div class="mockup-card">
+                <h3>AI Chat Interface <span class="status-badge status-draft">Draft</span></h3>
+                <p>Conversational AI chat component with typing indicators</p>
+                <a href="components/ai-chat.html">View Component →</a>
+            </div>
+        </div>
+        
+        <!-- Tool Pages -->
+        <div class="section-header">
+            <h2 class="text-2xl font-bold">🛠️ Tool Pages</h2>
+            <span class="count">8</span>
+        </div>
+        <div class="mockup-grid">
+            <div class="mockup-card">
+                <h3>Page Builder <span class="status-badge status-draft">Draft</span></h3>
+                <p>Drag-and-drop page builder interface</p>
+                <a href="../mockups/flexperts-page-builder.html">View Mockup →</a>
+            </div>
+            
+            <div class="mockup-card">
+                <h3>Notes Tool <span class="status-badge status-draft">Draft</span></h3>
+                <p>Rich text editor for documentation</p>
+                <a href="../mockups/flexperts-notes-tool.html">View Mockup →</a>
+            </div>
+            
+            <div class="mockup-card">
+                <h3>Design System <span class="status-badge status-draft">Draft</span></h3>
+                <p>Color, typography, and component management</p>
+                <a href="../mockups/flexperts-design-tool.html">View Mockup →</a>
+            </div>
+            
+            <div class="mockup-card">
+                <h3>Features Tool <span class="status-badge status-draft">Draft</span></h3>
+                <p>Dynamic functionality and integrations</p>
+                <a href="../mockups/flexperts-features-tool.html">View Mockup →</a>
+            </div>
+            
+            <div class="mockup-card">
+                <h3>Files Manager <span class="status-badge status-draft">Draft</span></h3>
+                <p>Asset and file management interface</p>
+                <a href="../mockups/flexperts-files-tool.html">View Mockup →</a>
+            </div>
+            
+            <div class="mockup-card">
+                <h3>Keychain <span class="status-badge status-draft">Draft</span></h3>
+                <p>Secure API key and credential storage</p>
+                <a href="../mockups/flexperts-keychain-tool.html">View Mockup →</a>
+            </div>
+            
+            <div class="mockup-card">
+                <h3>We Build <span class="status-badge status-draft">Draft</span></h3>
+                <p>Professional services and expert help</p>
+                <a href="../mockups/flexperts-we-build.html">View Mockup →</a>
+            </div>
+            
+            <div class="mockup-card">
+                <h3>Together <span class="status-badge status-draft">Draft</span></h3>
+                <p>Community and collaboration features</p>
+                <a href="../mockups/flexperts-together.html">View Mockup →</a>
+            </div>
+        </div>
+        
+        <!-- Archive -->
+        <div class="section-header">
+            <h2 class="text-2xl font-bold">📁 Archive</h2>
+            <span class="count">3</span>
+        </div>
+        <div class="mockup-grid">
+            <div class="mockup-card" style="opacity: 0.7;">
+                <h3>Home App v1 <span class="status-badge status-implemented">Superseded</span></h3>
+                <p>Original home dashboard design</p>
+                <a href="../mockups/flexperts-home-app.html">View Archive →</a>
+            </div>
+            
+            <div class="mockup-card" style="opacity: 0.7;">
+                <h3>Home App v3 (iOS) <span class="status-badge status-implemented">Reference</span></h3>
+                <p>iOS-style navigation experiment</p>
+                <a href="../mockups/flexperts-home-app-v3.html">View Archive →</a>
+            </div>
+            
+            <div class="mockup-card" style="opacity: 0.7;">
+                <h3>Welcome Tour <span class="status-badge status-implemented">Reference</span></h3>
+                <p>Onboarding flow prototype</p>
+                <a href="../mockups/flexperts-welcome-tour.html">View Archive →</a>
+            </div>
+        </div>
+        
+        <!-- Notes -->
+        <div class="card mt-8">
+            <h3 class="text-lg font-semibold mb-3">📝 Notes</h3>
+            <ul class="text-secondary space-y-2">
+                <li>• All mockups use the shared CSS file at <code>shared/styles.css</code></li>
+                <li>• Components can be included in page mockups using iframes or copied directly</li>
+                <li>• Dark mode can be toggled by adding <code>data-theme="dark"</code> to the html element</li>
+                <li>• Mobile responsiveness is built into all components</li>
+                <li>• Use the mockup template in the guidelines for creating new mockups</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        // Add theme toggle for testing
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggle = document.createElement('button');
+            themeToggle.className = 'btn btn-secondary btn-sm';
+            themeToggle.style.position = 'fixed';
+            themeToggle.style.bottom = '20px';
+            themeToggle.style.right = '20px';
+            themeToggle.textContent = '🌓 Toggle Theme';
+            themeToggle.onclick = function() {
+                const html = document.documentElement;
+                if (html.getAttribute('data-theme') === 'dark') {
+                    html.removeAttribute('data-theme');
+                } else {
+                    html.setAttribute('data-theme', 'dark');
+                }
+            };
+            document.body.appendChild(themeToggle);
+        });
+    </script>
+</body>
+</html>

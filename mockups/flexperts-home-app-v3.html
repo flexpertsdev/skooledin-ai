@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Flexperts - Home (V3 iOS Style)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+        }
+        
+        /* CSS Variables for Theme */
+        :root {
+            /* Light Mode */
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F9FAFB;
+            --bg-tertiary: #F3F4F6;
+            --bg-quaternary: #E5E7EB;
+            
+            --text-primary: #111827;
+            --text-secondary: #4B5563;
+            --text-tertiary: #6B7280;
+            --text-muted: #9CA3AF;
+            
+            --border-primary: #E5E7EB;
+            --border-secondary: #D1D5DB;
+            
+            --brand-primary: #22C55E;
+            --brand-primary-hover: #16A34A;
+            --brand-primary-light: #DCFCE7;
+            
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        
+        .dark {
+            /* Dark Mode - Based on #14191C */
+            --bg-primary: #1F2428;
+            --bg-secondary: #14191C;
+            --bg-tertiary: #2D3339;
+            --bg-quaternary: #3A4046;
+            
+            --text-primary: #F7F9FA;
+            --text-secondary: #D1D9E0;
+            --text-tertiary: #A0AEC0;
+            --text-muted: #8B949E;
+            
+            --border-primary: #30363D;
+            --border-secondary: #3A4046;
+            
+            --brand-primary: #16C181;
+            --brand-primary-hover: #10A574;
+            --brand-primary-light: #0F7860;
+            
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3);
+        }
+        
+        /* Theme-aware classes */
+        .bg-primary { background-color: var(--bg-primary); }
+        .bg-secondary { background-color: var(--bg-secondary); }
+        .bg-tertiary { background-color: var(--bg-tertiary); }
+        .bg-quaternary { background-color: var(--bg-quaternary); }
+        
+        .text-primary { color: var(--text-primary); }
+        .text-secondary { color: var(--text-secondary); }
+        .text-tertiary { color: var(--text-tertiary); }
+        .text-muted { color: var(--text-muted); }
+        
+        .border-primary { border-color: var(--border-primary); }
+        .border-secondary { border-color: var(--border-secondary); }
+        
+        .brand-primary { background-color: var(--brand-primary); }
+        .brand-primary-hover:hover { background-color: var(--brand-primary-hover); }
+        .brand-primary-text { color: var(--brand-primary); }
+        .brand-primary-light { background-color: var(--brand-primary-light); }
+        
+        /* Safe area for mobile devices */
+        .safe-top { padding-top: env(safe-area-inset-top); }
+        .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+        
+        /* Hide scrollbar */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Chat bubbles */
+        .chat-bubble { max-width: 70%; }
+        .chat-bubble.sent {
+            background: var(--brand-primary);
+            color: white;
+            border-radius: 18px 18px 4px 18px;
+        }
+        .chat-bubble.received {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border-radius: 18px 18px 18px 4px;
+        }
+        
+        /* iOS Style App Icons */
+        .app-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+        
+        .app-icon:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .app-icon:active {
+            transform: scale(0.98);
+        }
+        
+        .app-icon.installing {
+            animation: install 0.5s ease-in-out;
+        }
+        
+        @keyframes install {
+            0% { transform: scale(1) rotateZ(0deg); }
+            50% { transform: scale(1.1) rotateZ(2deg); }
+            100% { transform: scale(1) rotateZ(0deg); }
+        }
+        
+        /* Gradient backgrounds for app icons */
+        .gradient-purple {
+            background: linear-gradient(135deg, #9333EA 0%, #7C3AED 100%);
+        }
+        
+        .gradient-blue {
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+        }
+        
+        .gradient-orange {
+            background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
+        }
+        
+        .gradient-pink {
+            background: linear-gradient(135deg, #EC4899 0%, #DB2777 100%);
+        }
+        
+        .gradient-teal {
+            background: linear-gradient(135deg, #14B8A6 0%, #0D9488 100%);
+        }
+        
+        .gradient-yellow {
+            background: linear-gradient(135deg, #FCD34D 0%, #F59E0B 100%);
+        }
+        
+        .gradient-green {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+        }
+        
+        .gradient-indigo {
+            background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
+        }
+        
+        .gradient-red {
+            background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+        }
+        
+        /* Tab styles */
+        .tab-active {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        /* Typing indicator */
+        .typing-indicator span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--text-muted);
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: typing 1.4s infinite;
+        }
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+        
+        /* Sidebar responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -100%;
+                transition: left 0.3s ease-in-out;
+                z-index: 40;
+            }
+            .sidebar.open {
+                left: 0;
+            }
+        }
+        
+        /* Custom focus styles */
+        input:focus, textarea:focus, button:focus {
+            outline: none;
+            border-color: var(--brand-primary);
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+        }
+        
+        .dark input:focus, .dark textarea:focus, .dark button:focus {
+            box-shadow: 0 0 0 3px rgba(22, 193, 129, 0.1);
+        }
+        
+        /* Gradients */
+        .text-gradient {
+            background: linear-gradient(to right, var(--brand-primary), var(--brand-primary-hover));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .bg-gradient {
+            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-primary-hover) 100%);
+        }
+        
+        /* Glass morphism for modal backdrop */
+        .glass-modal {
+            backdrop-filter: blur(5px);
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-secondary text-primary transition-colors duration-300 h-screen overflow-hidden">
+    <!-- Mobile Sidebar Overlay -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden md:hidden" onclick="toggleSidebar()"></div>
+
+    <!-- Main Container -->
+    <div class="flex h-full">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar w-80 bg-primary border-r border-primary flex flex-col h-full md:relative">
+            <!-- Sidebar Header -->
+            <div class="p-4 border-b border-primary">
+                <!-- Hub Selector -->
+                <button onclick="showHubSwitcher()" class="w-full flex items-center justify-between p-3 bg-tertiary rounded-lg hover:bg-quaternary transition-colors mb-4">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-gradient rounded-lg flex items-center justify-center text-white font-bold mr-3">
+                            A
+                        </div>
+                        <div class="text-left">
+                            <div class="font-semibold">ACME Corp</div>
+                            <div class="text-sm text-secondary">You Build</div>
+                        </div>
+                    </div>
+                    <svg class="w-5 h-5 text-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+
+                <!-- Tab Switcher -->
+                <div class="flex bg-tertiary rounded-lg p-1">
+                    <button onclick="switchTab('spaces')" id="spacesTab" class="flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all duration-200 tab-active">
+                        <div class="flex items-center justify-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                            </svg>
+                            <span>Spaces</span>
+                        </div>
+                    </button>
+                    <button onclick="switchTab('tools')" id="toolsTab" class="flex-1 py-2 px-3 rounded-md text-sm font-medium text-tertiary transition-all duration-200">
+                        <div class="flex items-center justify-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                            </svg>
+                            <span>Tools</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Spaces List (Default View) -->
+            <div id="spacesContent" class="flex-1 overflow-y-auto hide-scrollbar p-2">
+                <!-- Search -->
+                <div class="relative mb-4 px-2">
+                    <input type="text" placeholder="Search spaces..." class="w-full pl-10 pr-4 py-2 bg-tertiary rounded-lg text-sm placeholder-muted">
+                    <svg class="w-5 h-5 text-muted absolute left-5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+
+                <h3 class="px-3 text-xs font-semibold text-muted uppercase tracking-wider mb-2">
+                    Pinned
+                </h3>
+                
+                <!-- Active Space -->
+                <div class="mb-1 p-3 bg-brand-primary-light rounded-lg cursor-pointer">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center flex-1">
+                            <span class="brand-primary-text mr-2">#</span>
+                            <div class="flex-1">
+                                <div class="font-medium">Authentication System</div>
+                                <div class="text-sm text-secondary truncate">Flexi: Generated auth components...</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xs text-tertiary">2:34 PM</div>
+                            <div class="bg-gradient text-white text-xs rounded-full w-5 h-5 flex items-center justify-center mt-1 ml-auto">3</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="px-3 text-xs font-semibold text-muted uppercase tracking-wider mb-2 mt-4">
+                    Recent
+                </h3>
+
+                <!-- Space Items -->
+                <div class="space-y-1">
+                    <div class="p-3 hover:bg-tertiary rounded-lg cursor-pointer transition-colors">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center flex-1">
+                                <span class="text-tertiary mr-2">#</span>
+                                <div class="flex-1">
+                                    <div class="font-medium">landing-page</div>
+                                    <div class="text-sm text-secondary truncate">You: Update hero section design</div>
+                                </div>
+                            </div>
+                            <div class="text-xs text-tertiary">1h</div>
+                        </div>
+                    </div>
+
+                    <div class="p-3 hover:bg-tertiary rounded-lg cursor-pointer transition-colors">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center flex-1">
+                                <span class="text-tertiary mr-2">#</span>
+                                <div class="flex-1">
+                                    <div class="font-medium">api-endpoints</div>
+                                    <div class="text-sm text-secondary truncate">Flexi: REST API structure ready</div>
+                                </div>
+                            </div>
+                            <div class="text-xs text-tertiary">3h</div>
+                        </div>
+                    </div>
+
+                    <div class="p-3 hover:bg-tertiary rounded-lg cursor-pointer transition-colors">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center flex-1">
+                                <svg class="w-4 h-4 text-tertiary mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                </svg>
+                                <div class="flex-1">
+                                    <div class="font-medium">private-notes</div>
+                                    <div class="text-sm text-secondary truncate">Personal project ideas</div>
+                                </div>
+                            </div>
+                            <div class="text-xs text-tertiary">Yesterday</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add Space Button -->
+                <button class="w-full mt-4 p-2 text-sm text-tertiary hover:text-primary hover:bg-tertiary rounded-lg transition-colors flex items-center justify-center">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                    New Space
+                </button>
+            </div>
+
+            <!-- Tools Grid (Hidden by default) -->
+            <div id="toolsContent" class="flex-1 overflow-y-auto hide-scrollbar p-4 hidden">
+                <!-- Search -->
+                <div class="relative mb-4">
+                    <input type="text" placeholder="Search tools..." class="w-full pl-10 pr-4 py-2 bg-tertiary rounded-lg text-sm placeholder-muted">
+                    <svg class="w-5 h-5 text-muted absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+
+                <!-- iOS Style App Grid -->
+                <div class="grid grid-cols-3 gap-4 mb-6">
+                    <!-- Page Builder -->
+                    <div class="text-center">
+                        <a href="flexperts-page-builder.html" class="app-icon gradient-purple flex items-center justify-center text-white mx-auto mb-2 hover:scale-110 transition-transform">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
+                            </svg>
+                        </a>
+                        <span class="text-xs text-secondary">Page Builder</span>
+                    </div>
+
+                    <!-- Journey Map -->
+                    <div class="text-center">
+                        <a href="flexperts-journey-builder.html" class="app-icon gradient-blue flex items-center justify-center text-white mx-auto mb-2 hover:scale-110 transition-transform">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                            </svg>
+                        </a>
+                        <span class="text-xs text-secondary">Journey Map</span>
+                    </div>
+
+                    <!-- Features -->
+                    <div class="text-center">
+                        <a href="flexperts-features-tool.html" class="app-icon gradient-green flex items-center justify-center text-white mx-auto mb-2 hover:scale-110 transition-transform">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                            </svg>
+                        </a>
+                        <span class="text-xs text-secondary">Features</span>
+                    </div>
+
+                    <!-- Design -->
+                    <div class="text-center">
+                        <a href="flexperts-design-tool.html" class="app-icon gradient-pink flex items-center justify-center text-white mx-auto mb-2 hover:scale-110 transition-transform">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+                            </svg>
+                        </a>
+                        <span class="text-xs text-secondary">Design</span>
+                    </div>
+
+                    <!-- API Connect -->
+                    <div class="text-center">
+                        <button class="app-icon gradient-orange flex items-center justify-center text-white mx-auto mb-2 hover:scale-110 transition-transform">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                            </svg>
+                        </button>
+                        <span class="text-xs text-secondary">API Connect</span>
+                    </div>
+
+                    <!-- Database -->
+                    <div class="text-center">
+                        <a href="flexperts-database-tool-v2.html" class="app-icon gradient-indigo flex items-center justify-center text-white mx-auto mb-2 hover:scale-110 transition-transform">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path>
+                            </svg>
+                        </a>
+                        <span class="text-xs text-secondary">Database</span>
+                    </div>
+                    
+                    <!-- Keychain -->
+                    <div class="text-center">
+                        <a href="flexperts-keychain-tool.html" class="app-icon gradient-yellow flex items-center justify-center text-white mx-auto mb-2 hover:scale-110 transition-transform">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
+                            </svg>
+                        </a>
+                        <span class="text-xs text-secondary">Keychain</span>
+                    </div>
+                    
+                    <!-- Files -->
+                    <div class="text-center">
+                        <a href="flexperts-files-tool.html" class="app-icon gradient-teal flex items-center justify-center text-white mx-auto mb-2 hover:scale-110 transition-transform">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+                            </svg>
+                        </a>
+                        <span class="text-xs text-secondary">Files</span>
+                    </div>
+                    
+                    <!-- Notes/Board -->
+                    <div class="text-center">
+                        <a href="flexperts-notes-tool.html" class="app-icon gradient-red flex items-center justify-center text-white mx-auto mb-2 hover:scale-110 transition-transform">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                            </svg>
+                        </a>
+                        <span class="text-xs text-secondary">Board</span>
+                    </div>
+                </div>
+
+                <!-- Recent Chats with Tools -->
+                <h3 class="text-xs font-semibold text-muted uppercase tracking-wider mb-3 mt-6">
+                    Recent Tool Chats
+                </h3>
+                <div class="space-y-2">
+                    <div class="p-3 hover:bg-tertiary rounded-lg cursor-pointer transition-colors">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 gradient-purple rounded-lg flex items-center justify-center text-white flex-shrink-0">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-medium text-sm text-primary">Landing page redesign</div>
+                                <div class="text-xs text-secondary">Page Builder • 2 hours ago</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-3 hover:bg-tertiary rounded-lg cursor-pointer transition-colors">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 gradient-blue rounded-lg flex items-center justify-center text-white flex-shrink-0">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-medium text-sm text-primary">User onboarding flow</div>
+                                <div class="text-xs text-secondary">Journey Map • 5 hours ago</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-3 hover:bg-tertiary rounded-lg cursor-pointer transition-colors">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 gradient-indigo rounded-lg flex items-center justify-center text-white flex-shrink-0">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-medium text-sm text-primary">User schema setup</div>
+                                <div class="text-xs text-secondary">Database • Yesterday</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Get More Tools -->
+                <button class="w-full mt-6 p-3 border-2 border-dashed border-secondary rounded-lg text-secondary hover:border-primary hover:text-primary transition-colors">
+                    <svg class="w-6 h-6 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                    </svg>
+                    <span class="text-sm">Browse Tool Store</span>
+                </button>
+            </div>
+
+            <!-- Mode Switcher -->
+            <div class="p-4 border-t border-primary">
+                <div class="bg-tertiary rounded-lg p-1 flex">
+                    <button class="flex-1 px-3 py-2 bg-primary rounded-md text-sm font-medium brand-primary-text shadow-sm">
+                        You Build
+                    </button>
+                    <button onclick="window.location.href='flexperts-we-build.html'" class="flex-1 px-3 py-2 text-sm font-medium text-tertiary hover:text-primary">
+                        We Build
+                    </button>
+                    <button onclick="window.location.href='flexperts-together.html'" class="flex-1 px-3 py-2 text-sm font-medium text-tertiary hover:text-primary">
+                        Together
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top Bar -->
+            <header class="bg-primary border-b border-primary px-4 py-3 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <!-- Mobile Menu -->
+                    <button onclick="toggleSidebar()" class="md:hidden p-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                    
+                    <div>
+                        <h1 class="font-semibold">#authentication-system</h1>
+                        <p class="text-sm text-secondary">AI-powered auth implementation</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-2">
+                    <!-- Theme Toggle -->
+                    <button onclick="toggleTheme()" class="p-2 hover:bg-tertiary rounded-lg transition-colors">
+                        <svg class="w-5 h-5 text-secondary hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                        <svg class="w-5 h-5 text-secondary dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                    </button>
+                    
+                    <!-- Settings -->
+                    <button onclick="window.location.href='flexperts-settings.html'" class="p-2 hover:bg-tertiary rounded-lg transition-colors">
+                        <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Chat Container -->
+            <div class="flex-1 overflow-y-auto px-4 py-4">
+                <div class="max-w-4xl mx-auto space-y-4">
+                    <!-- Tool Launch Info -->
+                    <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 gradient-blue rounded-xl flex items-center justify-center text-white flex-shrink-0">
+                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-blue-900 dark:text-blue-100">Tools Mode</h3>
+                                <p class="text-sm text-blue-700 dark:text-blue-300">
+                                    Switch to the Tools tab to access visual builders and interactive features. Chat will move to a compact view.
+                                </p>
+                            </div>
+                            <button class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Chat Messages -->
+                    <div class="space-y-4">
+                        <!-- User Message -->
+                        <div class="flex justify-end">
+                            <div class="chat-bubble sent px-4 py-2 shadow-sm">
+                                <p>I need to create a visual user flow for the authentication process</p>
+                                <span class="text-xs opacity-70 mt-1 block">3:46 PM</span>
+                            </div>
+                        </div>
+
+                        <!-- AI Message -->
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-gradient rounded-full flex items-center justify-center text-white flex-shrink-0">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-semibold mb-1">Flexi</p>
+                                <div class="chat-bubble received px-4 py-2 shadow-sm">
+                                    <p>Perfect! I recommend using the <span class="font-semibold text-blue-600 dark:text-blue-400">User Journey Builder</span> tool for this. You can:</p>
+                                    <ul class="mt-2 space-y-1 list-disc list-inside">
+                                        <li>Drag and drop flow components</li>
+                                        <li>Define user decision points</li>
+                                        <li>Add error states and edge cases</li>
+                                        <li>Export as code or documentation</li>
+                                    </ul>
+                                    <p class="mt-3">Click on the <span class="font-semibold">Tools</span> tab and select the blue Journey Map icon to get started!</p>
+                                    <span class="text-xs text-tertiary mt-2 block">3:47 PM</span>
+                                </div>
+                                
+                                <!-- Quick Action -->
+                                <button onclick="launchTool()" class="mt-2 inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                                    </svg>
+                                    Launch Journey Builder
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="bg-primary border-t border-primary p-4">
+                <div class="max-w-4xl mx-auto">
+                    <div class="flex items-end gap-3">
+                        <button class="p-2 hover:bg-tertiary rounded-lg">
+                            <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path>
+                            </svg>
+                        </button>
+                        <div class="flex-1">
+                            <textarea 
+                                placeholder="Type a message..." 
+                                class="w-full px-4 py-2 bg-tertiary rounded-lg resize-none placeholder-muted"
+                                rows="1"
+                            ></textarea>
+                        </div>
+                        <button class="p-2 brand-primary text-white rounded-lg brand-primary-hover">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bottom Navigation (Mobile) -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-primary border-t border-primary safe-bottom">
+        <div class="flex justify-around py-2">
+            <button class="flex flex-col items-center p-2 text-tertiary">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                </svg>
+                <span class="text-xs mt-1">Home</span>
+            </button>
+            <button class="flex flex-col items-center p-2 brand-primary-text">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                </svg>
+                <span class="text-xs mt-1">Spaces</span>
+            </button>
+            <button class="flex flex-col items-center p-2 text-tertiary">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                </svg>
+                <span class="text-xs mt-1">Tools</span>
+            </button>
+            <button class="flex flex-col items-center p-2 text-tertiary">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+                <span class="text-xs mt-1">Profile</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hub Switcher Modal -->
+    <div id="hubSwitcher" class="fixed inset-0 glass-modal z-50 hidden flex items-end md:items-center justify-center">
+        <div class="bg-primary w-full md:w-auto md:max-w-md rounded-t-2xl md:rounded-2xl shadow-2xl relative">
+            <!-- Drag Handle (Mobile) -->
+            <div class="flex justify-center pt-3 pb-2 md:hidden">
+                <div class="w-12 h-1 bg-tertiary rounded-full"></div>
+            </div>
+
+            <!-- Modal Header -->
+            <div class="px-6 py-4 border-b border-primary">
+                <h2 class="text-xl font-bold">Switch Hub</h2>
+                <p class="text-sm text-secondary">Select a project or create a new one</p>
+            </div>
+
+            <!-- Hub List -->
+            <div class="max-h-[60vh] overflow-y-auto hide-scrollbar px-6 py-4">
+                <!-- Current Hub -->
+                <div class="mb-4">
+                    <p class="text-xs font-semibold text-muted uppercase tracking-wider mb-2">Current</p>
+                    <div class="bg-brand-primary-light border-2 border-brand-primary rounded-xl p-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 bg-gradient rounded-xl flex items-center justify-center text-white font-bold text-lg">
+                                    A
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold">ACME Corp</h3>
+                                    <p class="text-sm text-secondary">12 active spaces</p>
+                                </div>
+                            </div>
+                            <svg class="w-6 h-6 brand-primary-text" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Hubs -->
+                <div class="mb-4">
+                    <p class="text-xs font-semibold text-muted uppercase tracking-wider mb-2">Recent</p>
+                    <div class="space-y-2">
+                        <button onclick="window.location.href='design-system.html'" class="w-full bg-tertiary hover:bg-quaternary rounded-xl p-4 transition-all text-left">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center text-white font-bold text-lg">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="font-semibold">Design System - Light</h3>
+                                    <p class="text-sm text-secondary">Light theme components</p>
+                                </div>
+                                <span class="text-xs bg-tertiary px-2 py-1 rounded-full">Theme</span>
+                            </div>
+                        </button>
+
+                        <button onclick="window.location.href='design-system-dark.html'" class="w-full bg-tertiary hover:bg-quaternary rounded-xl p-4 transition-all text-left">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center text-white font-bold text-lg">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="font-semibold">Design System - Dark</h3>
+                                    <p class="text-sm text-secondary">Dark theme components</p>
+                                </div>
+                                <span class="text-xs bg-tertiary px-2 py-1 rounded-full">Theme</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Create New Hub -->
+                <button class="w-full bg-tertiary hover:bg-quaternary border-2 border-dashed border-secondary rounded-xl p-4 transition-all">
+                    <div class="flex items-center justify-center space-x-3 text-secondary">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        <span class="font-medium">Create New Project</span>
+                    </div>
+                </button>
+            </div>
+
+            <!-- Mode Switcher -->
+            <div class="border-t border-primary p-6">
+                <p class="text-xs font-semibold text-muted uppercase tracking-wider mb-3">Build Mode</p>
+                <div class="grid grid-cols-3 gap-2 bg-tertiary p-1 rounded-lg">
+                    <button class="bg-primary text-primary font-medium py-2 px-3 rounded-md shadow-sm">
+                        You Build
+                    </button>
+                    <a href="flexperts-we-build.html" class="text-secondary font-medium py-2 px-3 rounded-md hover:text-primary text-center">
+                        We Build
+                    </a>
+                    <a href="flexperts-together.html" class="text-secondary font-medium py-2 px-3 rounded-md hover:text-primary text-center">
+                        Together
+                    </a>
+                </div>
+            </div>
+
+            <!-- Close Button -->
+            <button onclick="hideHubSwitcher()" class="absolute top-4 right-4 p-2 hover:bg-tertiary rounded-lg">
+                <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Toggle sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('hidden');
+        }
+
+        // Switch tabs
+        function switchTab(tab) {
+            const spacesTab = document.getElementById('spacesTab');
+            const toolsTab = document.getElementById('toolsTab');
+            const spacesContent = document.getElementById('spacesContent');
+            const toolsContent = document.getElementById('toolsContent');
+
+            if (tab === 'spaces') {
+                spacesTab.classList.add('tab-active');
+                spacesTab.classList.remove('text-tertiary');
+                toolsTab.classList.remove('tab-active');
+                toolsTab.classList.add('text-tertiary');
+                spacesContent.classList.remove('hidden');
+                toolsContent.classList.add('hidden');
+            } else {
+                toolsTab.classList.add('tab-active');
+                toolsTab.classList.remove('text-tertiary');
+                spacesTab.classList.remove('tab-active');
+                spacesTab.classList.add('text-tertiary');
+                toolsContent.classList.remove('hidden');
+                spacesContent.classList.add('hidden');
+            }
+        }
+
+        // Launch tool
+        function launchTool() {
+            // Navigate directly to the journey builder
+            window.location.href = 'flexperts-journey-builder.html';
+        }
+
+        // Hub switcher
+        function showHubSwitcher() {
+            document.getElementById('hubSwitcher').classList.remove('hidden');
+        }
+
+        function hideHubSwitcher() {
+            document.getElementById('hubSwitcher').classList.add('hidden');
+        }
+
+        // Click outside to close hub switcher
+        document.getElementById('hubSwitcher').addEventListener('click', (e) => {
+            if (e.target.id === 'hubSwitcher') {
+                hideHubSwitcher();
+            }
+        });
+
+
+        // Theme toggle
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        }
+
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        }
+
+        // Auto-resize textarea
+        const textarea = document.querySelector('textarea');
+        if (textarea) {
+            textarea.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = this.scrollHeight + 'px';
+            });
+        }
+    </script>
+</body>
+</html>

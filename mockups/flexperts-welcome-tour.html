@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexperts - Welcome Tour</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+        }
+        
+        /* CSS Variables for Theme */
+        :root {
+            /* Light Mode */
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F9FAFB;
+            --bg-tertiary: #F3F4F6;
+            --bg-quaternary: #E5E7EB;
+            
+            --text-primary: #111827;
+            --text-secondary: #4B5563;
+            --text-tertiary: #6B7280;
+            --text-muted: #9CA3AF;
+            
+            --border-primary: #E5E7EB;
+            --border-secondary: #D1D5DB;
+            
+            --brand-primary: #22C55E;
+            --brand-primary-hover: #16A34A;
+            --brand-primary-light: #DCFCE7;
+            
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        
+        .dark {
+            /* Dark Mode - Based on #14191C */
+            --bg-primary: #1F2428;
+            --bg-secondary: #14191C;
+            --bg-tertiary: #2D3339;
+            --bg-quaternary: #3A4046;
+            
+            --text-primary: #F7F9FA;
+            --text-secondary: #D1D9E0;
+            --text-tertiary: #A0AEC0;
+            --text-muted: #8B949E;
+            
+            --border-primary: #30363D;
+            --border-secondary: #3A4046;
+            
+            --brand-primary: #16C181;
+            --brand-primary-hover: #10A574;
+            --brand-primary-light: #0F7860;
+            
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3);
+        }
+        
+        /* Theme-aware classes */
+        .bg-primary { background-color: var(--bg-primary); }
+        .bg-secondary { background-color: var(--bg-secondary); }
+        .bg-tertiary { background-color: var(--bg-tertiary); }
+        .bg-quaternary { background-color: var(--bg-quaternary); }
+        
+        .text-primary { color: var(--text-primary); }
+        .text-secondary { color: var(--text-secondary); }
+        .text-tertiary { color: var(--text-tertiary); }
+        .text-muted { color: var(--text-muted); }
+        
+        .border-primary { border-color: var(--border-primary); }
+        .border-secondary { border-color: var(--border-secondary); }
+        
+        .brand-primary { background-color: var(--brand-primary); }
+        .brand-primary-hover:hover { background-color: var(--brand-primary-hover); }
+        .brand-primary-text { color: var(--brand-primary); }
+        .brand-primary-light { background-color: var(--brand-primary-light); }
+        
+        /* Gradients */
+        .text-gradient {
+            background: linear-gradient(to right, var(--brand-primary), var(--brand-primary-hover));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .bg-gradient {
+            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-primary-hover) 100%);
+        }
+        
+        /* Step animations */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        /* Progress bar animation */
+        .progress-bar {
+            transition: width 0.5s ease-out;
+        }
+        
+        /* Pulse animation for active elements */
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+            }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Mobile swipe indicator */
+        @keyframes swipe {
+            0% {
+                transform: translateX(0);
+                opacity: 0.5;
+            }
+            50% {
+                transform: translateX(10px);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 0.5;
+            }
+        }
+        
+        .swipe-indicator {
+            animation: swipe 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-secondary text-primary transition-colors duration-300 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 h-1 bg-tertiary z-50">
+        <div id="progressBar" class="h-full bg-gradient progress-bar" style="width: 25%"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="px-4 py-6 flex items-center justify-between">
+            <a href="flexperts-landing-page.html" class="flex items-center space-x-2">
+                <div class="w-10 h-10 bg-gradient rounded-lg flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                    </svg>
+                </div>
+                <span class="text-xl font-bold">Flexperts</span>
+            </a>
+
+            <button onclick="skipTour()" class="text-tertiary hover:text-primary transition-colors">
+                Skip tour
+            </button>
+        </header>
+
+        <!-- Content Container -->
+        <div class="flex-1 flex items-center justify-center px-4">
+            <!-- Step 1: Welcome -->
+            <div id="step1" class="w-full max-w-lg slide-in">
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl sm:text-5xl font-bold mb-4">
+                        Welcome to <span class="text-gradient">Flexperts</span>
+                    </h1>
+                    <p class="text-lg text-secondary">
+                        Let's get you set up in just a few steps
+                    </p>
+                </div>
+
+                <div class="bg-primary rounded-2xl p-8 shadow-xl border border-primary mb-8">
+                    <div class="flex justify-center mb-6">
+                        <div class="w-32 h-32 bg-gradient rounded-full flex items-center justify-center pulse">
+                            <svg class="w-20 h-20 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <h2 class="text-2xl font-bold text-center mb-4">Hi there! 👋</h2>
+                    <p class="text-center text-secondary">
+                        I'm Flexi, your AI development assistant. I'll help you build amazing applications with ease.
+                    </p>
+                </div>
+
+                <button onclick="nextStep()" class="w-full bg-gradient text-white py-4 px-6 rounded-lg font-semibold hover:opacity-90 transition-opacity">
+                    Get Started
+                </button>
+            </div>
+
+            <!-- Step 2: Choose Your Role -->
+            <div id="step2" class="w-full max-w-lg hidden">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold mb-4">What best describes you?</h2>
+                    <p class="text-secondary">This helps us personalize your experience</p>
+                </div>
+
+                <div class="space-y-4 mb-8">
+                    <label class="block">
+                        <input type="radio" name="role" value="developer" class="sr-only peer">
+                        <div class="bg-primary border-2 border-primary rounded-xl p-6 cursor-pointer hover:border-brand-primary transition-all peer-checked:border-brand-primary peer-checked:bg-brand-primary-light">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-12 h-12 bg-tertiary rounded-lg flex items-center justify-center">
+                                        <svg class="w-6 h-6 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="text-left">
+                                        <h3 class="font-semibold">Developer</h3>
+                                        <p class="text-sm text-secondary">I write code and build applications</p>
+                                    </div>
+                                </div>
+                                <div class="w-5 h-5 rounded-full border-2 border-secondary peer-checked:border-brand-primary peer-checked:bg-brand-primary"></div>
+                            </div>
+                        </div>
+                    </label>
+
+                    <label class="block">
+                        <input type="radio" name="role" value="founder" class="sr-only peer">
+                        <div class="bg-primary border-2 border-primary rounded-xl p-6 cursor-pointer hover:border-brand-primary transition-all peer-checked:border-brand-primary peer-checked:bg-brand-primary-light">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-12 h-12 bg-tertiary rounded-lg flex items-center justify-center">
+                                        <svg class="w-6 h-6 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="text-left">
+                                        <h3 class="font-semibold">Founder / Entrepreneur</h3>
+                                        <p class="text-sm text-secondary">I have ideas and want to build products</p>
+                                    </div>
+                                </div>
+                                <div class="w-5 h-5 rounded-full border-2 border-secondary peer-checked:border-brand-primary peer-checked:bg-brand-primary"></div>
+                            </div>
+                        </div>
+                    </label>
+
+                    <label class="block">
+                        <input type="radio" name="role" value="designer" class="sr-only peer">
+                        <div class="bg-primary border-2 border-primary rounded-xl p-6 cursor-pointer hover:border-brand-primary transition-all peer-checked:border-brand-primary peer-checked:bg-brand-primary-light">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-12 h-12 bg-tertiary rounded-lg flex items-center justify-center">
+                                        <svg class="w-6 h-6 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="text-left">
+                                        <h3 class="font-semibold">Designer / Product Manager</h3>
+                                        <p class="text-sm text-secondary">I design experiences and products</p>
+                                    </div>
+                                </div>
+                                <div class="w-5 h-5 rounded-full border-2 border-secondary peer-checked:border-brand-primary peer-checked:bg-brand-primary"></div>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="flex gap-4">
+                    <button onclick="previousStep()" class="flex-1 bg-tertiary text-primary py-3 px-6 rounded-lg font-semibold hover:bg-quaternary transition-colors">
+                        Back
+                    </button>
+                    <button onclick="nextStep()" class="flex-1 bg-gradient text-white py-3 px-6 rounded-lg font-semibold hover:opacity-90 transition-opacity">
+                        Continue
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 3: Choose Build Mode -->
+            <div id="step3" class="w-full max-w-lg hidden">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold mb-4">How do you want to build?</h2>
+                    <p class="text-secondary">You can change this anytime</p>
+                </div>
+
+                <div class="space-y-4 mb-8">
+                    <label class="block">
+                        <input type="radio" name="mode" value="you-build" class="sr-only peer" checked>
+                        <div class="bg-primary border-2 border-primary rounded-xl p-6 cursor-pointer hover:border-brand-primary transition-all peer-checked:border-brand-primary peer-checked:bg-brand-primary-light">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 bg-gradient rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="font-semibold mb-2">You Build</h3>
+                                    <p class="text-sm text-secondary">I'll assist while you code. Get suggestions, bug fixes, and guidance.</p>
+                                    <div class="mt-3 flex flex-wrap gap-2">
+                                        <span class="text-xs bg-tertiary px-2 py-1 rounded">For developers</span>
+                                        <span class="text-xs bg-tertiary px-2 py-1 rounded">Full control</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+
+                    <label class="block">
+                        <input type="radio" name="mode" value="we-build" class="sr-only peer">
+                        <div class="bg-primary border-2 border-primary rounded-xl p-6 cursor-pointer hover:border-brand-primary transition-all peer-checked:border-brand-primary peer-checked:bg-brand-primary-light">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 bg-gradient rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="font-semibold mb-2">We Build</h3>
+                                    <p class="text-sm text-secondary">Describe what you want, I'll build it for you end-to-end.</p>
+                                    <div class="mt-3 flex flex-wrap gap-2">
+                                        <span class="text-xs bg-tertiary px-2 py-1 rounded">No coding required</span>
+                                        <span class="text-xs bg-tertiary px-2 py-1 rounded">Fast delivery</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+
+                    <label class="block">
+                        <input type="radio" name="mode" value="build-together" class="sr-only peer">
+                        <div class="bg-primary border-2 border-primary rounded-xl p-6 cursor-pointer hover:border-brand-primary transition-all peer-checked:border-brand-primary peer-checked:bg-brand-primary-light">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 bg-gradient rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="font-semibold mb-2">Build Together</h3>
+                                    <p class="text-sm text-secondary">Collaborate with AI and human experts for complex projects.</p>
+                                    <div class="mt-3 flex flex-wrap gap-2">
+                                        <span class="text-xs bg-tertiary px-2 py-1 rounded">Expert guidance</span>
+                                        <span class="text-xs bg-tertiary px-2 py-1 rounded">Best of both</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="flex gap-4">
+                    <button onclick="previousStep()" class="flex-1 bg-tertiary text-primary py-3 px-6 rounded-lg font-semibold hover:bg-quaternary transition-colors">
+                        Back
+                    </button>
+                    <button onclick="nextStep()" class="flex-1 bg-gradient text-white py-3 px-6 rounded-lg font-semibold hover:opacity-90 transition-opacity">
+                        Continue
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 4: First Project -->
+            <div id="step4" class="w-full max-w-lg hidden">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold mb-4">Let's create your first project</h2>
+                    <p class="text-secondary">What would you like to build?</p>
+                </div>
+
+                <div class="bg-primary rounded-2xl p-8 shadow-xl border border-primary mb-8">
+                    <div class="space-y-6">
+                        <div>
+                            <label for="projectName" class="block text-sm font-medium mb-2">Project Name</label>
+                            <input 
+                                type="text" 
+                                id="projectName" 
+                                class="w-full px-4 py-3 bg-secondary border border-primary rounded-lg text-primary placeholder-muted transition-colors"
+                                placeholder="My Awesome App"
+                            >
+                        </div>
+
+                        <div>
+                            <label for="projectType" class="block text-sm font-medium mb-2">Project Type</label>
+                            <select 
+                                id="projectType" 
+                                class="w-full px-4 py-3 bg-secondary border border-primary rounded-lg text-primary transition-colors"
+                            >
+                                <option value="">Choose a type...</option>
+                                <option value="web-app">Web Application</option>
+                                <option value="mobile-app">Mobile App</option>
+                                <option value="api">API / Backend</option>
+                                <option value="landing">Landing Page</option>
+                                <option value="ecommerce">E-commerce Site</option>
+                                <option value="dashboard">Admin Dashboard</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="description" class="block text-sm font-medium mb-2">Describe your project</label>
+                            <textarea 
+                                id="description" 
+                                rows="3"
+                                class="w-full px-4 py-3 bg-secondary border border-primary rounded-lg text-primary placeholder-muted transition-colors resize-none"
+                                placeholder="Tell me about your project idea..."
+                            ></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-4">
+                    <button onclick="previousStep()" class="flex-1 bg-tertiary text-primary py-3 px-6 rounded-lg font-semibold hover:bg-quaternary transition-colors">
+                        Back
+                    </button>
+                    <button onclick="completeTour()" class="flex-1 bg-gradient text-white py-3 px-6 rounded-lg font-semibold hover:opacity-90 transition-opacity">
+                        Start Building
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step Indicators -->
+        <div class="px-4 pb-8">
+            <div class="flex justify-center space-x-2">
+                <div id="dot1" class="w-2 h-2 rounded-full bg-gradient"></div>
+                <div id="dot2" class="w-2 h-2 rounded-full bg-tertiary"></div>
+                <div id="dot3" class="w-2 h-2 rounded-full bg-tertiary"></div>
+                <div id="dot4" class="w-2 h-2 rounded-full bg-tertiary"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Theme Toggle -->
+    <button onclick="toggleTheme()" class="fixed bottom-4 right-4 p-3 rounded-lg bg-primary border border-primary hover:bg-tertiary transition-colors">
+        <svg class="w-5 h-5 text-secondary hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="w-5 h-5 text-secondary dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 4;
+
+        function updateProgress() {
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            
+            // Update dots
+            for (let i = 1; i <= totalSteps; i++) {
+                const dot = document.getElementById(`dot${i}`);
+                if (i <= currentStep) {
+                    dot.classList.add('bg-gradient');
+                    dot.classList.remove('bg-tertiary');
+                } else {
+                    dot.classList.remove('bg-gradient');
+                    dot.classList.add('bg-tertiary');
+                }
+            }
+        }
+
+        function showStep(step) {
+            // Hide all steps
+            for (let i = 1; i <= totalSteps; i++) {
+                const stepElement = document.getElementById(`step${i}`);
+                if (stepElement) {
+                    stepElement.classList.add('hidden');
+                }
+            }
+            
+            // Show current step
+            const currentStepElement = document.getElementById(`step${step}`);
+            if (currentStepElement) {
+                currentStepElement.classList.remove('hidden');
+                currentStepElement.classList.add('slide-in');
+            }
+            
+            updateProgress();
+        }
+
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                showStep(currentStep);
+            }
+        }
+
+        function previousStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        }
+
+        function skipTour() {
+            if (confirm('Are you sure you want to skip the tour? You can always access it later from settings.')) {
+                window.location.href = 'flexperts-login-signup.html';
+            }
+        }
+
+        function completeTour() {
+            // Here you would normally save the user's preferences and create the project
+            alert('Welcome to Flexperts! Let\'s get you signed up...');
+            window.location.href = 'flexperts-login-signup.html';
+        }
+
+        // Theme toggle
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        }
+
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        }
+
+        // Mobile swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                // Swipe left - next step
+                nextStep();
+            }
+            if (touchEndX > touchStartX + 50) {
+                // Swipe right - previous step
+                previousStep();
+            }
+        }
+    </script>
+</body>
+</html>
