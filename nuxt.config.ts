@@ -2,6 +2,14 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
+  
+  // Netlify deployment preset
+  nitro: {
+    preset: 'netlify',
+    prerender: {
+      routes: ['/demo', '/demo/navigation', '/demo/overlays', '/demo/layouts', '/demo/content', '/demo/carousel']
+    }
+  },
 
   typescript: {
     strict: true,
@@ -32,12 +40,7 @@ export default defineNuxtConfig({
     componentIslands: true
   },
 
-  nitro: {
-    prerender: {
-      routes: ['/demo', '/demo/navigation', '/demo/overlays', '/demo/layouts', '/demo/content', '/demo/carousel']
-    },
-    compressPublicAssets: true
-  },
+  ssr: true,
 
   // Module configurations
   colorMode: {
