@@ -197,6 +197,9 @@ const calculateTrackPosition = (index: number) => {
 }
 
 const goTo = (index: number) => {
+  // Prevent invalid indices that could cause infinite loops
+  if (!props.items || props.items.length === 0) return
+  
   let targetIndex = index
   
   if (props.loop) {
@@ -206,10 +209,13 @@ const goTo = (index: number) => {
     targetIndex = Math.max(0, Math.min(maxIndex.value, index))
   }
   
-  currentIndex.value = targetIndex
-  trackPosition.value = calculateTrackPosition(targetIndex)
-  emit('update:modelValue', targetIndex)
-  emit('change', targetIndex)
+  // Only update if the index actually changed
+  if (targetIndex !== currentIndex.value) {
+    currentIndex.value = targetIndex
+    trackPosition.value = calculateTrackPosition(targetIndex)
+    emit('update:modelValue', targetIndex)
+    emit('change', targetIndex)
+  }
 }
 
 const previous = () => {
@@ -326,21 +332,36 @@ const stopAutoplay = () => {
 
 // Lifecycle
 onMounted(() => {
+  // Ensure we're on the client side
+  if (typeof window === 'undefined') return
+  
   updateSlideSize()
   trackPosition.value = calculateTrackPosition(currentIndex.value)
   
   if (props.autoplay) {
     startAutoplay()
   }
+  
+  // Add mouse event listeners for autoplay pause
+  if (carouselRef.value) {
+    carouselRef.value.addEventListener('mouseenter', handleMouseEnter)
+    carouselRef.value.addEventListener('mouseleave', handleMouseLeave)
+  }
 })
 
 onUnmounted(() => {
   stopAutoplay()
+  
+  // Clean up event listeners
+  if (carouselRef.value) {
+    carouselRef.value.removeEventListener('mouseenter', handleMouseEnter)
+    carouselRef.value.removeEventListener('mouseleave', handleMouseLeave)
+  }
 })
 
 // Watchers
 watch(() => props.modelValue, (newValue) => {
-  if (newValue !== currentIndex.value) {
+  if (newValue !== currentIndex.value && newValue >= 0 && newValue < props.items.length) {
     goTo(newValue)
   }
 })
@@ -354,10 +375,12 @@ watch(() => props.autoplay, (newValue) => {
 })
 
 // Resize observer
-useResizeObserver(viewportRef, () => {
-  updateSlideSize()
-  trackPosition.value = calculateTrackPosition(currentIndex.value)
-})
+if (typeof window !== 'undefined') {
+  useResizeObserver(viewportRef, () => {
+    updateSlideSize()
+    trackPosition.value = calculateTrackPosition(currentIndex.value)
+  })
+}
 
 // Mouse enter/leave for autoplay pause
 const handleMouseEnter = () => {

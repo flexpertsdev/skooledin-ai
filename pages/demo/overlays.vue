@@ -188,13 +188,13 @@
                     {{ isOpen ? 'Close' : 'Open' }} Menu
                   </button>
                 </template>
-                <template #default="{ close }">
+                <template v-if="$slots.default" #default="slotProps">
                   <div class="popover-menu">
-                    <button @click="close" class="menu-item">Profile</button>
-                    <button @click="close" class="menu-item">Settings</button>
-                    <button @click="close" class="menu-item">Help</button>
+                    <button @click="slotProps?.close?.()" class="menu-item">Profile</button>
+                    <button @click="slotProps?.close?.()" class="menu-item">Settings</button>
+                    <button @click="slotProps?.close?.()" class="menu-item">Help</button>
                     <hr />
-                    <button @click="close" class="menu-item">Logout</button>
+                    <button @click="slotProps?.close?.()" class="menu-item">Logout</button>
                   </div>
                 </template>
               </Popover>
