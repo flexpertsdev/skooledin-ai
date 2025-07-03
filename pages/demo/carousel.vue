@@ -226,6 +226,32 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { lazyComponent, lazyLoadOnVisible } from '~/utils/lazyComponent'
+import LoadingSpinner from '~/components/ui/LoadingSpinner.vue'
+import ErrorBoundary from '~/components/ui/ErrorBoundary.vue'
+
+// Lazy load heavy carousel components
+const Carousel = lazyComponent(
+  () => import('~/components/ui/Carousel.vue'),
+  { 
+    loadingComponent: LoadingSpinner, 
+    errorComponent: ErrorBoundary,
+    delay: 200 
+  }
+)
+
+const PageView = lazyLoadOnVisible(
+  () => import('~/components/ui/PageView.vue'),
+  { rootMargin: '100px' }
+)
+
+const MasonryGrid = lazyLoadOnVisible(
+  () => import('~/components/ui/MasonryGrid.vue'),
+  { rootMargin: '200px' }
+)
+
+// Import Card component normally (it's lightweight)
+import Card from '~/components/ui/Card.vue'
 
 // Carousel state
 const basicCarouselIndex = ref(0)

@@ -54,6 +54,22 @@
             <p>ChatInput, BottomSheetSelect, ChoiceButtons</p>
           </div>
         </NuxtLink>
+        
+        <NuxtLink to="/demo/lazy-loading" class="demo-link">
+          <div class="demo-card">
+            <div class="demo-icon">⚡</div>
+            <h3>Lazy Loading</h3>
+            <p>Dynamic imports, code splitting, performance</p>
+          </div>
+        </NuxtLink>
+        
+        <NuxtLink to="/demo/images" class="demo-link">
+          <div class="demo-card">
+            <div class="demo-icon">🖼️</div>
+            <h3>Image Optimization</h3>
+            <p>Responsive images, lazy loading, galleries</p>
+          </div>
+        </NuxtLink>
       </div>
 
       <div class="coming-soon">

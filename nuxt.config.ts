@@ -80,7 +80,7 @@ export default defineNuxtConfig({
   
   nitro: {
     prerender: {
-      routes: ['/demo', '/demo/navigation', '/demo/overlays', '/demo/layouts', '/demo/content', '/demo/carousel']
+      routes: ['/demo', '/demo/navigation', '/demo/overlays', '/demo/layouts', '/demo/content', '/demo/carousel', '/demo/forms', '/demo/lazy-loading', '/demo/images', '/demo/accessible-forms']
     },
     compressPublicAssets: true
   },
@@ -88,6 +88,39 @@ export default defineNuxtConfig({
   vite: {
     optimizeDeps: {
       include: ['vue', 'vue-router', '@vueuse/core', 'pinia']
+    },
+    build: {
+      // Enable code splitting
+      rollupOptions: {
+        output: {
+          // Manual chunks for better caching
+          manualChunks: (id) => {
+            // Vendor chunk for node_modules
+            if (id.includes('node_modules')) {
+              if (id.includes('vue') || id.includes('@vueuse')) {
+                return 'vue-vendor'
+              }
+              if (id.includes('floating-ui')) {
+                return 'floating-ui'
+              }
+              return 'vendor'
+            }
+            // Component chunks
+            if (id.includes('/components/ui/')) {
+              return 'ui-components'
+            }
+            if (id.includes('/components/form/')) {
+              return 'form-components'
+            }
+            if (id.includes('/components/layout/')) {
+              return 'layout-components'
+            }
+            if (id.includes('/components/navigation/')) {
+              return 'navigation-components'
+            }
+          }
+        }
+      }
     }
   }
 })
