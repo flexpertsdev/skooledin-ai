@@ -246,12 +246,12 @@ const PageView = lazyLoadOnVisible(
 )
 
 const MasonryGrid = lazyLoadOnVisible(
-  () => import('~/components/ui/MasonryGrid.vue'),
+  () => import('~/components/content/MasonryGrid.vue'),
   { rootMargin: '200px' }
 )
 
 // Import Card component normally (it's lightweight)
-import Card from '~/components/ui/Card.vue'
+
 
 // Carousel state
 const basicCarouselIndex = ref(0)

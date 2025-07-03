@@ -155,7 +155,7 @@
 
 <script setup lang="ts">
 import { ref, shallowRef } from 'vue'
-import { lazyComponent, preloadRouteComponents, createComponentLoader } from '~/utils/lazyComponent'
+import { lazyComponent, preloadRouteComponentsAsync, createComponentLoader } from '~/utils/lazyComponent'
 import LoadingSpinner from '~/components/ui/LoadingSpinner.vue'
 import ErrorBoundary from '~/components/ui/ErrorBoundary.vue'
 
@@ -170,7 +170,7 @@ const LazyCarousel = lazyComponent(
 )
 
 const LazyVisibleModal = lazyComponent(
-  () => import('~/components/ui/Modal.vue'),
+  () => import('~/components/overlay/Modal.vue'),
   {
     loadingComponent: LoadingSpinner,
     errorComponent: ErrorBoundary
@@ -213,13 +213,13 @@ const dynamicComponents = [
   { 
     name: 'BottomSheet', 
     label: 'Bottom Sheet',
-    loader: () => import('~/components/ui/BottomSheet.vue'),
+    loader: () => import('~/components/overlay/BottomSheet.vue'),
     props: { modelValue: true, title: 'Dynamic Bottom Sheet' }
   },
   { 
     name: 'ActionSheet', 
     label: 'Action Sheet',
-    loader: () => import('~/components/ui/ActionSheet.vue'),
+    loader: () => import('~/components/overlay/ActionSheet.vue'),
     props: { 
       modelValue: true, 
       title: 'Dynamic Actions',
@@ -256,7 +256,7 @@ const preloadRoute = async (routeName: string) => {
   preloadStatus.value = `Preloading ${routeName} components...`
   
   try {
-    await preloadRouteComponents(routeName)
+    await preloadRouteComponentsAsync('demo-overlays')
     preloadStatus.value = `✓ ${routeName} components preloaded!`
     
     // Update metrics

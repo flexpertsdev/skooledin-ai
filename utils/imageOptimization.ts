@@ -168,9 +168,10 @@ export const useImageLoader = () => {
         await img.decode()
       } else {
         await new Promise((resolve, reject) => {
-          img.onload = resolve
-          img.onerror = reject
-          img.src = src
+          const image = img as HTMLImageElement
+          image.onload = resolve
+          image.onerror = reject
+          image.src = src
         })
       }
       

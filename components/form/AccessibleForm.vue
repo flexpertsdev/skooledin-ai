@@ -128,7 +128,7 @@ const validateForm = (): boolean => {
   if (!formRef.value || !props.validateOnSubmit) return true
   
   // Native HTML5 validation
-  const isValid = formRef.value.checkValidity()
+  const isValid = (formRef.value as HTMLFormElement).checkValidity()
   
   if (!isValid) {
     // Find and focus first invalid field
@@ -230,11 +230,12 @@ const setupFieldTracking = () => {
     
     // Validate single field
     if (props.validateOnChange) {
-      const isValid = target.checkValidity()
+      const field = target as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+      const isValid = field.checkValidity()
       if (!isValid) {
-        target.setAttribute('aria-invalid', 'true')
+        field.setAttribute('aria-invalid', 'true')
       } else {
-        target.removeAttribute('aria-invalid')
+        field.removeAttribute('aria-invalid')
       }
     }
   }

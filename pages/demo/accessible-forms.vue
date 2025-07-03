@@ -313,7 +313,7 @@ const handleNavigationChange = (fieldIndex: number) => {
   if (field) {
     const label = field.labels?.[0]?.textContent || field.getAttribute('aria-label') || field.name
     const type = field.type || field.tagName.toLowerCase()
-    currentFieldInfo = `${label} (${type})`
+    currentFieldInfo.value = `${label} (${type})`
   }
 }
 </script>

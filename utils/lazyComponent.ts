@@ -106,23 +106,23 @@ export const createComponentLoader = (
 }
 
 // Batch preload components
-export const preloadComponents = (components: Array<() => Promise<any>>) => {
+export const preloadComponentsAsync = (components: Array<() => Promise<any>>) => {
   return Promise.all(components.map(component => component()))
 }
 
 // Route-based component preloading
-export const preloadRouteComponents = (routeName: string) => {
+export const preloadRouteComponentsAsync = (routeName: string) => {
   const componentsMap: Record<string, Array<() => Promise<any>>> = {
     'demo-overlays': [
-      () => import('~/components/ui/Modal.vue'),
-      () => import('~/components/ui/BottomSheet.vue'),
-      () => import('~/components/ui/Drawer.vue'),
-      () => import('~/components/ui/ActionSheet.vue')
+      () => import('~/components/overlay/Modal.vue'),
+      () => import('~/components/overlay/BottomSheet.vue'),
+      () => import('~/components/overlay/Drawer.vue'),
+      () => import('~/components/overlay/ActionSheet.vue')
     ],
     'demo-carousel': [
       () => import('~/components/ui/Carousel.vue'),
       () => import('~/components/ui/PageView.vue'),
-      () => import('~/components/ui/MasonryGrid.vue')
+      () => import('~/components/content/MasonryGrid.vue')
     ],
     'demo-forms': [
       () => import('~/components/form/ChatInput.vue'),
@@ -133,6 +133,6 @@ export const preloadRouteComponents = (routeName: string) => {
   
   const components = componentsMap[routeName]
   if (components) {
-    preloadComponents(components)
+    preloadComponentsAsync(components)
   }
 }

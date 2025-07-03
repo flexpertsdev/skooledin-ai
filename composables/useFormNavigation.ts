@@ -1,6 +1,7 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import type { Ref } from 'vue'
-import { useFocusTrap, useEventListener } from '@vueuse/core'
+import { useEventListener } from '@vueuse/core'
+import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
 
 // Types
 export interface FormNavigationOptions {
