@@ -251,6 +251,7 @@ const MasonryGrid = lazyLoadOnVisible(
 )
 
 // Import Card component normally (it's lightweight)
+import Card from '~/components/ui/Card.vue'
 
 
 // Carousel state

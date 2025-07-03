@@ -43,6 +43,11 @@ export const lazyLoadOnVisible = (
   loader: AsyncComponentLoader,
   options?: IntersectionObserverInit
 ) => {
+  // For SSR, just return a regular async component
+  if (typeof window === 'undefined') {
+    return defineAsyncComponent(loader)
+  }
+  
   let component: any = null
   
   return defineAsyncComponent({
