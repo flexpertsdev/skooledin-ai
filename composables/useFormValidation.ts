@@ -1,5 +1,6 @@
-import { ref, computed, watch, reactive, Ref } from 'vue'
-import { debounce } from '@vueuse/core'
+import { ref, computed, watch, reactive } from 'vue'
+import type { Ref } from 'vue'
+import { useDebounceFn } from '@vueuse/core'
 
 // Validation rule types
 export type ValidationRule<T = any> = (value: T) => string | boolean | Promise<string | boolean>
@@ -194,14 +195,14 @@ export const useFormValidation = <T extends Record<string, any>>(
     if (!rules[field]) return true
     
     const fieldRules = Array.isArray(rules[field]) ? rules[field] : [rules[field]]
-    const value = values[field as keyof T]
+    const value = (values as any)[field]
     
     validationState[field].isValidating = true
     validationState[field].errors = []
     
     try {
       for (const rule of fieldRules) {
-        const result = await rule(value, formValues || values)
+        const result = await rule(value)
         if (result !== true) {
           validationState[field].errors.push(result as string)
         }
@@ -241,7 +242,7 @@ export const useFormValidation = <T extends Record<string, any>>(
   
   // Reset a field
   const resetField = (field: string) => {
-    values[field as keyof T] = initialValues[field as keyof T]
+    (values as any)[field] = (initialValues as any)[field]
     validationState[field] = {
       isDirty: false,
       isTouched: false,
@@ -254,7 +255,7 @@ export const useFormValidation = <T extends Record<string, any>>(
   // Reset form
   const reset = () => {
     Object.keys(initialValues).forEach(field => {
-      values[field as keyof T] = initialValues[field as keyof T]
+      (values as any)[field] = (initialValues as any)[field]
     })
     Object.keys(validationState).forEach(field => {
       validationState[field] = {
@@ -269,7 +270,7 @@ export const useFormValidation = <T extends Record<string, any>>(
   }
   
   // Handle field change
-  const handleFieldChange = debounce(async (field: string) => {
+  const handleFieldChange = useDebounceFn(async (field: string) => {
     validationState[field].isDirty = true
     
     if (mode === 'change' || (validationState[field].isTouched && revalidateMode === 'change')) {
@@ -300,7 +301,7 @@ export const useFormValidation = <T extends Record<string, any>>(
     
     if (isFormValid) {
       try {
-        await onValid(values)
+        await onValid(values as T)
       } finally {
         isSubmitting.value = false
       }
@@ -312,9 +313,9 @@ export const useFormValidation = <T extends Record<string, any>>(
   // Field helpers
   const field = (name: string) => ({
     value: computed({
-      get: () => values[name as keyof T],
+      get: () => (values as any)[name],
       set: (val: any) => {
-        values[name as keyof T] = val
+        (values as any)[name] = val
         handleFieldChange(name)
       }
     }),

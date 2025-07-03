@@ -306,7 +306,7 @@
 import { ref } from 'vue'
 import { useToast } from '~/composables/useToast'
 
-const { showToast } = useToast()
+const toast = useToast()
 
 // ChatInput data
 const chatMessage = ref('')
@@ -494,24 +494,15 @@ const validationError = ref('')
 
 // Handlers
 const handleSend = (message: string) => {
-  showToast({
-    message: `Sent: ${message}`,
-    type: 'success'
-  })
+  toast.success(`Sent: ${message}`)
 }
 
 const handleVoiceStart = () => {
-  showToast({
-    message: 'Recording started...',
-    type: 'info'
-  })
+  toast.info('Recording started...')
 }
 
 const handleVoiceEnd = () => {
-  showToast({
-    message: 'Recording ended',
-    type: 'info'
-  })
+  toast.info('Recording ended')
 }
 
 const handleSelectChange = (value: any) => {
@@ -525,33 +516,21 @@ const handleChoiceChange = (value: any) => {
 const handleSubmit = () => {
   // Simple validation
   if (!formData.value.type) {
-    showToast({
-      message: 'Please select an account type',
-      type: 'error'
-    })
+    toast.error('Please select an account type')
     return
   }
   
   if (!formData.value.country) {
-    showToast({
-      message: 'Please select a country',
-      type: 'error'
-    })
+    toast.error('Please select a country')
     return
   }
   
   if (formData.value.interests.length < 2) {
-    showToast({
-      message: 'Please select at least 2 interests',
-      type: 'error'
-    })
+    toast.error('Please select at least 2 interests')
     return
   }
   
-  showToast({
-    message: 'Form submitted successfully!',
-    type: 'success'
-  })
+  toast.success('Form submitted successfully!')
   
   console.log('Form data:', formData.value)
 }

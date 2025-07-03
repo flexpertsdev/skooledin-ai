@@ -59,8 +59,16 @@ export const themePresets = {
 }
 
 export const useTheme = () => {
-  // Color mode from @nuxtjs/color-mode
-  const { preference, value: mode, system } = useColorMode()
+  // Color mode from @vueuse/core
+  const colorMode = useColorMode({
+    attribute: 'class',
+    modes: {
+      light: 'light-mode',
+      dark: 'dark-mode'
+    }
+  })
+  const mode = colorMode
+  const system = usePreferredColorScheme()
   
   // Preferred color scheme
   const preferredColorScheme = usePreferredColorScheme()
@@ -100,7 +108,9 @@ export const useTheme = () => {
   // Methods
   const setMode = (newMode: 'light' | 'dark' | 'auto') => {
     savedConfig.value.mode = newMode
-    preference.value = newMode
+    if (newMode !== 'auto') {
+      mode.value = newMode
+    }
   }
   
   const toggleMode = () => {
@@ -243,7 +253,7 @@ export const useTheme = () => {
     // State
     isDark,
     mode: computed(() => savedConfig.value.mode),
-    systemMode: computed(() => system.value),
+    systemMode: computed(() => system.value ?? 'light'),
     colors: currentColors,
     config: computed(() => savedConfig.value),
     activePreset: computed(() => activePreset.value),

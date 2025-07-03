@@ -267,7 +267,8 @@ export const useGesture = (
       currentY.value = touch.clientY
       
       // Detect pan gesture
-      if (!currentGesture.value && Math.abs(deltaX.value) > opts.tapThreshold || Math.abs(deltaY.value) > opts.tapThreshold) {
+      const tapThreshold = opts.tapThreshold ?? defaultOptions.tapThreshold!
+      if (!currentGesture.value && (Math.abs(deltaX.value) > tapThreshold || Math.abs(deltaY.value) > tapThreshold)) {
         currentGesture.value = 'pan'
         emit(createGestureEvent('pan', 'start'))
       } else if (currentGesture.value === 'pan') {
@@ -290,7 +291,8 @@ export const useGesture = (
       if (rotation < -180) rotation += 360
       
       // Detect pinch gesture
-      if (!currentGesture.value && Math.abs(scale - 1) > opts.pinchThreshold) {
+      const pinchThreshold = opts.pinchThreshold ?? defaultOptions.pinchThreshold!
+      if (!currentGesture.value && Math.abs(scale - 1) > pinchThreshold) {
         currentGesture.value = 'pinch'
         emit(createGestureEvent('pinch', 'start', { scale }))
       } else if (currentGesture.value === 'pinch') {
@@ -298,7 +300,8 @@ export const useGesture = (
       }
       
       // Detect rotate gesture
-      if (!currentGesture.value && Math.abs(rotation) > opts.rotateThreshold) {
+      const rotateThreshold = opts.rotateThreshold ?? defaultOptions.rotateThreshold!
+      if (!currentGesture.value && Math.abs(rotation) > rotateThreshold) {
         currentGesture.value = 'rotate'
         emit(createGestureEvent('rotate', 'start', { rotation }))
       } else if (currentGesture.value === 'rotate') {
@@ -329,7 +332,9 @@ export const useGesture = (
       if (currentGesture.value === 'pan') {
         // Check if it's a swipe
         const distance = Math.sqrt(deltaX.value ** 2 + deltaY.value ** 2)
-        if (distance > opts.swipeThreshold && velocity.value > opts.swipeVelocity) {
+        const swipeThreshold = opts.swipeThreshold ?? defaultOptions.swipeThreshold!
+        const swipeVelocity = opts.swipeVelocity ?? defaultOptions.swipeVelocity!
+        if (distance > swipeThreshold && velocity.value > swipeVelocity) {
           const direction = getSwipeDirection(deltaX.value, deltaY.value)
           emit(createGestureEvent('swipe', 'end', { direction }))
         } else {
@@ -341,9 +346,12 @@ export const useGesture = (
     } else if (touchPoints.value.size === 0) {
       // Check for tap
       const tapDistance = Math.sqrt(deltaX.value ** 2 + deltaY.value ** 2)
-      if (tapDistance < opts.tapThreshold && duration < opts.tapTimeout) {
+      const tapThreshold = opts.tapThreshold ?? defaultOptions.tapThreshold!
+      const tapTimeout = opts.tapTimeout ?? defaultOptions.tapTimeout!
+      const doubleTapTimeout = opts.doubleTapTimeout ?? defaultOptions.doubleTapTimeout!
+      if (tapDistance < tapThreshold && duration < tapTimeout) {
         // Check for double tap
-        if (endTime - lastTapTime.value < opts.doubleTapTimeout) {
+        if (endTime - lastTapTime.value < doubleTapTimeout) {
           emit(createGestureEvent('doubletap', 'end'))
           lastTapTime.value = 0
         } else {
