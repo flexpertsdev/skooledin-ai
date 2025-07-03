@@ -50,6 +50,21 @@
             </LayoutGrid>
           </section>
 
+          <!-- Component Demos Link -->
+          <section class="demos-link-section">
+            <LayoutAligned :alignment="'center'">
+              <div>
+                <h2>Explore Components</h2>
+                <p class="demos-description">
+                  Check out our comprehensive collection of mobile-first components
+                </p>
+                <NuxtLink to="/demo" class="demos-button">
+                  View All Demos →
+                </NuxtLink>
+              </div>
+            </LayoutAligned>
+          </section>
+
           <!-- Demo Section -->
           <section>
             <h2>Layout Demonstrations</h2>
@@ -159,6 +174,37 @@ h2 {
   justify-content: center;
 }
 
+/* Component Demos Link */
+.demos-link-section {
+  background: var(--surface-elevated);
+  padding: var(--spacing-3xl);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.demos-description {
+  font-size: var(--font-size-lg);
+  color: var(--text-secondary);
+  margin: var(--spacing-md) 0 var(--spacing-xl);
+}
+
+.demos-button {
+  display: inline-block;
+  background: var(--primary-color);
+  color: white;
+  padding: var(--spacing-md) var(--spacing-xl);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  font-weight: var(--font-weight-medium);
+  transition: all var(--transition-fast) var(--easing-standard);
+}
+
+.demos-button:hover {
+  background: var(--color-primary-600);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
 /* Dark mode adjustments */
 .dark-mode .feature-card {
   background-color: var(--surface-card);
@@ -166,5 +212,9 @@ h2 {
 
 .dark-mode .demo-section {
   background-color: var(--surface-default);
+}
+
+.dark-mode .demos-link-section {
+  background: var(--surface-card);
 }
 </style>
