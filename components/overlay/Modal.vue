@@ -25,13 +25,20 @@
             </slot>
             <button
               v-if="showCloseButton"
-              @click="close"
               class="modal-close"
               :aria-label="closeAriaLabel"
               type="button"
+              @click="close"
             >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M18 6L6 18M6 6l12 12"/>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M18 6L6 18M6 6l12 12" />
               </svg>
             </button>
           </div>
@@ -88,8 +95,8 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   'update:modelValue': [value: boolean]
-  'open': []
-  'close': []
+  open: []
+  close: []
   'after-open': []
   'after-close': []
 }>()
@@ -153,23 +160,26 @@ const { activate, deactivate } = useFocusTrap(modalRef, {
 })
 
 // Lock body scroll when open
-watch(() => props.modelValue, (isOpen) => {
-  if (isOpen) {
-    document.body.style.overflow = 'hidden'
-    emit('open')
-    nextTick(() => {
-      modalRef.value?.focus()
-      activate()
-      emit('after-open')
-    })
-  } else {
-    document.body.style.overflow = ''
-    deactivate()
-    nextTick(() => {
-      emit('after-close')
-    })
+watch(
+  () => props.modelValue,
+  isOpen => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+      emit('open')
+      nextTick(() => {
+        modalRef.value?.focus()
+        activate()
+        emit('after-open')
+      })
+    } else {
+      document.body.style.overflow = ''
+      deactivate()
+      nextTick(() => {
+        emit('after-close')
+      })
+    }
   }
-})
+)
 
 // Cleanup on unmount
 onUnmounted(() => {
@@ -288,12 +298,12 @@ onUnmounted(() => {
   .modal-wrapper {
     padding: var(--spacing-md);
   }
-  
+
   .modal:not(.modal-fullscreen) {
     max-width: calc(100vw - var(--spacing-xl));
     max-height: calc(100vh - var(--spacing-xl));
   }
-  
+
   .modal-header,
   .modal-content,
   .modal-footer {
@@ -383,7 +393,7 @@ onUnmounted(() => {
   .modal-slide-down-leave-active {
     transition: opacity var(--transition-fast) var(--easing-standard);
   }
-  
+
   .modal-scale-enter-from,
   .modal-scale-leave-to,
   .modal-slide-up-enter-from,

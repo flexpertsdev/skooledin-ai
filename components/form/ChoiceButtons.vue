@@ -1,16 +1,11 @@
 <template>
-  <div
-    :class="classes"
-    :style="cssVars"
-    role="group"
-    :aria-label="label"
-  >
+  <div :class="classes" :style="cssVars" role="group" :aria-label="label">
     <!-- Label -->
     <div v-if="label" class="choice-label">
       {{ label }}
       <span v-if="required" class="choice-required">*</span>
     </div>
-    
+
     <!-- Buttons container -->
     <div class="choice-buttons-container">
       <button
@@ -27,7 +22,7 @@
         <span v-if="getOptionIcon(option)" class="button-icon">
           <component :is="getOptionIcon(option)" />
         </span>
-        
+
         <!-- Content -->
         <span class="button-content">
           <span class="button-label">{{ getOptionLabel(option) }}</span>
@@ -35,21 +30,21 @@
             {{ getOptionDescription(option) }}
           </span>
         </span>
-        
+
         <!-- Check mark for selected state -->
         <transition name="scale">
-          <svg 
-            v-if="showCheck && isSelected(option)" 
+          <svg
+            v-if="showCheck && isSelected(option)"
             class="button-check"
-            viewBox="0 0 24 24" 
+            viewBox="0 0 24 24"
             fill="currentColor"
           >
-            <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+            <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
           </svg>
         </transition>
       </button>
     </div>
-    
+
     <!-- Helper text -->
     <div v-if="helperText || error" class="choice-helper">
       <span :class="{ 'is-error': error }">
@@ -125,7 +120,7 @@ const props = withDefaults(defineProps<ChoiceButtonsProps>(), {
 // Emits
 const emit = defineEmits<{
   'update:modelValue': [value: any]
-  'change': [value: any]
+  change: [value: any]
 }>()
 
 // State
@@ -146,8 +141,10 @@ const normalizedOptions = computed(() => {
 
 const selectedValues = computed(() => {
   if (!modelValue.value) return []
-  return props.multiple 
-    ? (Array.isArray(modelValue.value) ? modelValue.value : [modelValue.value])
+  return props.multiple
+    ? Array.isArray(modelValue.value)
+      ? modelValue.value
+      : [modelValue.value]
     : [modelValue.value]
 })
 
@@ -209,12 +206,12 @@ const getButtonClasses = (option: any) => {
 
 const handleSelect = (option: any) => {
   if (isDisabled(option) || props.disabled) return
-  
+
   const value = getOptionValue(option)
-  
+
   if (props.multiple) {
     let newValue = [...selectedValues.value]
-    
+
     if (isSelected(option)) {
       // Deselect
       if (!props.min || newValue.length > props.min) {
@@ -226,7 +223,7 @@ const handleSelect = (option: any) => {
         newValue.push(value)
       }
     }
-    
+
     modelValue.value = newValue
     emit('change', newValue)
   } else {
@@ -237,7 +234,7 @@ const handleSelect = (option: any) => {
 }
 
 // Validation
-watch(modelValue, (value) => {
+watch(modelValue, value => {
   if (props.multiple && Array.isArray(value)) {
     if (props.min && value.length < props.min) {
       console.warn(`Minimum ${props.min} selections required`)
@@ -259,7 +256,7 @@ watch(modelValue, (value) => {
   --button-selected-bg: var(--choice-color, var(--color-primary));
   --button-selected-text: var(--color-primary-contrast);
   --button-selected-border: var(--choice-color, var(--color-primary));
-  
+
   width: 100%;
 }
 

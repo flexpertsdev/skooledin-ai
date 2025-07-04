@@ -1,9 +1,5 @@
 <template>
-  <div 
-    class="layout-column"
-    :class="columnClasses"
-    :style="columnStyles"
-  >
+  <div class="layout-column" :class="columnClasses" :style="columnStyles">
     <slot />
   </div>
 </template>
@@ -45,10 +41,14 @@ const columnClasses = computed(() => ({
 const columnStyles = computed(() => ({
   gap: gapValues[props.gap],
   alignItems: props.align,
-  justifyContent: props.justify === 'between' ? 'space-between' : 
-                 props.justify === 'around' ? 'space-around' :
-                 props.justify === 'evenly' ? 'space-evenly' :
-                 `flex-${props.justify}`,
+  justifyContent:
+    props.justify === 'between'
+      ? 'space-between'
+      : props.justify === 'around'
+        ? 'space-around'
+        : props.justify === 'evenly'
+          ? 'space-evenly'
+          : `flex-${props.justify}`,
   flex: props.flex !== undefined ? props.flex : undefined
 }))
 </script>

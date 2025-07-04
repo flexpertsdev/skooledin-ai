@@ -14,7 +14,7 @@
             <h2>NavBar Component</h2>
             <p>The NavBar is shown at the top of this page with scroll-aware behavior.</p>
             <div class="demo-controls">
-              <button @click="toggleNavTransparency" class="demo-button">
+              <button class="demo-button" @click="toggleNavTransparency">
                 Toggle Transparency: {{ navTransparent ? 'ON' : 'OFF' }}
               </button>
             </div>
@@ -24,13 +24,11 @@
           <section>
             <h2>SideBar Component</h2>
             <LayoutRow :gap="'md'" :wrap="true">
-              <button @click="leftSidebarOpen = true" class="demo-button">
-                Open Left Sidebar
-              </button>
-              <button @click="rightSidebarOpen = true" class="demo-button">
+              <button class="demo-button" @click="leftSidebarOpen = true">Open Left Sidebar</button>
+              <button class="demo-button" @click="rightSidebarOpen = true">
                 Open Right Sidebar
               </button>
-              <button @click="persistentSidebarOpen = true" class="demo-button">
+              <button class="demo-button" @click="persistentSidebarOpen = true">
                 Open Persistent Sidebar
               </button>
             </LayoutRow>
@@ -39,9 +37,15 @@
           <!-- BottomNav Demo -->
           <section>
             <h2>BottomNav Component</h2>
-            <p>{{ isMobile ? 'Check the bottom of your screen' : 'Resize to mobile view to see the bottom navigation' }}</p>
+            <p>
+              {{
+                isMobile
+                  ? 'Check the bottom of your screen'
+                  : 'Resize to mobile view to see the bottom navigation'
+              }}
+            </p>
             <div class="demo-controls">
-              <button @click="toggleBottomNavLabels" class="demo-button">
+              <button class="demo-button" @click="toggleBottomNavLabels">
                 Toggle Labels: {{ showBottomNavLabels ? 'ON' : 'OFF' }}
               </button>
             </div>
@@ -60,12 +64,7 @@
     </LayoutSafeArea>
 
     <!-- Sidebars -->
-    <SideBar
-      v-model="leftSidebarOpen"
-      position="left"
-      title="Left Sidebar"
-      size="md"
-    >
+    <SideBar v-model="leftSidebarOpen" position="left" title="Left Sidebar" size="md">
       <LayoutStack :spacing="'md'">
         <p>This is a left-aligned sidebar with default settings.</p>
         <nav>
@@ -79,12 +78,7 @@
       </LayoutStack>
     </SideBar>
 
-    <SideBar
-      v-model="rightSidebarOpen"
-      position="right"
-      title="Right Sidebar"
-      size="lg"
-    >
+    <SideBar v-model="rightSidebarOpen" position="right" title="Right Sidebar" size="lg">
       <LayoutStack :spacing="'md'">
         <p>This is a right-aligned sidebar with a larger size.</p>
         <div class="sidebar-content-demo">
@@ -115,8 +109,8 @@
     <!-- Mobile Bottom Navigation -->
     <BottomNav
       v-if="isMobile"
-      :nav-items="bottomNavItems"
       v-model:active-id="activeNavId"
+      :nav-items="bottomNavItems"
       :show-labels="showBottomNavLabels"
       :hide-on-scroll="true"
     />
@@ -180,9 +174,7 @@ const toggleBottomNavLabels = () => {
 // Page meta
 useHead({
   title: 'Navigation Components - Mobile-First Nuxt',
-  meta: [
-    { name: 'description', content: 'Demo of mobile-first navigation components' }
-  ]
+  meta: [{ name: 'description', content: 'Demo of mobile-first navigation components' }]
 })
 </script>
 

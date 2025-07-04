@@ -1,6 +1,6 @@
 <template>
-  <figure 
-    class="responsive-image" 
+  <figure
+    class="responsive-image"
     :class="[
       `responsive-image--${fit}`,
       loading && 'responsive-image--loading',
@@ -8,17 +8,10 @@
       error && 'responsive-image--error'
     ]"
   >
-    <div 
-      class="responsive-image__wrapper"
-      :style="wrapperStyle"
-    >
+    <div class="responsive-image__wrapper" :style="wrapperStyle">
       <!-- Placeholder -->
-      <div 
-        v-if="showPlaceholder"
-        class="responsive-image__placeholder"
-        :style="placeholderStyle"
-      />
-      
+      <div v-if="showPlaceholder" class="responsive-image__placeholder" :style="placeholderStyle" />
+
       <!-- Main image -->
       <img
         v-if="!error"
@@ -34,23 +27,30 @@
         @load="handleLoad"
         @error="handleError"
       />
-      
+
       <!-- Error state -->
       <div v-else class="responsive-image__error">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg
+          width="48"
+          height="48"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
           <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
           <circle cx="8.5" cy="8.5" r="1.5" />
           <polyline points="21 15 16 10 5 21" />
         </svg>
         <p v-if="errorText">{{ errorText }}</p>
       </div>
-      
+
       <!-- Loading spinner -->
       <div v-if="showSpinner && loading" class="responsive-image__spinner">
         <LoadingSpinner size="sm" variant="current" />
       </div>
     </div>
-    
+
     <!-- Caption -->
     <figcaption v-if="caption" class="responsive-image__caption">
       {{ caption }}
@@ -60,7 +60,12 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { generateSrcSet, generateSizes, generateBlurPlaceholder, calculateAspectRatio } from '~/utils/imageOptimization'
+import {
+  generateSrcSet,
+  generateSizes,
+  generateBlurPlaceholder,
+  calculateAspectRatio
+} from '~/utils/imageOptimization'
 import LoadingSpinner from './LoadingSpinner.vue'
 
 interface ResponsiveImageProps {
@@ -114,12 +119,12 @@ const aspectRatioPercent = computed(() => {
 
 const wrapperStyle = computed(() => {
   const style: any = {}
-  
+
   // Set aspect ratio padding
   if (aspectRatioPercent.value) {
     style.paddingBottom = `${aspectRatioPercent.value}%`
   }
-  
+
   return style
 })
 
@@ -131,7 +136,7 @@ const placeholderStyle = computed(() => {
       transform: 'scale(1.1)'
     }
   }
-  
+
   return {
     backgroundColor: props.placeholderColor
   }
@@ -142,10 +147,7 @@ const showPlaceholder = computed(() => {
 })
 
 const imageClasses = computed(() => {
-  return [
-    'responsive-image__img',
-    props.fadeIn && 'responsive-image__img--fade'
-  ]
+  return ['responsive-image__img', props.fadeIn && 'responsive-image__img--fade']
 })
 
 const srcset = computed(() => {
@@ -181,7 +183,7 @@ const loadProgressively = async () => {
     // Load a low-quality version first
     const lowQualitySrc = `${props.src}?w=50&q=10`
     currentSrc.value = lowQualitySrc
-    
+
     // Then load the full quality
     await new Promise(resolve => setTimeout(resolve, 100))
     currentSrc.value = props.src
@@ -193,7 +195,7 @@ const loadProgressively = async () => {
 // Lifecycle
 onMounted(() => {
   loadProgressively()
-  
+
   // Preload priority images
   if (props.priority && props.loading === 'eager') {
     const link = document.createElement('link')
@@ -224,11 +226,11 @@ onUnmounted(() => {
 }
 
 /* Aspect ratio container */
-.responsive-image__wrapper[style*="padding-bottom"] {
+.responsive-image__wrapper[style*='padding-bottom'] {
   height: 0;
 }
 
-.responsive-image__wrapper[style*="padding-bottom"] > * {
+.responsive-image__wrapper[style*='padding-bottom'] > * {
   position: absolute;
   top: 0;
   left: 0;

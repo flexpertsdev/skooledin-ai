@@ -36,11 +36,9 @@ const toastState = reactive<{
 export const useToast = () => {
   const show = (options: ToastOptions | string): string => {
     const id = Math.random().toString(36).substr(2, 9)
-    
+
     // Allow simple string usage
-    const toastOptions = typeof options === 'string' 
-      ? { description: options }
-      : options
+    const toastOptions = typeof options === 'string' ? { description: options } : options
 
     const toast: Toast = {
       id,

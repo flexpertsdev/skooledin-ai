@@ -69,10 +69,10 @@ export const useTheme = () => {
   })
   const mode = colorMode
   const system = usePreferredColorScheme()
-  
+
   // Preferred color scheme
   const preferredColorScheme = usePreferredColorScheme()
-  
+
   // Theme configuration in localStorage
   const savedConfig = useLocalStorage<ThemeConfig>('theme-config', {
     mode: 'auto',
@@ -82,13 +82,13 @@ export const useTheme = () => {
     reducedMotion: false,
     highContrast: false
   })
-  
+
   // Custom colors in localStorage
   const customColors = useLocalStorage<CustomColors>('theme-colors', {})
-  
+
   // Active theme preset
   const activePreset = useLocalStorage<keyof typeof themePresets>('theme-preset', 'default')
-  
+
   // Computed values
   const isDark = computed(() => {
     if (savedConfig.value.mode === 'auto') {
@@ -96,7 +96,7 @@ export const useTheme = () => {
     }
     return savedConfig.value.mode === 'dark'
   })
-  
+
   const currentColors = computed(() => {
     const preset = themePresets[activePreset.value] || themePresets.default
     return {
@@ -104,7 +104,7 @@ export const useTheme = () => {
       ...customColors.value
     }
   })
-  
+
   // Methods
   const setMode = (newMode: 'light' | 'dark' | 'auto') => {
     savedConfig.value.mode = newMode
@@ -112,49 +112,49 @@ export const useTheme = () => {
       mode.value = newMode
     }
   }
-  
+
   const toggleMode = () => {
     const modes: Array<'light' | 'dark' | 'auto'> = ['light', 'dark', 'auto']
     const currentIndex = modes.indexOf(savedConfig.value.mode)
     const nextIndex = (currentIndex + 1) % modes.length
     setMode(modes[nextIndex])
   }
-  
+
   const setPreset = (preset: keyof typeof themePresets) => {
     activePreset.value = preset
     applyTheme()
   }
-  
+
   const setCustomColors = (colors: CustomColors) => {
     customColors.value = { ...customColors.value, ...colors }
     applyTheme()
   }
-  
+
   const setRadius = (radius: ThemeConfig['radius']) => {
     savedConfig.value.radius = radius
     applyTheme()
   }
-  
+
   const setDensity = (density: ThemeConfig['density']) => {
     savedConfig.value.density = density
     applyTheme()
   }
-  
+
   const setFontScale = (scale: number) => {
     savedConfig.value.fontScale = Math.max(0.8, Math.min(1.5, scale))
     applyTheme()
   }
-  
+
   const setReducedMotion = (reduced: boolean) => {
     savedConfig.value.reducedMotion = reduced
     applyTheme()
   }
-  
+
   const setHighContrast = (contrast: boolean) => {
     savedConfig.value.highContrast = contrast
     applyTheme()
   }
-  
+
   const resetTheme = () => {
     savedConfig.value = {
       mode: 'auto',
@@ -168,14 +168,14 @@ export const useTheme = () => {
     activePreset.value = 'default'
     applyTheme()
   }
-  
+
   // Apply theme to DOM
   const applyTheme = () => {
     if (typeof window === 'undefined') return
-    
+
     const root = document.documentElement
     const colors = currentColors.value
-    
+
     // Apply primary colors
     if (colors.primary) {
       root.style.setProperty('--primary-color', colors.primary)
@@ -183,7 +183,7 @@ export const useTheme = () => {
     if (colors.primaryDark && isDark.value) {
       root.style.setProperty('--primary-color', colors.primaryDark)
     }
-    
+
     // Apply secondary colors
     if (colors.secondary) {
       root.style.setProperty('--secondary-color', colors.secondary)
@@ -191,7 +191,7 @@ export const useTheme = () => {
     if (colors.secondaryDark && isDark.value) {
       root.style.setProperty('--secondary-color', colors.secondaryDark)
     }
-    
+
     // Apply accent colors
     if (colors.accent) {
       root.style.setProperty('--accent-color', colors.accent)
@@ -199,7 +199,7 @@ export const useTheme = () => {
     if (colors.accentDark && isDark.value) {
       root.style.setProperty('--accent-color', colors.accentDark)
     }
-    
+
     // Apply radius
     const radiusMap = {
       none: '0',
@@ -211,7 +211,7 @@ export const useTheme = () => {
     }
     const radiusValue = radiusMap[savedConfig.value.radius || 'md']
     root.style.setProperty('--radius-base', radiusValue)
-    
+
     // Apply density
     const densityMap = {
       compact: 0.75,
@@ -220,17 +220,17 @@ export const useTheme = () => {
     }
     const densityScale = densityMap[savedConfig.value.density || 'comfortable']
     root.style.setProperty('--spacing-scale', String(densityScale))
-    
+
     // Apply font scale
     root.style.setProperty('--font-scale', String(savedConfig.value.fontScale || 1))
-    
+
     // Apply reduced motion
     if (savedConfig.value.reducedMotion) {
       root.classList.add('reduced-motion')
     } else {
       root.classList.remove('reduced-motion')
     }
-    
+
     // Apply high contrast
     if (savedConfig.value.highContrast) {
       root.classList.add('high-contrast')
@@ -238,17 +238,21 @@ export const useTheme = () => {
       root.classList.remove('high-contrast')
     }
   }
-  
+
   // Watch for changes
-  watch([isDark, savedConfig, customColors, activePreset], () => {
-    applyTheme()
-  }, { deep: true })
-  
+  watch(
+    [isDark, savedConfig, customColors, activePreset],
+    () => {
+      applyTheme()
+    },
+    { deep: true }
+  )
+
   // Apply theme on mount
   onMounted(() => {
     applyTheme()
   })
-  
+
   return {
     // State
     isDark,
@@ -258,7 +262,7 @@ export const useTheme = () => {
     config: computed(() => savedConfig.value),
     activePreset: computed(() => activePreset.value),
     presets: themePresets,
-    
+
     // Methods
     setMode,
     toggleMode,

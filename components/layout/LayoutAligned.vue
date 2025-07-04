@@ -1,14 +1,20 @@
 <template>
-  <div 
-    class="layout-aligned"
-    :style="alignedStyles"
-  >
+  <div class="layout-aligned" :style="alignedStyles">
     <slot />
   </div>
 </template>
 
 <script setup lang="ts">
-type Alignment = 'topLeft' | 'topCenter' | 'topRight' | 'centerLeft' | 'center' | 'centerRight' | 'bottomLeft' | 'bottomCenter' | 'bottomRight'
+type Alignment =
+  | 'topLeft'
+  | 'topCenter'
+  | 'topRight'
+  | 'centerLeft'
+  | 'center'
+  | 'centerRight'
+  | 'bottomLeft'
+  | 'bottomCenter'
+  | 'bottomRight'
 
 interface Props {
   alignment?: Alignment

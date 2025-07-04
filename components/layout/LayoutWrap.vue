@@ -1,8 +1,5 @@
 <template>
-  <div 
-    class="layout-wrap"
-    :style="wrapStyles"
-  >
+  <div class="layout-wrap" :style="wrapStyles">
     <slot />
   </div>
 </template>
@@ -37,10 +34,14 @@ const gapValues = {
 const wrapStyles = computed(() => ({
   gap: gapValues[props.gap],
   alignItems: props.align,
-  justifyContent: props.justify === 'between' ? 'space-between' : 
-                 props.justify === 'around' ? 'space-around' :
-                 props.justify === 'evenly' ? 'space-evenly' :
-                 `flex-${props.justify}`
+  justifyContent:
+    props.justify === 'between'
+      ? 'space-between'
+      : props.justify === 'around'
+        ? 'space-around'
+        : props.justify === 'evenly'
+          ? 'space-evenly'
+          : `flex-${props.justify}`
 }))
 </script>
 

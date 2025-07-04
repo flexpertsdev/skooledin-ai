@@ -1,9 +1,5 @@
 <template>
-  <div 
-    class="layout-container"
-    :class="containerClasses"
-    :style="containerStyles"
-  >
+  <div class="layout-container" :class="containerClasses" :style="containerStyles">
     <slot />
   </div>
 </template>
@@ -46,8 +42,16 @@ const containerClasses = computed(() => ({
 
 const containerStyles = computed(() => ({
   maxWidth: props.fluid ? '100%' : maxWidthValues[props.maxWidth],
-  paddingLeft: props.padding ? (typeof props.padding === 'string' ? paddingValues[props.padding] : paddingValues.true) : '0',
-  paddingRight: props.padding ? (typeof props.padding === 'string' ? paddingValues[props.padding] : paddingValues.true) : '0'
+  paddingLeft: props.padding
+    ? typeof props.padding === 'string'
+      ? paddingValues[props.padding]
+      : paddingValues.true
+    : '0',
+  paddingRight: props.padding
+    ? typeof props.padding === 'string'
+      ? paddingValues[props.padding]
+      : paddingValues.true
+    : '0'
 }))
 </script>
 

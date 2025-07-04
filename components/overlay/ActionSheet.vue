@@ -1,11 +1,7 @@
 <template>
   <Teleport to="body">
     <Transition name="action-sheet">
-      <div
-        v-if="modelValue"
-        class="action-sheet-wrapper"
-        @click="handleBackdropClick"
-      >
+      <div v-if="modelValue" class="action-sheet-wrapper" @click="handleBackdropClick">
         <!-- Backdrop -->
         <div class="action-sheet-backdrop" />
 
@@ -31,7 +27,6 @@
             <button
               v-for="(action, index) in actions"
               :key="action.id || index"
-              @click="handleAction(action)"
               class="action-sheet-item"
               :class="{
                 'action-sheet-item-destructive': action.destructive,
@@ -39,6 +34,7 @@
               }"
               :disabled="action.disabled"
               type="button"
+              @click="handleAction(action)"
             >
               <span v-if="action.icon" class="action-sheet-icon">
                 <component :is="action.icon" v-if="typeof action.icon !== 'string'" />
@@ -51,9 +47,9 @@
           <!-- Cancel -->
           <div v-if="showCancel" class="action-sheet-cancel">
             <button
-              @click="cancel"
               class="action-sheet-item action-sheet-item-cancel"
               type="button"
+              @click="cancel"
             >
               {{ cancelLabel }}
             </button>
@@ -96,8 +92,8 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   'update:modelValue': [value: boolean]
-  'action': [action: ActionItem]
-  'cancel': []
+  action: [action: ActionItem]
+  cancel: []
 }>()
 
 const sheetRef = ref<HTMLElement>()
@@ -109,7 +105,7 @@ const handleAction = async (action: ActionItem) => {
   if (action.disabled) return
 
   emit('action', action)
-  
+
   // Execute action if provided
   if (action.action) {
     try {
@@ -118,7 +114,7 @@ const handleAction = async (action: ActionItem) => {
       console.error('Action sheet action error:', error)
     }
   }
-  
+
   // Close sheet after action
   close()
 }
@@ -149,32 +145,35 @@ const { activate, deactivate } = useFocusTrap(sheetRef, {
 })
 
 // Lock body scroll when open
-watch(() => props.modelValue, (isOpen) => {
-  if (isOpen) {
-    document.body.style.overflow = 'hidden'
-    nextTick(() => {
-      sheetRef.value?.focus()
-      activate()
-    })
-  } else {
-    document.body.style.overflow = ''
-    deactivate()
+watch(
+  () => props.modelValue,
+  isOpen => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+      nextTick(() => {
+        sheetRef.value?.focus()
+        activate()
+      })
+    } else {
+      document.body.style.overflow = ''
+      deactivate()
+    }
   }
-})
+)
 
 // Keyboard handling
 onMounted(() => {
   const handleKeydown = (e: KeyboardEvent) => {
     if (!props.modelValue) return
-    
+
     if (e.key === 'Escape' && !props.persistent) {
       e.preventDefault()
       cancel()
     }
   }
-  
+
   window.addEventListener('keydown', handleKeydown)
-  
+
   onUnmounted(() => {
     window.removeEventListener('keydown', handleKeydown)
   })
@@ -356,7 +355,7 @@ onUnmounted(() => {
     justify-content: center;
     padding: var(--spacing-lg);
   }
-  
+
   .action-sheet {
     max-width: 400px;
   }
@@ -381,12 +380,12 @@ onUnmounted(() => {
   .action-sheet-leave-active .action-sheet {
     transition: opacity var(--transition-fast) var(--easing-standard);
   }
-  
+
   .action-sheet-enter-from .action-sheet,
   .action-sheet-leave-to .action-sheet {
     transform: none;
   }
-  
+
   .action-sheet-item:active {
     transform: none;
   }

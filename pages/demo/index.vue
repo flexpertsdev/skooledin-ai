@@ -14,7 +14,7 @@
             <p>NavBar, SideBar, BottomNav, TabBar</p>
           </div>
         </NuxtLink>
-        
+
         <NuxtLink to="/demo/overlays" class="demo-link">
           <div class="demo-card">
             <div class="demo-icon">📋</div>
@@ -22,7 +22,7 @@
             <p>Modal, BottomSheet, Drawer, Toast</p>
           </div>
         </NuxtLink>
-        
+
         <NuxtLink to="/demo/layouts" class="demo-link">
           <div class="demo-card">
             <div class="demo-icon">📐</div>
@@ -30,7 +30,7 @@
             <p>Container, Row, Column, Grid, Stack</p>
           </div>
         </NuxtLink>
-        
+
         <NuxtLink to="/demo/content" class="demo-link">
           <div class="demo-card">
             <div class="demo-icon">🎴</div>
@@ -38,7 +38,7 @@
             <p>Cards, Grids, and Content Layouts</p>
           </div>
         </NuxtLink>
-        
+
         <NuxtLink to="/demo/carousel" class="demo-link">
           <div class="demo-card">
             <div class="demo-icon">🎠</div>
@@ -46,7 +46,7 @@
             <p>Carousel, PageView, MasonryGrid</p>
           </div>
         </NuxtLink>
-        
+
         <NuxtLink to="/demo/forms" class="demo-link">
           <div class="demo-card">
             <div class="demo-icon">📝</div>
@@ -54,7 +54,7 @@
             <p>ChatInput, BottomSheetSelect, ChoiceButtons</p>
           </div>
         </NuxtLink>
-        
+
         <NuxtLink to="/demo/lazy-loading" class="demo-link">
           <div class="demo-card">
             <div class="demo-icon">⚡</div>
@@ -62,7 +62,7 @@
             <p>Dynamic imports, code splitting, performance</p>
           </div>
         </NuxtLink>
-        
+
         <NuxtLink to="/demo/images" class="demo-link">
           <div class="demo-card">
             <div class="demo-icon">🖼️</div>
@@ -211,7 +211,7 @@ useHead({
   .demo-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .demo-header h1 {
     font-size: var(--font-size-3xl);
   }

@@ -1,19 +1,14 @@
 <template>
-  <nav 
-    class="bottom-nav"
-    :class="bottomNavClasses"
-    role="navigation"
-    :aria-label="ariaLabel"
-  >
+  <nav class="bottom-nav" :class="bottomNavClasses" role="navigation" :aria-label="ariaLabel">
     <div class="bottom-nav-content">
       <button
         v-for="item in navItems"
         :key="item.id"
-        @click="handleItemClick(item)"
         class="bottom-nav-item"
         :class="{ active: isActive(item) }"
         :aria-label="item.ariaLabel || item.label"
         :aria-current="isActive(item) ? 'page' : undefined"
+        @click="handleItemClick(item)"
       >
         <span v-if="item.icon" class="nav-icon">
           <component :is="item.icon" v-if="typeof item.icon !== 'string'" />
@@ -67,7 +62,7 @@ const lastScrollY = ref(0)
 const isScrollingDown = ref(false)
 
 // Track scroll direction
-watch(scrollY, (newY) => {
+watch(scrollY, newY => {
   if (props.hideOnScroll) {
     isScrollingDown.value = newY > lastScrollY.value && newY > 50
     lastScrollY.value = newY
@@ -94,7 +89,7 @@ const isActive = (item: NavItem) => {
 const handleItemClick = (item: NavItem) => {
   emit('item-click', item)
   emit('update:activeId', item.id)
-  
+
   if (item.action) {
     item.action()
   } else if (item.to) {
@@ -293,15 +288,15 @@ const handleItemClickWithHaptic = (item: NavItem) => {
     border: 1px solid var(--border-default);
     border-bottom: none;
   }
-  
+
   .bottom-nav-hidden {
     transform: translateX(-50%) translateY(100%);
   }
-  
+
   .bottom-nav-content {
     height: 64px;
   }
-  
+
   .nav-label {
     font-size: var(--font-size-sm);
     max-width: 80px;
@@ -319,11 +314,11 @@ const handleItemClickWithHaptic = (item: NavItem) => {
   .bottom-nav-item {
     transition: none;
   }
-  
+
   .bottom-nav-item::after {
     animation: none;
   }
-  
+
   .bottom-nav-item:active {
     transform: none;
   }

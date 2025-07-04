@@ -1,7 +1,7 @@
 <template>
   <div ref="triggerRef" class="popover-trigger">
-    <slot name="trigger" :toggle="toggle" :isOpen="isOpen" />
-    
+    <slot name="trigger" :toggle="toggle" :is-open="isOpen" />
+
     <Teleport to="body">
       <Transition name="popover">
         <div
@@ -20,7 +20,7 @@
             :class="`popover-arrow-${arrowPlacement}`"
             :style="arrowStyles"
           />
-          
+
           <!-- Content -->
           <div class="popover-content">
             <slot :close="close" />
@@ -32,12 +32,12 @@
 </template>
 
 <script setup lang="ts">
-import { 
-  useFloating, 
-  autoUpdate, 
-  offset, 
-  flip, 
-  shift, 
+import {
+  useFloating,
+  autoUpdate,
+  offset,
+  flip,
+  shift,
   arrow,
   type Placement,
   type Strategy,
@@ -49,7 +49,7 @@ interface Props {
   modelValue?: boolean
   placement?: Placement
   strategy?: Strategy
-  offset?: number
+  offsetValue?: number
   showArrow?: boolean
   triggers?: Array<'click' | 'hover' | 'focus'>
   closeOnClickOutside?: boolean
@@ -61,7 +61,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   placement: 'bottom',
   strategy: 'absolute',
-  offset: 8,
+  offsetValue: 8,
   showArrow: true,
   triggers: () => ['click'],
   closeOnClickOutside: true,
@@ -72,8 +72,8 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   'update:modelValue': [value: boolean]
-  'open': []
-  'close': []
+  open: []
+  close: []
 }>()
 
 // Refs
@@ -88,7 +88,7 @@ const hoverTimeout = ref<number>()
 // Computed
 const isOpen = computed({
   get: () => props.modelValue ?? internalOpen.value,
-  set: (value) => {
+  set: value => {
     internalOpen.value = value
     emit('update:modelValue', value)
   }
@@ -110,17 +110,17 @@ const arrowPlacement = computed(() => {
   return oppositeSide[side as keyof typeof oppositeSide]
 })
 
-const openDelay = computed(() => 
-  typeof props.delay === 'number' ? props.delay : props.delay.open ?? 0
+const openDelay = computed(() =>
+  typeof props.delay === 'number' ? props.delay : (props.delay.open ?? 0)
 )
 
-const closeDelay = computed(() => 
-  typeof props.delay === 'number' ? props.delay : props.delay.close ?? 0
+const closeDelay = computed(() =>
+  typeof props.delay === 'number' ? props.delay : (props.delay.close ?? 0)
 )
 
 // Floating UI setup
 const middleware = computed<Middleware[]>(() => [
-  offset(props.offset),
+  offset(props.offsetValue),
   flip({
     fallbackPlacements: ['top', 'bottom', 'left', 'right']
   }),
@@ -130,16 +130,12 @@ const middleware = computed<Middleware[]>(() => [
   ...(props.showArrow && arrowRef.value ? [arrow({ element: arrowRef.value })] : [])
 ])
 
-const { floatingStyles, middlewareData } = useFloating(
-  triggerRef,
-  popoverRef,
-  {
-    placement: props.placement,
-    strategy: props.strategy,
-    middleware,
-    whileElementsMounted: autoUpdate
-  }
-)
+const { floatingStyles, middlewareData } = useFloating(triggerRef, popoverRef, {
+  placement: props.placement,
+  strategy: props.strategy,
+  middleware,
+  whileElementsMounted: autoUpdate
+})
 
 // Popover styles
 const popoverStyles = computed(() => ({
@@ -150,7 +146,7 @@ const popoverStyles = computed(() => ({
 // Arrow styles
 const arrowStyles = computed(() => {
   if (!middlewareData.value.arrow) return {}
-  
+
   const { x, y } = middlewareData.value.arrow
   const staticSide = {
     top: 'bottom',
@@ -158,7 +154,7 @@ const arrowStyles = computed(() => {
     bottom: 'top',
     left: 'right'
   }[props.placement.split('-')[0] as 'top' | 'right' | 'bottom' | 'left']
-  
+
   return {
     left: x != null ? `${x}px` : '',
     top: y != null ? `${y}px` : '',
@@ -196,7 +192,11 @@ const close = () => {
 }
 
 const toggle = () => {
-  isOpen.value ? close() : open()
+  if (isOpen.value) {
+    close()
+  } else {
+    open()
+  }
 }
 
 // Event handlers
@@ -233,21 +233,21 @@ const handleBlur = () => {
 // Setup event listeners
 onMounted(() => {
   if (!triggerRef.value) return
-  
+
   const trigger = triggerRef.value.children[0] as HTMLElement
   if (!trigger) return
-  
+
   if (props.triggers.includes('click')) {
     trigger.addEventListener('click', handleClick)
   }
-  
+
   if (props.triggers.includes('hover')) {
     trigger.addEventListener('mouseenter', handleMouseEnter)
     trigger.addEventListener('mouseleave', handleMouseLeave)
     popoverRef.value?.addEventListener('mouseenter', handleMouseEnter)
     popoverRef.value?.addEventListener('mouseleave', handleMouseLeave)
   }
-  
+
   if (props.triggers.includes('focus')) {
     trigger.addEventListener('focus', handleFocus)
     trigger.addEventListener('blur', handleBlur)
@@ -256,11 +256,15 @@ onMounted(() => {
 
 // Click outside
 if (props.closeOnClickOutside) {
-  onClickOutside(popoverRef, () => {
-    if (isOpen.value) {
-      close()
-    }
-  }, { ignore: [triggerRef] })
+  onClickOutside(
+    popoverRef,
+    () => {
+      if (isOpen.value) {
+        close()
+      }
+    },
+    { ignore: [triggerRef] }
+  )
 }
 
 // Escape key
@@ -375,7 +379,7 @@ defineExpose({
   .popover-leave-active {
     transition: opacity var(--transition-fast) var(--easing-standard);
   }
-  
+
   .popover-enter-from,
   .popover-leave-to {
     transform: none;

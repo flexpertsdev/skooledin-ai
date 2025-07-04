@@ -1,9 +1,5 @@
 <template>
-  <div 
-    class="layout-safe-area"
-    :class="safeAreaClasses"
-    :style="safeAreaStyles"
-  >
+  <div class="layout-safe-area" :class="safeAreaClasses" :style="safeAreaStyles">
     <slot />
   </div>
 </template>
@@ -37,7 +33,7 @@ const safeAreaClasses = computed(() => ({
 
 const safeAreaStyles = computed(() => {
   const minPad = props.minPadding
-  
+
   if (props.all) {
     return {
       paddingTop: `max(${minPad}, var(--safe-area-inset-top))`,
@@ -46,14 +42,14 @@ const safeAreaStyles = computed(() => {
       paddingLeft: `max(${minPad}, var(--safe-area-inset-left))`
     }
   }
-  
+
   const styles: Record<string, string> = {}
-  
+
   if (props.top) styles.paddingTop = `max(${minPad}, var(--safe-area-inset-top))`
   if (props.right) styles.paddingRight = `max(${minPad}, var(--safe-area-inset-right))`
   if (props.bottom) styles.paddingBottom = `max(${minPad}, var(--safe-area-inset-bottom))`
   if (props.left) styles.paddingLeft = `max(${minPad}, var(--safe-area-inset-left))`
-  
+
   return styles
 })
 </script>

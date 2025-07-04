@@ -1,8 +1,5 @@
 <template>
-  <div 
-    class="layout-expanded"
-    :style="expandedStyles"
-  >
+  <div class="layout-expanded" :style="expandedStyles">
     <slot />
   </div>
 </template>

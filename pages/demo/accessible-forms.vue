@@ -3,12 +3,12 @@
     <LayoutContainer>
       <h1>Accessible Form Navigation</h1>
       <p class="subtitle">Keyboard-friendly forms with screen reader support</p>
-      
+
       <!-- Basic Accessible Form -->
       <section class="demo-section">
         <h2>Basic Accessible Form</h2>
         <p>Navigate with Tab, Shift+Tab, or arrow keys. Press Enter to submit.</p>
-        
+
         <AccessibleForm
           ref="basicForm"
           aria-label="Basic contact form"
@@ -30,7 +30,7 @@
                 />
                 <span id="name-error" role="alert" class="field-error"></span>
               </div>
-              
+
               <div class="form-field">
                 <label for="email">Email *</label>
                 <input
@@ -43,7 +43,7 @@
                 />
                 <span id="email-error" role="alert" class="field-error"></span>
               </div>
-              
+
               <div class="form-field full-width">
                 <label for="message">Message</label>
                 <textarea
@@ -54,31 +54,27 @@
                   :class="{ 'is-current': currentField?.name === 'message' }"
                 ></textarea>
               </div>
-              
+
               <div class="form-field full-width">
                 <label>
-                  <input
-                    type="checkbox"
-                    name="subscribe"
-                    value="yes"
-                  />
+                  <input type="checkbox" name="subscribe" value="yes" />
                   Subscribe to newsletter
                 </label>
               </div>
             </div>
           </template>
         </AccessibleForm>
-        
-        <div class="field-info" v-if="currentFieldInfo">
+
+        <div v-if="currentFieldInfo" class="field-info">
           <p><strong>Current field:</strong> {{ currentFieldInfo }}</p>
         </div>
       </section>
-      
+
       <!-- Complex Form with Progressive Components -->
       <section class="demo-section">
         <h2>Complex Form with Focus Management</h2>
         <p>Combines our progressive form components with accessible navigation</p>
-        
+
         <AccessibleForm
           ref="complexForm"
           aria-label="User registration form"
@@ -93,7 +89,7 @@
           <div class="form-sections">
             <fieldset>
               <legend>Account Information</legend>
-              
+
               <div class="form-field">
                 <label for="username">Username *</label>
                 <input
@@ -109,7 +105,7 @@
                   Letters, numbers, and underscores only
                 </span>
               </div>
-              
+
               <div class="form-field">
                 <label for="password">Password *</label>
                 <input
@@ -120,11 +116,9 @@
                   minlength="8"
                   aria-describedby="password-hint"
                 />
-                <span id="password-hint" class="field-hint">
-                  Minimum 8 characters
-                </span>
+                <span id="password-hint" class="field-hint"> Minimum 8 characters </span>
               </div>
-              
+
               <BottomSheetSelect
                 v-model="selectedCountry"
                 :options="countries"
@@ -133,14 +127,12 @@
                 required
                 aria-describedby="country-hint"
               />
-              <span id="country-hint" class="field-hint">
-                Select your country of residence
-              </span>
+              <span id="country-hint" class="field-hint"> Select your country of residence </span>
             </fieldset>
-            
+
             <fieldset>
               <legend>Preferences</legend>
-              
+
               <ChoiceButtons
                 v-model="selectedTheme"
                 :options="themeOptions"
@@ -148,7 +140,7 @@
                 name="theme"
                 layout="horizontal"
               />
-              
+
               <ChoiceButtons
                 v-model="selectedNotifications"
                 :options="notificationOptions"
@@ -159,10 +151,10 @@
                 helper-text="Select which notifications you'd like to receive"
               />
             </fieldset>
-            
+
             <fieldset>
               <legend>Additional Information</legend>
-              
+
               <ChatInput
                 v-model="bio"
                 placeholder="Tell us about yourself..."
@@ -171,15 +163,10 @@
                 :max-length="200"
                 :show-counter="true"
               />
-              
+
               <div class="form-field">
                 <label>
-                  <input
-                    type="checkbox"
-                    name="terms"
-                    value="accepted"
-                    required
-                  />
+                  <input type="checkbox" name="terms" value="accepted" required />
                   I accept the <a href="#" @click.prevent>terms and conditions</a> *
                 </label>
               </div>
@@ -187,7 +174,7 @@
           </div>
         </AccessibleForm>
       </section>
-      
+
       <!-- Keyboard Shortcuts Guide -->
       <section class="demo-section">
         <h2>Keyboard Navigation Guide</h2>
@@ -218,7 +205,7 @@
           </div>
         </div>
       </section>
-      
+
       <!-- Screen Reader Testing -->
       <section class="demo-section">
         <h2>Screen Reader Features</h2>
@@ -280,9 +267,9 @@ const notificationOptions = [
 const handleBasicSubmit = (formData: FormData) => {
   const data = Object.fromEntries(formData.entries())
   console.log('Basic form submitted:', data)
-  
+
   toast.success('Form submitted successfully!')
-  
+
   // Simulate async submission
   setTimeout(() => {
     basicForm.value?.reset()
@@ -292,7 +279,7 @@ const handleBasicSubmit = (formData: FormData) => {
 const handleComplexSubmit = (formData: FormData) => {
   const data = Object.fromEntries(formData.entries())
   console.log('Complex form submitted:', data)
-  
+
   toast.success({
     title: 'Registration Complete!',
     description: 'Welcome to our platform'
@@ -306,10 +293,10 @@ const handleFieldChange = (name: string, value: any) => {
 const handleNavigationChange = (fieldIndex: number) => {
   const form = basicForm.value
   if (!form) return
-  
+
   const fields = form.$el.querySelectorAll('input, textarea, select')
   const field = fields[fieldIndex]
-  
+
   if (field) {
     const label = field.labels?.[0]?.textContent || field.getAttribute('aria-label') || field.name
     const type = field.type || field.tagName.toLowerCase()
@@ -396,9 +383,9 @@ label {
   color: var(--color-text);
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"],
+input[type='text'],
+input[type='email'],
+input[type='password'],
 textarea,
 select {
   padding: var(--spacing-sm) var(--spacing-md);
@@ -409,9 +396,9 @@ select {
   transition: all 0.2s;
 }
 
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus,
+input[type='text']:focus,
+input[type='email']:focus,
+input[type='password']:focus,
 textarea:focus,
 select:focus {
   outline: none;
@@ -425,8 +412,8 @@ textarea.is-current {
   background: var(--color-primary-alpha);
 }
 
-input[type="checkbox"],
-input[type="radio"] {
+input[type='checkbox'],
+input[type='radio'] {
   margin-right: var(--spacing-xs);
 }
 
@@ -497,7 +484,7 @@ kbd {
   .form-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .keyboard-guide {
     grid-template-columns: 1fr;
   }

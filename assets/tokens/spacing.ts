@@ -38,16 +38,16 @@ export const spacing = {
 
 // 8pt grid system aliases
 export const spacingAliases = {
-  xs: spacing[2],     // 8px
-  sm: spacing[3],     // 12px
-  md: spacing[4],     // 16px
-  lg: spacing[6],     // 24px
-  xl: spacing[8],     // 32px
+  xs: spacing[2], // 8px
+  sm: spacing[3], // 12px
+  md: spacing[4], // 16px
+  lg: spacing[6], // 24px
+  xl: spacing[8], // 32px
   '2xl': spacing[12], // 48px
   '3xl': spacing[16], // 64px
   '4xl': spacing[20], // 80px
   '5xl': spacing[32], // 128px
-  '6xl': spacing[40]  // 160px
+  '6xl': spacing[40] // 160px
 } as const
 
 export type SpacingToken = typeof spacing

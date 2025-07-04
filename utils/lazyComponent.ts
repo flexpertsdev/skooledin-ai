@@ -47,26 +47,26 @@ export const lazyLoadOnVisible = (
   if (typeof window === 'undefined') {
     return defineAsyncComponent(loader)
   }
-  
+
   let component: any = null
-  
+
   return defineAsyncComponent({
     loader: () => {
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         if (component) {
           resolve(component)
           return
         }
-        
+
         // Create placeholder element
         const placeholder = document.createElement('div')
         placeholder.style.height = '1px'
-        
+
         const observer = new IntersectionObserver(
-          (entries) => {
+          entries => {
             if (entries[0].isIntersecting) {
               observer.disconnect()
-              loader().then((mod) => {
+              loader().then(mod => {
                 component = mod
                 resolve(mod)
               })
@@ -74,7 +74,7 @@ export const lazyLoadOnVisible = (
           },
           options ?? { rootMargin: '50px' }
         )
-        
+
         // Start observing when component is mounted
         setTimeout(() => {
           observer.observe(placeholder)
@@ -92,20 +92,20 @@ export const createComponentLoader = (
 ) => {
   return async () => {
     let lastError: Error | null = null
-    
+
     for (let i = 0; i < retries; i++) {
       try {
         return await importFn()
       } catch (error) {
         lastError = error as Error
         console.warn(`Failed to load component (attempt ${i + 1}/${retries}):`, error)
-        
+
         if (i < retries - 1) {
           await new Promise(resolve => setTimeout(resolve, retryDelay))
         }
       }
     }
-    
+
     throw lastError
   }
 }
@@ -135,7 +135,7 @@ export const preloadRouteComponentsAsync = (routeName: string) => {
       () => import('~/components/form/ChoiceButtons.vue')
     ]
   }
-  
+
   const components = componentsMap[routeName]
   if (components) {
     preloadComponentsAsync(components)

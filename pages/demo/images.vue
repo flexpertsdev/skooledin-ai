@@ -45,7 +45,7 @@
                 :height="800"
                 fit="contain"
                 placeholder="blur"
-                style="background: #f3f4f6; height: 300px;"
+                style="background: #f3f4f6; height: 300px"
               />
             </div>
 
@@ -91,9 +91,7 @@
         <!-- Image Gallery -->
         <section class="demo-section">
           <h2 class="section-title">Image Gallery</h2>
-          <p class="section-description">
-            Grid and masonry layouts with lightbox support.
-          </p>
+          <p class="section-description">Grid and masonry layouts with lightbox support.</p>
 
           <Tabs>
             <Tab label="Grid Layout">
@@ -132,9 +130,7 @@
         <!-- Error States -->
         <section class="demo-section">
           <h2 class="section-title">Error Handling</h2>
-          <p class="section-description">
-            Graceful error states when images fail to load.
-          </p>
+          <p class="section-description">Graceful error states when images fail to load.</p>
 
           <Grid :cols="{ mobile: 1, tablet: 3 }" :gap="24">
             <div class="demo-card">
@@ -221,9 +217,7 @@
         <!-- Usage Examples -->
         <section class="demo-section">
           <h2 class="section-title">Usage Examples</h2>
-          <p class="section-description">
-            Code examples for common image optimization patterns.
-          </p>
+          <p class="section-description">Code examples for common image optimization patterns.</p>
 
           <div class="code-examples">
             <div class="example-card">
@@ -274,14 +268,7 @@
 import { ref } from 'vue'
 
 // Demo data
-const placeholderColors = [
-  '#FEE2E2',
-  '#DBEAFE', 
-  '#D1FAE5',
-  '#FEF3C7',
-  '#E9D5FF',
-  '#FECACA'
-]
+const placeholderColors = ['#FEE2E2', '#DBEAFE', '#D1FAE5', '#FEF3C7', '#E9D5FF', '#FECACA']
 
 const galleryImages = Array.from({ length: 9 }, (_, i) => ({
   id: i,
@@ -549,7 +536,7 @@ onMounted(() => {
   .progressive-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .metrics-comparison {
     grid-template-columns: 1fr;
   }

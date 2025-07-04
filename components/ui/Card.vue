@@ -1,18 +1,9 @@
 <template>
-  <article 
-    class="card" 
-    :class="cardClasses"
-    @click="handleClick"
-  >
+  <article class="card" :class="cardClasses" @click="handleClick">
     <!-- Image -->
     <div v-if="$slots.image || image" class="card-image">
       <slot name="image">
-        <img 
-          v-if="image" 
-          :src="image" 
-          :alt="imageAlt || title"
-          :loading="loading"
-        />
+        <img v-if="image" :src="image" :alt="imageAlt || title" :loading="loading" />
       </slot>
     </div>
 
@@ -246,7 +237,7 @@ const handleClick = (event: MouseEvent) => {
   .card {
     transition: none;
   }
-  
+
   .card-clickable:hover {
     transform: none;
   }

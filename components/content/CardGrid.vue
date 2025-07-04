@@ -60,9 +60,7 @@ const gridStyles = computed(() => {
 
   if (props.masonry) {
     // Masonry layout using columns
-    const cols = typeof responsiveColumns.value === 'number' 
-      ? responsiveColumns.value 
-      : 3 // Default for auto layouts
+    const cols = typeof responsiveColumns.value === 'number' ? responsiveColumns.value : 3 // Default for auto layouts
     styles['column-count'] = String(cols)
     styles['column-gap'] = normalizedGap.value
   } else {
@@ -71,7 +69,8 @@ const gridStyles = computed(() => {
     if (typeof cols === 'number') {
       styles['grid-template-columns'] = `repeat(${cols}, 1fr)`
     } else {
-      styles['grid-template-columns'] = `repeat(${cols}, minmax(${props.minChildWidth}, ${props.maxChildWidth}))`
+      styles['grid-template-columns'] =
+        `repeat(${cols}, minmax(${props.minChildWidth}, ${props.maxChildWidth}))`
     }
     styles['gap'] = normalizedGap.value
   }
@@ -117,7 +116,7 @@ const gridStyles = computed(() => {
   .card-grid:not(.card-grid-masonry) {
     grid-template-columns: 1fr !important;
   }
-  
+
   .card-grid-masonry {
     column-count: 1 !important;
   }

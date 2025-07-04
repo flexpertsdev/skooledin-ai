@@ -1,27 +1,20 @@
 <template>
-  <div 
+  <div
     ref="pageViewRef"
     class="page-view"
-    :class="[
-      `page-view--${orientation}`,
-      isTransitioning && 'page-view--transitioning'
-    ]"
+    :class="[`page-view--${orientation}`, isTransitioning && 'page-view--transitioning']"
     @touchstart="handleTouchStart"
     @touchmove="handleTouchMove"
     @touchend="handleTouchEnd"
     @mousedown="handleMouseDown"
   >
     <!-- Pages Container -->
-    <div 
-      ref="containerRef"
-      class="page-view__container"
-      :style="containerStyle"
-    >
+    <div ref="containerRef" class="page-view__container" :style="containerStyle">
       <div
         v-for="(page, index) in pages"
         :key="`page-${index}`"
         class="page-view__page"
-        :class="{ 
+        :class="{
           'page-view__page--active': index === currentIndex,
           'page-view__page--prev': index === currentIndex - 1,
           'page-view__page--next': index === currentIndex + 1
@@ -29,7 +22,7 @@
         :style="getPageStyle(index)"
         :aria-hidden="index !== currentIndex"
       >
-        <slot name="page" :page="page" :index="index" :isActive="index === currentIndex">
+        <slot name="page" :page="page" :index="index" :is-active="index === currentIndex">
           <div class="page-view__content">
             {{ page }}
           </div>
@@ -118,9 +111,9 @@ const props = withDefaults(defineProps<PageViewProps>(), {
 
 const emit = defineEmits<{
   'update:modelValue': [value: number]
-  'change': [index: number]
-  'transitionStart': [from: number, to: number]
-  'transitionEnd': [index: number]
+  change: [index: number]
+  transitionStart: [from: number, to: number]
+  transitionEnd: [index: number]
 }>()
 
 // Refs
@@ -147,10 +140,10 @@ const containerStyle = computed(() => {
   const translate = isHorizontal.value
     ? `translateX(${-currentIndex.value * 100 + offset.value}%)`
     : `translateY(${-currentIndex.value * 100 + offset.value}%)`
-  
+
   return {
     transform: translate,
-    transition: isTransitioning.value 
+    transition: isTransitioning.value
       ? `transform ${props.transitionDuration}ms cubic-bezier(0.25, 0.46, 0.45, 0.94)`
       : 'none',
     height: props.autoHeight && !isHorizontal.value ? 'auto' : '100%'
@@ -160,7 +153,7 @@ const containerStyle = computed(() => {
 // Methods
 const getPageStyle = (index: number) => {
   const style: any = {}
-  
+
   // Parallax effect
   if (props.parallaxEffect && index !== currentIndex.value) {
     const diff = index - currentIndex.value
@@ -169,44 +162,44 @@ const getPageStyle = (index: number) => {
       ? `translateX(${parallaxOffset}%)`
       : `translateY(${parallaxOffset}%)`
   }
-  
+
   // Scale effect
   if (props.scaleEffect && index !== currentIndex.value) {
     const scale = 0.9
     style.transform = (style.transform || '') + ` scale(${scale})`
   }
-  
+
   // Fade effect
   if (props.fadeEffect) {
     style.opacity = index === currentIndex.value ? 1 : 0.3
   }
-  
+
   return style
 }
 
 const goToPage = (index: number, animate = true) => {
   if (index === currentIndex.value) return
-  
+
   let targetIndex = index
-  
+
   if (props.loop) {
     if (index < 0) targetIndex = totalPages.value - 1
     else if (index >= totalPages.value) targetIndex = 0
   } else {
     targetIndex = Math.max(0, Math.min(totalPages.value - 1, index))
   }
-  
+
   if (animate) {
     isTransitioning.value = true
     emit('transitionStart', currentIndex.value, targetIndex)
   }
-  
+
   currentIndex.value = targetIndex
   offset.value = 0
-  
+
   emit('update:modelValue', targetIndex)
   emit('change', targetIndex)
-  
+
   if (animate) {
     setTimeout(() => {
       isTransitioning.value = false
@@ -221,24 +214,24 @@ const nextPage = () => goToPage(currentIndex.value + 1)
 // Touch/Mouse handling
 const handleTouchStart = (e: TouchEvent) => {
   if (isTransitioning.value) return
-  
+
   const touch = e.touches[0]
   handleStart(touch.clientX, touch.clientY)
 }
 
 const handleMouseDown = (e: MouseEvent) => {
   if (isTransitioning.value) return
-  
+
   e.preventDefault()
   handleStart(e.clientX, e.clientY)
-  
+
   const handleMouseMove = (e: MouseEvent) => handleMove(e.clientX, e.clientY)
   const handleMouseUp = () => {
     handleEnd()
     document.removeEventListener('mousemove', handleMouseMove)
     document.removeEventListener('mouseup', handleMouseUp)
   }
-  
+
   document.addEventListener('mousemove', handleMouseMove)
   document.addEventListener('mouseup', handleMouseUp)
 }
@@ -253,34 +246,32 @@ const handleStart = (x: number, y: number) => {
 
 const handleMove = (x: number, y: number) => {
   if (!isDragging.value || !pageViewRef.value) return
-  
+
   const now = Date.now()
   const dt = now - lastTimestamp.value
-  
+
   const deltaX = x - currentPosition.value.x
   const deltaY = y - currentPosition.value.y
-  
+
   currentPosition.value = { x, y }
-  
+
   // Calculate velocity
   if (dt > 0) {
     const delta = isHorizontal.value ? deltaX : deltaY
-    velocity.value = delta / dt * 1000 // pixels per second
+    velocity.value = (delta / dt) * 1000 // pixels per second
   }
-  
+
   lastTimestamp.value = now
-  
+
   // Calculate offset as percentage of viewport
-  const viewportSize = isHorizontal.value 
-    ? pageViewRef.value.offsetWidth 
+  const viewportSize = isHorizontal.value
+    ? pageViewRef.value.offsetWidth
     : pageViewRef.value.offsetHeight
-  
-  const totalDelta = isHorizontal.value
-    ? x - startPosition.value.x
-    : y - startPosition.value.y
-  
+
+  const totalDelta = isHorizontal.value ? x - startPosition.value.x : y - startPosition.value.y
+
   const offsetPercent = (totalDelta / viewportSize) * 100
-  
+
   // Apply rubberband effect at edges
   if (!props.loop) {
     if (currentIndex.value === 0 && offsetPercent > 0) {
@@ -297,7 +288,7 @@ const handleMove = (x: number, y: number) => {
 
 const handleTouchMove = (e: TouchEvent) => {
   if (!isDragging.value) return
-  
+
   const touch = e.touches[0]
   handleMove(touch.clientX, touch.clientY)
 }
@@ -306,13 +297,13 @@ const handleTouchEnd = () => handleEnd()
 
 const handleEnd = () => {
   if (!isDragging.value) return
-  
+
   isDragging.value = false
-  
+
   // Determine if we should change page
   const threshold = props.threshold
   const shouldChange = Math.abs(offset.value) > threshold || Math.abs(velocity.value) > 300
-  
+
   if (shouldChange) {
     if (offset.value > 0) {
       previousPage()
@@ -323,7 +314,7 @@ const handleEnd = () => {
     // Snap back
     isTransitioning.value = true
     offset.value = 0
-    
+
     setTimeout(() => {
       isTransitioning.value = false
     }, props.transitionDuration)
@@ -333,9 +324,9 @@ const handleEnd = () => {
 // Keyboard navigation
 const handleKeydown = (e: KeyboardEvent) => {
   if (!props.keyboard) return
-  
+
   const { key } = e
-  
+
   if (isHorizontal.value) {
     if (key === 'ArrowLeft') {
       e.preventDefault()
@@ -358,11 +349,11 @@ const handleKeydown = (e: KeyboardEvent) => {
 // Mouse wheel navigation
 const handleWheel = useThrottleFn((e: WheelEvent) => {
   if (!props.mouseWheel || isTransitioning.value) return
-  
+
   e.preventDefault()
-  
+
   const delta = isHorizontal.value ? e.deltaX : e.deltaY
-  
+
   if (Math.abs(delta) > 30) {
     if (delta > 0) {
       nextPage()
@@ -377,18 +368,21 @@ onMounted(() => {
   if (props.keyboard) {
     useEventListener(window, 'keydown', handleKeydown)
   }
-  
+
   if (props.mouseWheel && pageViewRef.value) {
     useEventListener(pageViewRef.value, 'wheel', handleWheel, { passive: false })
   }
 })
 
 // Watchers
-watch(() => props.modelValue, (newValue) => {
-  if (newValue !== currentIndex.value) {
-    goToPage(newValue)
+watch(
+  () => props.modelValue,
+  newValue => {
+    if (newValue !== currentIndex.value) {
+      goToPage(newValue)
+    }
   }
-})
+)
 
 // Expose
 defineExpose({
@@ -555,8 +549,9 @@ defineExpose({
 
 /* Effects */
 .page-view__page {
-  transition: opacity var(--transition-base) var(--easing-standard),
-              transform var(--transition-base) var(--easing-standard);
+  transition:
+    opacity var(--transition-base) var(--easing-standard),
+    transform var(--transition-base) var(--easing-standard);
 }
 
 /* Touch feedback */

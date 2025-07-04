@@ -1,12 +1,7 @@
 <template>
   <div class="app-layout">
-    <NavBar
-      brand="Nuxtplate"
-      :nav-items="navItems"
-      :sticky="true"
-      :collapse-on-scroll="true"
-    />
-    
+    <NavBar brand="Nuxtplate" :nav-items="navItems" :sticky="true" :collapse-on-scroll="true" />
+
     <main class="main-content">
       <slot />
     </main>

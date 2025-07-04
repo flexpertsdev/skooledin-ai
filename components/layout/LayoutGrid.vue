@@ -1,8 +1,5 @@
 <template>
-  <div 
-    class="layout-grid"
-    :style="gridStyles"
-  >
+  <div class="layout-grid" :style="gridStyles">
     <slot />
   </div>
 </template>
@@ -57,9 +54,10 @@ const gridGap = computed(() => {
 })
 
 const gridStyles = computed(() => {
-  const gap = typeof gridGap.value === 'string' 
-    ? { gap: gridGap.value }
-    : { rowGap: gridGap.value.rowGap, columnGap: gridGap.value.columnGap }
+  const gap =
+    typeof gridGap.value === 'string'
+      ? { gap: gridGap.value }
+      : { rowGap: gridGap.value.rowGap, columnGap: gridGap.value.columnGap }
 
   if (props.autoFit) {
     return {
@@ -71,9 +69,10 @@ const gridStyles = computed(() => {
   const cols = currentCols.value
   return {
     ...gap,
-    gridTemplateColumns: cols === 'auto' 
-      ? `repeat(auto-fill, minmax(${props.minChildWidth}, 1fr))`
-      : `repeat(${cols}, 1fr)`
+    gridTemplateColumns:
+      cols === 'auto'
+        ? `repeat(auto-fill, minmax(${props.minChildWidth}, 1fr))`
+        : `repeat(${cols}, 1fr)`
   }
 })
 </script>

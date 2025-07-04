@@ -2,10 +2,7 @@
   <div
     ref="containerRef"
     class="masonry-grid"
-    :class="[
-      `masonry-grid--cols-${columns}`,
-      fillLastRow && 'masonry-grid--fill-last'
-    ]"
+    :class="[`masonry-grid--cols-${columns}`, fillLastRow && 'masonry-grid--fill-last']"
     :style="containerStyle"
   >
     <div
@@ -69,7 +66,7 @@ const responsiveColumns = computed(() => {
   if (typeof props.columns === 'number') {
     return props.columns
   }
-  
+
   return match(props.columns as any) || 3
 })
 
@@ -103,35 +100,35 @@ const columnStyle = computed(() => ({
 const columnItems = computed(() => {
   const cols: any[][] = Array.from({ length: columns.value }, () => [])
   const heights = new Array(columns.value).fill(0)
-  
+
   props.items.forEach((item, index) => {
     // Find shortest column
     let shortestColumn = 0
     let minHeight = heights[0]
-    
+
     for (let i = 1; i < columns.value; i++) {
       if (heights[i] < minHeight) {
         minHeight = heights[i]
         shortestColumn = i
       }
     }
-    
+
     // Add item to shortest column
     const itemWithIndex = { ...item, __originalIndex: index }
     cols[shortestColumn].push(itemWithIndex)
-    
+
     // Update column height
     const itemHeight = itemHeights.value.get(index) || 200 // Default height
     heights[shortestColumn] += itemHeight + props.gap
   })
-  
+
   // Fill last row if enabled
   if (props.fillLastRow) {
     const itemsInLastRow = props.items.length % columns.value
     if (itemsInLastRow > 0 && itemsInLastRow < columns.value) {
       const lastRowStart = props.items.length - itemsInLastRow
       const emptyColumns = columns.value - itemsInLastRow
-      
+
       for (let i = 0; i < emptyColumns; i++) {
         const columnIndex = itemsInLastRow + i
         if (cols[columnIndex]) {
@@ -143,14 +140,14 @@ const columnItems = computed(() => {
       }
     }
   }
-  
+
   return cols
 })
 
 // Image loading observation
 const observeImages = () => {
   if (!props.observeImages || !containerRef.value) return
-  
+
   const images = containerRef.value.querySelectorAll('img')
   images.forEach((img, index) => {
     if (img.complete) {
@@ -170,9 +167,9 @@ const handleImageLoad = (index: number) => {
 // Layout measurement and update
 const measureItems = async () => {
   await nextTick()
-  
+
   if (!containerRef.value) return
-  
+
   const items = containerRef.value.querySelectorAll('.masonry-grid__item')
   items.forEach((item, index) => {
     const height = item.getBoundingClientRect().height
@@ -191,12 +188,16 @@ useResizeObserver(containerRef, () => {
 })
 
 // Watch for item changes
-watch(() => props.items, () => {
-  itemHeights.value.clear()
-  imagesLoaded.value.clear()
-  updateLayout()
-  observeImages()
-}, { deep: true })
+watch(
+  () => props.items,
+  () => {
+    itemHeights.value.clear()
+    imagesLoaded.value.clear()
+    updateLayout()
+    observeImages()
+  },
+  { deep: true }
+)
 
 // Lifecycle
 onMounted(() => {
@@ -293,14 +294,14 @@ defineExpose({
   .masonry-grid {
     display: block;
   }
-  
+
   .masonry-grid__column {
     display: block;
     width: 100% !important;
     margin-right: 0 !important;
     page-break-inside: avoid;
   }
-  
+
   .masonry-grid__item {
     page-break-inside: avoid;
     margin-bottom: var(--spacing-md) !important;

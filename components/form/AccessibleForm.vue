@@ -12,16 +12,16 @@
       <span v-if="submitSuccess">Form submitted successfully</span>
       <span v-if="submitError">{{ submitError }}</span>
     </div>
-    
+
     <!-- Form content -->
-    <slot 
+    <slot
       :fields="navigation.fields"
-      :currentField="navigation.currentField"
-      :focusNext="navigation.focusNext"
-      :focusPrevious="navigation.focusPrevious"
-      :isSubmitting="isSubmitting"
+      :current-field="navigation.currentField"
+      :focus-next="navigation.focusNext"
+      :focus-previous="navigation.focusPrevious"
+      :is-submitting="isSubmitting"
     />
-    
+
     <!-- Default submit/reset buttons if not provided in slot -->
     <div v-if="showDefaultActions" class="form-actions">
       <button
@@ -33,13 +33,8 @@
         <span v-if="isSubmitting">{{ submitText || 'Submitting...' }}</span>
         <span v-else>{{ submitButtonText || 'Submit' }}</span>
       </button>
-      
-      <button
-        v-if="showResetButton"
-        type="reset"
-        :disabled="isSubmitting"
-        class="reset-button"
-      >
+
+      <button v-if="showResetButton" type="reset" :disabled="isSubmitting" class="reset-button">
         {{ resetButtonText || 'Reset' }}
       </button>
     </div>
@@ -58,21 +53,21 @@ interface AccessibleFormProps {
   method?: 'get' | 'post'
   novalidate?: boolean
   disabled?: boolean
-  
+
   // Navigation options
   navigationOptions?: FormNavigationOptions
-  
+
   // Actions
   showDefaultActions?: boolean
   showResetButton?: boolean
   submitButtonText?: string
   resetButtonText?: string
   submitText?: string
-  
+
   // Validation
   validateOnSubmit?: boolean
   validateOnChange?: boolean
-  
+
   // Accessibility
   ariaLabel?: string
   ariaDescribedby?: string
@@ -91,9 +86,9 @@ const props = withDefaults(defineProps<AccessibleFormProps>(), {
 
 // Emits
 const emit = defineEmits<{
-  'submit': [data: FormData]
-  'reset': []
-  'validate': [isValid: boolean]
+  submit: [data: FormData]
+  reset: []
+  validate: [isValid: boolean]
   'field-change': [name: string, value: any]
   'navigation-change': [fieldIndex: number]
 }>()
@@ -126,49 +121,47 @@ const getFormData = (): FormData => {
 
 const validateForm = (): boolean => {
   if (!formRef.value || !props.validateOnSubmit) return true
-  
+
   // Native HTML5 validation
   const isValid = (formRef.value as HTMLFormElement).checkValidity()
-  
+
   if (!isValid) {
     // Find and focus first invalid field
     const firstInvalid = formRef.value.querySelector(':invalid') as HTMLElement
     if (firstInvalid) {
       const fieldName = navigation.getFieldLabel(firstInvalid)
       submitError.value = `Please correct the error in ${fieldName || 'the form'}`
-      
+
       // Focus the invalid field
-      const fieldIndex = navigation.fields.value.findIndex(
-        field => field.element === firstInvalid
-      )
+      const fieldIndex = navigation.fields.value.findIndex(field => field.element === firstInvalid)
       if (fieldIndex >= 0) {
         navigation.focusField(fieldIndex)
       }
     }
   }
-  
+
   emit('validate', isValid)
   return isValid
 }
 
 const handleSubmit = async () => {
   if (isSubmitting.value || props.disabled) return
-  
+
   // Reset states
   submitSuccess.value = false
   submitError.value = ''
-  
+
   // Validate
   if (!validateForm()) {
     return
   }
-  
+
   isSubmitting.value = true
-  
+
   try {
     const formData = getFormData()
     emit('submit', formData)
-    
+
     // Show success state
     submitSuccess.value = true
     setTimeout(() => {
@@ -183,34 +176,34 @@ const handleSubmit = async () => {
 
 const handleReset = () => {
   if (isSubmitting.value) return
-  
+
   // Reset form
   formRef.value?.reset()
-  
+
   // Reset states
   submitSuccess.value = false
   submitError.value = ''
-  
+
   // Re-collect fields
   navigation.collectFields()
-  
+
   // Focus first field
   navigation.focusFirst()
-  
+
   emit('reset')
 }
 
 // Field change tracking
 const setupFieldTracking = () => {
   if (!formRef.value || !props.validateOnChange) return
-  
+
   const handleFieldChange = (event: Event) => {
     const target = event.target as HTMLElement
     if (!target) return
-    
+
     const name = target.getAttribute('name')
     if (!name) return
-    
+
     let value: any
     if (target instanceof HTMLInputElement) {
       if (target.type === 'checkbox') {
@@ -225,9 +218,9 @@ const setupFieldTracking = () => {
     } else if (target instanceof HTMLSelectElement) {
       value = target.value
     }
-    
+
     emit('field-change', name, value)
-    
+
     // Validate single field
     if (props.validateOnChange) {
       const field = target as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -239,15 +232,18 @@ const setupFieldTracking = () => {
       }
     }
   }
-  
+
   formRef.value.addEventListener('change', handleFieldChange)
   formRef.value.addEventListener('blur', handleFieldChange, true)
 }
 
 // Watch navigation changes
-watch(() => navigation.currentFieldIndex.value, (index) => {
-  emit('navigation-change', index)
-})
+watch(
+  () => navigation.currentFieldIndex.value,
+  index => {
+    emit('navigation-change', index)
+  }
+)
 
 // Setup
 onMounted(() => {
@@ -334,11 +330,11 @@ defineExpose({
   cursor: not-allowed;
 }
 
-.submit-button[aria-busy="true"] {
+.submit-button[aria-busy='true'] {
   position: relative;
 }
 
-.submit-button[aria-busy="true"]::after {
+.submit-button[aria-busy='true']::after {
   content: '';
   position: absolute;
   width: 16px;
@@ -389,7 +385,7 @@ defineExpose({
   border-color: var(--color-error);
 }
 
-.accessible-form [aria-invalid="true"] {
+.accessible-form [aria-invalid='true'] {
   border-color: var(--color-error);
 }
 
@@ -404,7 +400,7 @@ defineExpose({
   .form-actions {
     flex-direction: column;
   }
-  
+
   .submit-button,
   .reset-button {
     width: 100%;

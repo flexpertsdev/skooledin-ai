@@ -1,5 +1,5 @@
 <template>
-  <nav 
+  <nav
     class="navbar"
     :class="navbarClasses"
     :style="navbarStyles"
@@ -37,14 +37,14 @@
         <!-- Actions -->
         <div class="navbar-actions">
           <slot name="actions" />
-          
+
           <!-- Mobile Menu Toggle -->
           <button
             v-if="isMobile"
-            @click="toggleMobileMenu"
             class="mobile-menu-toggle"
             :aria-expanded="isMobileMenuOpen"
             aria-label="Toggle navigation menu"
+            @click="toggleMobileMenu"
           >
             <span class="hamburger" :class="{ active: isMobileMenuOpen }">
               <span></span>
@@ -118,7 +118,7 @@ const lastScrollY = ref(0)
 const isScrollingDown = ref(false)
 
 // Track scroll direction
-watch(scrollY, (newY) => {
+watch(scrollY, newY => {
   isScrollingDown.value = newY > lastScrollY.value && newY > 100
   lastScrollY.value = newY
 })
@@ -155,9 +155,12 @@ const closeMobileMenu = () => {
 }
 
 // Close mobile menu on route change
-watch(() => route.path, () => {
-  closeMobileMenu()
-})
+watch(
+  () => route.path,
+  () => {
+    closeMobileMenu()
+  }
+)
 
 // Close mobile menu on escape
 onMounted(() => {
@@ -167,7 +170,7 @@ onMounted(() => {
     }
   }
   window.addEventListener('keydown', handleEscape)
-  
+
   onUnmounted(() => {
     window.removeEventListener('keydown', handleEscape)
     document.body.style.overflow = ''
@@ -380,8 +383,9 @@ onMounted(() => {
 /* Transitions */
 .mobile-menu-enter-active,
 .mobile-menu-leave-active {
-  transition: opacity var(--transition-fast) var(--easing-standard),
-              transform var(--transition-fast) var(--easing-standard);
+  transition:
+    opacity var(--transition-fast) var(--easing-standard),
+    transform var(--transition-fast) var(--easing-standard);
 }
 
 .mobile-menu-enter-from {

@@ -1,24 +1,19 @@
 <template>
   <div class="tab-bar-container">
     <!-- Tab Headers -->
-    <div 
-      class="tab-bar"
-      :class="tabBarClasses"
-      role="tablist"
-      :aria-label="ariaLabel"
-    >
+    <div class="tab-bar" :class="tabBarClasses" role="tablist" :aria-label="ariaLabel">
       <div ref="tabsRef" class="tab-bar-scroll">
         <div class="tab-bar-content">
           <button
             v-for="(tab, index) in tabs"
+            :id="`tab-${tab.id}`"
             :key="tab.id"
-            @click="selectTab(index)"
             class="tab-item"
             :class="{ active: currentIndex === index }"
             role="tab"
             :aria-selected="currentIndex === index"
             :aria-controls="`tabpanel-${tab.id}`"
-            :id="`tab-${tab.id}`"
+            @click="selectTab(index)"
           >
             <span v-if="tab.icon" class="tab-icon">
               <component :is="tab.icon" v-if="typeof tab.icon !== 'string'" />
@@ -27,34 +22,28 @@
             <span class="tab-label">{{ tab.label }}</span>
             <span v-if="tab.badge" class="tab-badge">{{ tab.badge }}</span>
           </button>
-          
+
           <!-- Active indicator -->
-          <div 
-            class="tab-indicator"
-            :style="indicatorStyles"
-          />
+          <div class="tab-indicator" :style="indicatorStyles" />
         </div>
       </div>
     </div>
 
     <!-- Tab Panels -->
-    <div 
+    <div
       ref="panelsRef"
       class="tab-panels"
       @touchstart="handleTouchStart"
       @touchmove="handleTouchMove"
       @touchend="handleTouchEnd"
     >
-      <div 
-        class="tab-panels-wrapper"
-        :style="panelsWrapperStyles"
-      >
+      <div class="tab-panels-wrapper" :style="panelsWrapperStyles">
         <div
           v-for="(tab, index) in tabs"
+          :id="`tabpanel-${tab.id}`"
           :key="tab.id"
           class="tab-panel"
           role="tabpanel"
-          :id="`tabpanel-${tab.id}`"
           :aria-labelledby="`tab-${tab.id}`"
           :aria-hidden="currentIndex !== index"
         >
@@ -105,7 +94,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   'update:modelValue': [index: number]
-  'change': [index: number, tab: Tab]
+  change: [index: number, tab: Tab]
 }>()
 
 const tabsRef = ref<HTMLElement>()
@@ -118,9 +107,12 @@ const isDragging = ref(false)
 const panelWidth = ref(0)
 
 // Update current index when modelValue changes
-watch(() => props.modelValue, (newValue) => {
-  currentIndex.value = newValue
-})
+watch(
+  () => props.modelValue,
+  newValue => {
+    currentIndex.value = newValue
+  }
+)
 
 // Tab bar classes
 const tabBarClasses = computed(() => ({
@@ -132,12 +124,12 @@ const tabBarClasses = computed(() => ({
 // Calculate indicator position and width
 const indicatorStyles = computed(() => {
   if (!tabsRef.value) return {}
-  
+
   const tabs = tabsRef.value.querySelectorAll('.tab-item')
   const activeTab = tabs[currentIndex.value] as HTMLElement
-  
+
   if (!activeTab) return {}
-  
+
   return {
     transform: `translateX(${activeTab.offsetLeft}px)`,
     width: `${activeTab.offsetWidth}px`
@@ -149,21 +141,23 @@ const panelsWrapperStyles = computed(() => {
   const translateX = isDragging.value
     ? -(currentIndex.value * panelWidth.value) + (touchCurrentX.value - touchStartX.value)
     : -(currentIndex.value * 100)
-  
+
   return {
     transform: `translateX(${isDragging.value ? translateX + 'px' : translateX + '%'})`,
-    transition: isDragging.value ? 'none' : `transform ${props.animationDuration}ms var(--easing-standard)`
+    transition: isDragging.value
+      ? 'none'
+      : `transform ${props.animationDuration}ms var(--easing-standard)`
   }
 })
 
 // Select tab
 const selectTab = (index: number) => {
   if (index < 0 || index >= props.tabs.length) return
-  
+
   currentIndex.value = index
   emit('update:modelValue', index)
   emit('change', index, props.tabs[index])
-  
+
   // Scroll active tab into view if scrollable
   if (props.scrollable && tabsRef.value) {
     const tabs = tabsRef.value.querySelectorAll('.tab-item')
@@ -177,7 +171,7 @@ const selectTab = (index: number) => {
 // Touch handling for swipeable panels
 const handleTouchStart = (e: TouchEvent) => {
   if (!props.swipeable) return
-  
+
   touchStartX.value = e.touches[0].clientX
   touchCurrentX.value = e.touches[0].clientX
   isDragging.value = true
@@ -186,16 +180,16 @@ const handleTouchStart = (e: TouchEvent) => {
 
 const handleTouchMove = (e: TouchEvent) => {
   if (!isDragging.value || !props.swipeable) return
-  
+
   touchCurrentX.value = e.touches[0].clientX
 }
 
 const handleTouchEnd = () => {
   if (!isDragging.value || !props.swipeable) return
-  
+
   const deltaX = touchCurrentX.value - touchStartX.value
   const threshold = props.swipeThreshold
-  
+
   if (Math.abs(deltaX) > threshold) {
     if (deltaX > 0 && currentIndex.value > 0) {
       // Swipe right - go to previous tab
@@ -205,7 +199,7 @@ const handleTouchEnd = () => {
       selectTab(currentIndex.value + 1)
     }
   }
-  
+
   isDragging.value = false
 }
 
@@ -213,7 +207,7 @@ const handleTouchEnd = () => {
 onMounted(() => {
   const handleKeydown = (e: KeyboardEvent) => {
     if (!tabsRef.value?.contains(e.target as Node)) return
-    
+
     switch (e.key) {
       case 'ArrowLeft':
         e.preventDefault()
@@ -233,9 +227,9 @@ onMounted(() => {
         break
     }
   }
-  
+
   tabsRef.value?.addEventListener('keydown', handleKeydown)
-  
+
   onUnmounted(() => {
     tabsRef.value?.removeEventListener('keydown', handleKeydown)
   })
@@ -380,7 +374,7 @@ onMounted(() => {
   -webkit-overflow-scrolling: touch;
 }
 
-.tab-panel[aria-hidden="true"] {
+.tab-panel[aria-hidden='true'] {
   visibility: hidden;
 }
 
@@ -395,7 +389,7 @@ onMounted(() => {
     padding: var(--spacing-sm) var(--spacing-md);
     font-size: var(--font-size-sm);
   }
-  
+
   .tab-icon {
     width: 18px;
     height: 18px;

@@ -3,22 +3,18 @@
     <LayoutContainer>
       <h1>Form Components</h1>
       <p class="subtitle">Progressive form components designed for mobile-first experiences</p>
-      
+
       <!-- ChatInput Demo -->
       <section class="demo-section">
         <h2>ChatInput</h2>
         <p>A versatile chat input component with auto-resize, voice recording, and suggestions</p>
-        
+
         <div class="demo-group">
           <h3>Basic Chat Input</h3>
-          <ChatInput
-            v-model="chatMessage"
-            placeholder="Type your message..."
-            @send="handleSend"
-          />
+          <ChatInput v-model="chatMessage" placeholder="Type your message..." @send="handleSend" />
           <p class="demo-value">Value: {{ chatMessage }}</p>
         </div>
-        
+
         <div class="demo-group">
           <h3>With Character Counter</h3>
           <ChatInput
@@ -29,7 +25,7 @@
             @send="handleSend"
           />
         </div>
-        
+
         <div class="demo-group">
           <h3>With Voice & Suggestions</h3>
           <ChatInput
@@ -43,7 +39,7 @@
             @voice-end="handleVoiceEnd"
           />
         </div>
-        
+
         <div class="demo-group">
           <h3>With Toolbar & Actions</h3>
           <ChatInput
@@ -55,7 +51,9 @@
             <template #left>
               <button class="icon-btn">
                 <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M21.7 13.35L20.7 14.35L18.65 12.3L19.65 11.3C19.85 11.1 20.21 11.1 20.41 11.3L21.7 12.59C21.9 12.79 21.9 13.15 21.7 13.35M12 18.94L18.06 12.88L20.11 14.93L14.05 21H12V18.94M12 14C7.58 14 4 15.79 4 18V20H10V18.89L14 14.89C13.35 14.63 12.68 14.5 12 14M12 4C9.79 4 8 5.79 8 8S9.79 12 12 12 16 10.21 16 8 14.21 4 12 4Z"/>
+                  <path
+                    d="M21.7 13.35L20.7 14.35L18.65 12.3L19.65 11.3C19.85 11.1 20.21 11.1 20.41 11.3L21.7 12.59C21.9 12.79 21.9 13.15 21.7 13.35M12 18.94L18.06 12.88L20.11 14.93L14.05 21H12V18.94M12 14C7.58 14 4 15.79 4 18V20H10V18.89L14 14.89C13.35 14.63 12.68 14.5 12 14M12 4C9.79 4 8 5.79 8 8S9.79 12 12 12 16 10.21 16 8 14.21 4 12 4Z"
+                  />
                 </svg>
               </button>
             </template>
@@ -69,7 +67,7 @@
             </template>
           </ChatInput>
         </div>
-        
+
         <div class="demo-group">
           <h3>Minimal Variant</h3>
           <ChatInput
@@ -81,12 +79,12 @@
           />
         </div>
       </section>
-      
+
       <!-- BottomSheetSelect Demo -->
       <section class="demo-section">
         <h2>BottomSheetSelect</h2>
         <p>A mobile-friendly select component that opens in a bottom sheet</p>
-        
+
         <div class="demo-group">
           <h3>Basic Select</h3>
           <BottomSheetSelect
@@ -98,7 +96,7 @@
           />
           <p class="demo-value">Selected: {{ selectedCountry }}</p>
         </div>
-        
+
         <div class="demo-group">
           <h3>Searchable with Descriptions</h3>
           <BottomSheetSelect
@@ -112,7 +110,7 @@
           />
           <p class="demo-value">Selected: {{ selectedPlan }}</p>
         </div>
-        
+
         <div class="demo-group">
           <h3>Grouped Options</h3>
           <BottomSheetSelect
@@ -125,7 +123,7 @@
             variant="filled"
           />
         </div>
-        
+
         <div class="demo-group">
           <h3>Different Variants</h3>
           <div class="demo-grid">
@@ -150,12 +148,12 @@
           </div>
         </div>
       </section>
-      
+
       <!-- ChoiceButtons Demo -->
       <section class="demo-section">
         <h2>ChoiceButtons</h2>
         <p>Touch-friendly choice buttons for single or multiple selection</p>
-        
+
         <div class="demo-group">
           <h3>Single Selection</h3>
           <ChoiceButtons
@@ -166,7 +164,7 @@
           />
           <p class="demo-value">Selected: {{ selectedSize }}</p>
         </div>
-        
+
         <div class="demo-group">
           <h3>Multiple Selection</h3>
           <ChoiceButtons
@@ -180,7 +178,7 @@
           />
           <p class="demo-value">Selected: {{ selectedFeatures?.join(', ') }}</p>
         </div>
-        
+
         <div class="demo-group">
           <h3>With Icons & Descriptions</h3>
           <ChoiceButtons
@@ -192,7 +190,7 @@
             size="lg"
           />
         </div>
-        
+
         <div class="demo-group">
           <h3>Grid Layout</h3>
           <ChoiceButtons
@@ -204,7 +202,7 @@
             :show-check="false"
           />
         </div>
-        
+
         <div class="demo-group">
           <h3>Different Variants</h3>
           <div class="demo-stack">
@@ -234,7 +232,7 @@
             />
           </div>
         </div>
-        
+
         <div class="demo-group">
           <h3>With Validation</h3>
           <ChoiceButtons
@@ -249,12 +247,12 @@
           />
         </div>
       </section>
-      
+
       <!-- Combined Form Example -->
       <section class="demo-section">
         <h2>Complete Form Example</h2>
         <p>A complete form combining all components</p>
-        
+
         <div class="demo-form">
           <ChoiceButtons
             v-model="formData.type"
@@ -263,7 +261,7 @@
             :required="true"
             full-width
           />
-          
+
           <BottomSheetSelect
             v-model="formData.country"
             :options="countries"
@@ -272,7 +270,7 @@
             :required="true"
             variant="filled"
           />
-          
+
           <ChoiceButtons
             v-model="formData.interests"
             :options="interestOptions"
@@ -283,7 +281,7 @@
             layout="grid"
             :columns="2"
           />
-          
+
           <ChatInput
             v-model="formData.message"
             placeholder="Tell us about yourself..."
@@ -292,10 +290,8 @@
             :min-rows="3"
             variant="rounded"
           />
-          
-          <button class="submit-btn" @click="handleSubmit">
-            Submit Form
-          </button>
+
+          <button class="submit-btn" @click="handleSubmit">Submit Form</button>
         </div>
       </section>
     </LayoutContainer>
@@ -342,25 +338,25 @@ const countries = [
 ]
 
 const plans = [
-  { 
-    label: 'Free', 
-    value: 'free', 
-    description: 'Basic features for personal use' 
+  {
+    label: 'Free',
+    value: 'free',
+    description: 'Basic features for personal use'
   },
-  { 
-    label: 'Pro', 
-    value: 'pro', 
-    description: '$9.99/month - Advanced features for professionals' 
+  {
+    label: 'Pro',
+    value: 'pro',
+    description: '$9.99/month - Advanced features for professionals'
   },
-  { 
-    label: 'Team', 
-    value: 'team', 
-    description: '$29.99/month - Collaboration features for teams' 
+  {
+    label: 'Team',
+    value: 'team',
+    description: '$29.99/month - Collaboration features for teams'
   },
-  { 
-    label: 'Enterprise', 
-    value: 'enterprise', 
-    description: 'Custom pricing - Full features with priority support' 
+  {
+    label: 'Enterprise',
+    value: 'enterprise',
+    description: 'Custom pricing - Full features with priority support'
   }
 ]
 
@@ -467,7 +463,7 @@ const agreements = [
     description: 'You agree to our Terms of Service and Privacy Policy'
   },
   {
-    label: 'I don\'t accept',
+    label: "I don't accept",
     value: 'reject',
     description: 'You cannot proceed without accepting'
   }
@@ -519,24 +515,24 @@ const handleSubmit = () => {
     toast.error('Please select an account type')
     return
   }
-  
+
   if (!formData.value.country) {
     toast.error('Please select a country')
     return
   }
-  
+
   if (formData.value.interests.length < 2) {
     toast.error('Please select at least 2 interests')
     return
   }
-  
+
   toast.success('Form submitted successfully!')
-  
+
   console.log('Form data:', formData.value)
 }
 
 // Validation for required choice
-watch(requiredChoice, (value) => {
+watch(requiredChoice, value => {
   if (value === 'reject') {
     validationError.value = 'You must accept the terms to continue'
   } else {
@@ -700,11 +696,11 @@ h1 {
   .demo-page {
     padding: var(--spacing-lg) 0;
   }
-  
+
   .demo-group {
     padding: var(--spacing-md);
   }
-  
+
   .demo-grid {
     grid-template-columns: 1fr;
   }

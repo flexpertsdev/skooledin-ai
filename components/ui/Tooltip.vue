@@ -9,9 +9,9 @@
     class="tooltip-wrapper"
   >
     <template #trigger="{ toggle, isOpen }">
-      <slot :toggle="toggle" :isOpen="isOpen" />
+      <slot :toggle="toggle" :is-open="isOpen" />
     </template>
-    
+
     <template #default="{ close }">
       <div class="tooltip-content">
         <slot name="content">

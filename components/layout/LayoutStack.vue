@@ -1,8 +1,5 @@
 <template>
-  <div 
-    class="layout-stack"
-    :style="stackStyles"
-  >
+  <div class="layout-stack" :style="stackStyles">
     <slot />
   </div>
 </template>
@@ -36,11 +33,14 @@ const spacingValues = {
   '3xl': 'var(--spacing-3xl)'
 }
 
-const stackStyles = computed(() => ({
-  '--stack-spacing': spacingValues[props.spacing],
-  flexDirection: props.direction === 'horizontal' ? 'row' : 'column',
-  alignItems: props.align
-} as any))
+const stackStyles = computed(
+  () =>
+    ({
+      '--stack-spacing': spacingValues[props.spacing],
+      flexDirection: props.direction === 'horizontal' ? 'row' : 'column',
+      alignItems: props.align
+    }) as any
+)
 </script>
 
 <style scoped>
@@ -53,13 +53,13 @@ const stackStyles = computed(() => ({
   margin-top: var(--stack-spacing);
 }
 
-.layout-stack[style*="flex-direction: row"] > * + * {
+.layout-stack[style*='flex-direction: row'] > * + * {
   margin-top: 0;
   margin-left: var(--stack-spacing);
 }
 
 /* Divider styles */
-.layout-stack[style*="divider"] > * + *::before {
+.layout-stack[style*='divider'] > * + *::before {
   content: '';
   display: block;
   width: 100%;
@@ -68,7 +68,7 @@ const stackStyles = computed(() => ({
   margin-bottom: var(--stack-spacing);
 }
 
-.layout-stack[style*="flex-direction: row"][style*="divider"] > * + *::before {
+.layout-stack[style*='flex-direction: row'][style*='divider'] > * + *::before {
   width: 1px;
   height: 100%;
   margin-bottom: 0;

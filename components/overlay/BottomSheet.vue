@@ -1,13 +1,9 @@
 <template>
   <Teleport to="body">
-    <div 
-      v-if="modelValue || isAnimating"
-      class="bottom-sheet-wrapper"
-      @click="handleBackdropClick"
-    >
+    <div v-if="modelValue || isAnimating" class="bottom-sheet-wrapper" @click="handleBackdropClick">
       <!-- Backdrop -->
       <Transition name="backdrop">
-        <div 
+        <div
           v-if="modelValue && backdrop"
           class="bottom-sheet-backdrop"
           :style="{ opacity: backdropOpacity }"
@@ -18,18 +14,18 @@
       <div
         ref="sheetRef"
         class="bottom-sheet"
-        :class="{ 
+        :class="{
           'bottom-sheet-dragging': isDragging,
           'bottom-sheet-open': modelValue
         }"
         :style="sheetStyles"
+        role="dialog"
+        :aria-modal="true"
+        :aria-label="ariaLabel"
         @touchstart="handleTouchStart"
         @touchmove="handleTouchMove"
         @touchend="handleTouchEnd"
         @mousedown="handleMouseDown"
-        role="dialog"
-        :aria-modal="true"
-        :aria-label="ariaLabel"
       >
         <!-- Drag Handle -->
         <div v-if="showHandle" class="bottom-sheet-handle-container">
@@ -43,22 +39,25 @@
           </slot>
           <button
             v-if="showCloseButton"
-            @click="close"
             class="bottom-sheet-close"
             aria-label="Close bottom sheet"
+            @click="close"
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M18 6L6 18M6 6l12 12"/>
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M18 6L6 18M6 6l12 12" />
             </svg>
           </button>
         </div>
 
         <!-- Content -->
-        <div 
-          ref="contentRef"
-          class="bottom-sheet-content"
-          @scroll="handleContentScroll"
-        >
+        <div ref="contentRef" class="bottom-sheet-content" @scroll="handleContentScroll">
           <slot />
         </div>
       </div>
@@ -104,8 +103,8 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
   'update:modelValue': [value: boolean]
   'snap-point-change': [index: number]
-  'open': []
-  'close': []
+  open: []
+  close: []
 }>()
 
 const sheetRef = ref<HTMLElement>()
@@ -150,7 +149,7 @@ const currentSnapHeight = computed(() => {
 
 // Sheet styles
 const sheetStyles = computed(() => {
-  const translateY = isDragging.value 
+  const translateY = isDragging.value
     ? windowHeight.value - sheetHeight.value + currentY.value
     : windowHeight.value - currentSnapHeight.value
 
@@ -183,23 +182,26 @@ const updateWindowHeight = () => {
 }
 
 // Open/close handlers
-watch(() => props.modelValue, (isOpen) => {
-  if (isOpen) {
-    isAnimating.value = true
-    document.body.style.overflow = 'hidden'
-    currentSnapIndex.value = props.defaultSnapPoint
-    emit('open')
-    nextTick(() => {
-      sheetHeight.value = sheetRef.value?.offsetHeight || 0
-    })
-  } else {
-    document.body.style.overflow = ''
-    emit('close')
-    setTimeout(() => {
-      isAnimating.value = false
-    }, 300)
+watch(
+  () => props.modelValue,
+  isOpen => {
+    if (isOpen) {
+      isAnimating.value = true
+      document.body.style.overflow = 'hidden'
+      currentSnapIndex.value = props.defaultSnapPoint
+      emit('open')
+      nextTick(() => {
+        sheetHeight.value = sheetRef.value?.offsetHeight || 0
+      })
+    } else {
+      document.body.style.overflow = ''
+      emit('close')
+      setTimeout(() => {
+        isAnimating.value = false
+      }, 300)
+    }
   }
-})
+)
 
 // Touch handlers
 const handleTouchStart = (e: TouchEvent) => {
@@ -221,17 +223,17 @@ const handleTouchEnd = () => {
 const handleMouseDown = (e: MouseEvent) => {
   if (!props.swipeToClose || contentScrollTop.value > 0) return
   handleDragStart(e.clientY)
-  
+
   const handleMouseMove = (e: MouseEvent) => {
     handleDragMove(e.clientY)
   }
-  
+
   const handleMouseUp = () => {
     handleDragEnd()
     window.removeEventListener('mousemove', handleMouseMove)
     window.removeEventListener('mouseup', handleMouseUp)
   }
-  
+
   window.addEventListener('mousemove', handleMouseMove)
   window.addEventListener('mouseup', handleMouseUp)
 }
@@ -249,7 +251,7 @@ const handleDragStart = (y: number) => {
 
 const handleDragMove = (y: number) => {
   currentY.value = y - dragStartY.value
-  
+
   // Calculate velocity
   const now = Date.now()
   const dt = now - lastTime.value
@@ -262,10 +264,10 @@ const handleDragMove = (y: number) => {
 
 const handleDragEnd = () => {
   isDragging.value = false
-  
+
   const threshold = 50
   const swipeVelocityThreshold = 0.5
-  
+
   // Check for swipe to close
   if (currentY.value > threshold || velocityY.value > swipeVelocityThreshold) {
     // If at lowest snap point and swiping down, close
@@ -289,7 +291,7 @@ const handleDragEnd = () => {
 // Snap to specific point
 const snapTo = (index: number) => {
   if (index < 0 || index >= snapPointHeights.value.length) return
-  
+
   currentSnapIndex.value = index
   currentY.value = 0
   emit('snap-point-change', index)
@@ -321,13 +323,16 @@ const { activate, deactivate } = useFocusTrap(sheetRef, {
   allowOutsideClick: true
 })
 
-watch(() => props.modelValue, (isOpen) => {
-  if (isOpen) {
-    nextTick(() => activate())
-  } else {
-    deactivate()
+watch(
+  () => props.modelValue,
+  isOpen => {
+    if (isOpen) {
+      nextTick(() => activate())
+    } else {
+      deactivate()
+    }
   }
-})
+)
 
 // Cleanup
 onUnmounted(() => {

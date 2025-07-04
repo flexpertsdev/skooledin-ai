@@ -4,7 +4,8 @@
       <Container>
         <h1 class="demo-title">Lazy Loading</h1>
         <p class="demo-description">
-          Optimize performance with dynamic component loading, code splitting, and intersection observer-based lazy loading.
+          Optimize performance with dynamic component loading, code splitting, and intersection
+          observer-based lazy loading.
         </p>
       </Container>
     </header>
@@ -19,7 +20,7 @@
           </p>
 
           <div class="demo-card">
-            <button @click="showBasic = !showBasic" class="toggle-button">
+            <button class="toggle-button" @click="showBasic = !showBasic">
               {{ showBasic ? 'Hide' : 'Show' }} Lazy Component
             </button>
 
@@ -50,10 +51,7 @@
           <Stack :gap="24">
             <div v-for="i in 3" :key="i" class="demo-card">
               <h3>Scroll to load component {{ i }}</h3>
-              <LazyVisibleModal
-                :title="`Lazy Modal ${i}`"
-                :show-trigger="true"
-              >
+              <LazyVisibleModal :title="`Lazy Modal ${i}`" :show-trigger="true">
                 <p>This modal was loaded when it became visible in the viewport!</p>
                 <p>Check the network tab to see the lazy loading in action.</p>
               </LazyVisibleModal>
@@ -70,12 +68,12 @@
 
           <div class="demo-card">
             <Stack :gap="16">
-              <button 
-                v-for="route in routes" 
+              <button
+                v-for="route in routes"
                 :key="route.name"
+                class="route-button"
                 @click="preloadRoute(route.name)"
                 @mouseenter="preloadRoute(route.name)"
-                class="route-button"
               >
                 Preload {{ route.label }} Components
               </button>
@@ -99,19 +97,15 @@
               <button
                 v-for="comp in dynamicComponents"
                 :key="comp.name"
-                @click="loadDynamicComponent(comp)"
                 :class="['selector-button', { active: selectedComponent === comp.name }]"
+                @click="loadDynamicComponent(comp)"
               >
                 {{ comp.label }}
               </button>
             </div>
 
             <div class="dynamic-content">
-              <component 
-                :is="dynamicComponent" 
-                v-if="dynamicComponent"
-                v-bind="componentProps"
-              />
+              <component :is="dynamicComponent" v-if="dynamicComponent" v-bind="componentProps" />
             </div>
           </div>
         </section>
@@ -155,27 +149,25 @@
 
 <script setup lang="ts">
 import { ref, shallowRef } from 'vue'
-import { lazyComponent, preloadRouteComponentsAsync, createComponentLoader } from '~/utils/lazyComponent'
+import {
+  lazyComponent,
+  preloadRouteComponentsAsync,
+  createComponentLoader
+} from '~/utils/lazyComponent'
 import LoadingSpinner from '~/components/ui/LoadingSpinner.vue'
 import ErrorBoundary from '~/components/ui/ErrorBoundary.vue'
 
 // Lazy components
-const LazyCarousel = lazyComponent(
-  () => import('~/components/ui/Carousel.vue'),
-  {
-    loadingComponent: LoadingSpinner,
-    errorComponent: ErrorBoundary,
-    delay: 200
-  }
-)
+const LazyCarousel = lazyComponent(() => import('~/components/ui/Carousel.vue'), {
+  loadingComponent: LoadingSpinner,
+  errorComponent: ErrorBoundary,
+  delay: 200
+})
 
-const LazyVisibleModal = lazyComponent(
-  () => import('~/components/overlay/Modal.vue'),
-  {
-    loadingComponent: LoadingSpinner,
-    errorComponent: ErrorBoundary
-  }
-)
+const LazyVisibleModal = lazyComponent(() => import('~/components/overlay/Modal.vue'), {
+  loadingComponent: LoadingSpinner,
+  errorComponent: ErrorBoundary
+})
 
 // State
 const showBasic = ref(false)
@@ -186,20 +178,20 @@ const preloadStatus = ref('')
 
 // Data
 const carouselItems = [
-  { 
-    id: 1, 
-    title: 'Lazy Loaded Image 1', 
-    image: 'https://picsum.photos/400/300?random=1' 
+  {
+    id: 1,
+    title: 'Lazy Loaded Image 1',
+    image: 'https://picsum.photos/400/300?random=1'
   },
-  { 
-    id: 2, 
-    title: 'Lazy Loaded Image 2', 
-    image: 'https://picsum.photos/400/300?random=2' 
+  {
+    id: 2,
+    title: 'Lazy Loaded Image 2',
+    image: 'https://picsum.photos/400/300?random=2'
   },
-  { 
-    id: 3, 
-    title: 'Lazy Loaded Image 3', 
-    image: 'https://picsum.photos/400/300?random=3' 
+  {
+    id: 3,
+    title: 'Lazy Loaded Image 3',
+    image: 'https://picsum.photos/400/300?random=3'
   }
 ]
 
@@ -210,18 +202,18 @@ const routes = [
 ]
 
 const dynamicComponents = [
-  { 
-    name: 'BottomSheet', 
+  {
+    name: 'BottomSheet',
     label: 'Bottom Sheet',
     loader: () => import('~/components/overlay/BottomSheet.vue'),
     props: { modelValue: true, title: 'Dynamic Bottom Sheet' }
   },
-  { 
-    name: 'ActionSheet', 
+  {
+    name: 'ActionSheet',
     label: 'Action Sheet',
     loader: () => import('~/components/overlay/ActionSheet.vue'),
-    props: { 
-      modelValue: true, 
+    props: {
+      modelValue: true,
       title: 'Dynamic Actions',
       actions: [
         { label: 'Edit', icon: '✏️' },
@@ -230,11 +222,11 @@ const dynamicComponents = [
       ]
     }
   },
-  { 
-    name: 'Toast', 
+  {
+    name: 'Toast',
     label: 'Toast',
     loader: () => import('~/components/ui/Toast.vue'),
-    props: { 
+    props: {
       show: true,
       message: 'Dynamic toast loaded!',
       type: 'success'
@@ -254,14 +246,14 @@ const metrics = ref({
 // Methods
 const preloadRoute = async (routeName: string) => {
   preloadStatus.value = `Preloading ${routeName} components...`
-  
+
   try {
     await preloadRouteComponentsAsync('demo-overlays')
     preloadStatus.value = `✓ ${routeName} components preloaded!`
-    
+
     // Update metrics
     metrics.value.componentsLoaded += 3
-    
+
     setTimeout(() => {
       preloadStatus.value = ''
     }, 2000)
@@ -273,19 +265,19 @@ const preloadRoute = async (routeName: string) => {
 const loadDynamicComponent = async (comp: any) => {
   selectedComponent.value = comp.name
   componentProps.value = comp.props || {}
-  
+
   try {
     // Create loader with retry logic
     const loader = createComponentLoader(comp.loader, 3, 500)
     const module = await loader()
     dynamicComponent.value = module.default
-    
+
     // Update metrics
     metrics.value.componentsLoaded += 1
   } catch (error) {
     console.error('Failed to load component:', error)
     dynamicComponent.value = ErrorBoundary
-    componentProps.value = { 
+    componentProps.value = {
       error: error as Error,
       title: 'Failed to load component',
       onRetry: () => loadDynamicComponent(comp)
@@ -514,11 +506,11 @@ const loadDynamicComponent = async (comp: any) => {
   .metrics-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .component-selector {
     flex-direction: column;
   }
-  
+
   .selector-button {
     width: 100%;
   }

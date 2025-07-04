@@ -2,14 +2,7 @@
   <div class="loading-spinner" :class="[`loading-spinner--${size}`, `loading-spinner--${variant}`]">
     <div class="spinner" :style="{ width: spinnerSize, height: spinnerSize }">
       <svg viewBox="0 0 50 50" class="spinner-svg">
-        <circle
-          class="spinner-track"
-          cx="25"
-          cy="25"
-          r="20"
-          fill="none"
-          stroke-width="5"
-        />
+        <circle class="spinner-track" cx="25" cy="25" r="20" fill="none" stroke-width="5" />
         <circle
           class="spinner-path"
           cx="25"

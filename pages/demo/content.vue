@@ -11,7 +11,7 @@
           <!-- CardGrid Demo -->
           <section>
             <h2>CardGrid Component</h2>
-            
+
             <!-- Auto-fill Grid -->
             <div class="demo-section">
               <h3>Auto-fill Grid (Default)</h3>
@@ -27,7 +27,9 @@
                   clickable
                   @click="handleCardClick(i)"
                 >
-                  <p>This card automatically sizes based on available space with a minimum width.</p>
+                  <p>
+                    This card automatically sizes based on available space with a minimum width.
+                  </p>
                 </Card>
               </CardGrid>
             </div>
@@ -36,10 +38,7 @@
             <div class="demo-section">
               <h3>Fixed Column Grid</h3>
               <p>Responsive column counts</p>
-              <CardGrid 
-                :columns="{ mobile: 1, tablet: 2, desktop: 3, wide: 4 }"
-                :gap="'md'"
-              >
+              <CardGrid :columns="{ mobile: 1, tablet: 2, desktop: 3, wide: 4 }" :gap="'md'">
                 <Card
                   v-for="i in 8"
                   :key="`fixed-${i}`"
@@ -59,7 +58,7 @@
             <div class="demo-section">
               <h3>Masonry Layout</h3>
               <p>Pinterest-style variable height layout</p>
-              <CardGrid 
+              <CardGrid
                 :columns="{ mobile: 1, tablet: 2, desktop: 3 }"
                 :gap="'lg'"
                 :masonry="true"
@@ -179,12 +178,7 @@
             <div class="demo-section">
               <h3>Dashboard Stats</h3>
               <CardGrid :columns="{ mobile: 2, tablet: 4 }" :gap="'md'">
-                <Card
-                  v-for="stat in stats"
-                  :key="stat.label"
-                  variant="outlined"
-                  padding="lg"
-                >
+                <Card v-for="stat in stats" :key="stat.label" variant="outlined" padding="lg">
                   <div class="stat-value" :style="{ color: stat.color }">
                     {{ stat.value }}
                   </div>
@@ -218,7 +212,8 @@ const masonryItems = [
   {
     title: 'Urban Architecture',
     image: 'https://picsum.photos/400/500?random=m2',
-    content: 'Modern design meets functionality in this stunning example of contemporary architecture. Clean lines and sustainable materials create a harmonious urban environment.'
+    content:
+      'Modern design meets functionality in this stunning example of contemporary architecture. Clean lines and sustainable materials create a harmonious urban environment.'
   },
   {
     title: 'Ocean Waves',
@@ -238,7 +233,8 @@ const masonryItems = [
   {
     title: 'Desert Sunset',
     image: 'https://picsum.photos/400/450?random=m6',
-    content: 'Colors paint the sky as day transitions to night in the vast desert landscape. A moment of pure tranquility.'
+    content:
+      'Colors paint the sky as day transitions to night in the vast desert landscape. A moment of pure tranquility.'
   }
 ]
 
@@ -271,7 +267,13 @@ const teamMembers = [
 
 // Dashboard stats
 const stats = [
-  { label: 'Revenue', value: '$12.5K', change: '+12%', trend: 'positive', color: 'var(--success-color)' },
+  {
+    label: 'Revenue',
+    value: '$12.5K',
+    change: '+12%',
+    trend: 'positive',
+    color: 'var(--success-color)'
+  },
   { label: 'Users', value: '1,234', change: '+5%', trend: 'positive', color: 'var(--info-color)' },
   { label: 'Orders', value: '89', change: '-2%', trend: 'negative', color: 'var(--warning-color)' },
   { label: 'Bounce', value: '23%', change: '+1%', trend: 'negative', color: 'var(--error-color)' }
@@ -288,7 +290,10 @@ const handleCardClick = (index: number) => {
 useHead({
   title: 'Content Layout Components - Mobile-First Nuxt',
   meta: [
-    { name: 'description', content: 'Demo of content layout components including responsive grids and cards' }
+    {
+      name: 'description',
+      content: 'Demo of content layout components including responsive grids and cards'
+    }
   ]
 })
 </script>
@@ -451,7 +456,7 @@ section h2 {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  [style*="grid-column: span 2"] {
+  [style*='grid-column: span 2'] {
     grid-column: span 1 !important;
   }
 }

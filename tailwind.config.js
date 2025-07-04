@@ -12,6 +12,21 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Skooledin Brand Colors
+        brand: {
+          50: '#f5f3ff',
+          100: '#ede9fe',
+          200: '#ddd6fe',
+          300: '#c4b5fd',
+          400: '#a78bfa',
+          500: '#8b5cf6',
+          600: '#7c3aed', // Primary
+          700: '#6d28d9',
+          800: '#5b21b6',
+          900: '#4c1d95',
+          DEFAULT: '#7c3aed'
+        },
+        // Legacy primary mapping
         primary: {
           50: 'var(--color-primary-50)',
           100: 'var(--color-primary-100)',
@@ -26,11 +41,29 @@ export default {
           950: 'var(--color-primary-950)',
           DEFAULT: 'var(--primary-color)'
         },
+        // Subject Colors
+        subject: {
+          math: '#3b82f6',
+          science: '#10b981',
+          language: '#f59e0b',
+          history: '#a78bfa',
+          arts: '#ec4899',
+          sports: '#14b8a6'
+        },
+        // AI-Specific Colors
+        ai: {
+          thinking: '#8b5cf6',
+          confident: '#10b981',
+          uncertain: '#f59e0b',
+          error: '#ef4444'
+        },
+        // Surface Colors
         surface: {
           background: 'var(--surface-background)',
           default: 'var(--surface-default)',
           card: 'var(--surface-card)',
-          overlay: 'var(--surface-overlay)'
+          overlay: 'var(--surface-overlay)',
+          chat: '#faf5ff'
         },
         text: {
           primary: 'var(--text-primary)',
@@ -42,7 +75,12 @@ export default {
           subtle: 'var(--border-subtle)',
           DEFAULT: 'var(--border-default)',
           emphasis: 'var(--border-emphasis)'
-        }
+        },
+        // Semantic Colors
+        success: '#10b981',
+        warning: '#f59e0b',
+        error: '#ef4444',
+        info: '#3b82f6'
       },
       spacing: {
         xs: 'var(--spacing-xs)',
@@ -53,7 +91,13 @@ export default {
         '2xl': 'var(--spacing-2xl)',
         '3xl': 'var(--spacing-3xl)',
         '4xl': 'var(--spacing-4xl)',
-        '5xl': 'var(--spacing-5xl)'
+        '5xl': 'var(--spacing-5xl)',
+        // Component-specific spacing
+        touch: '44px', // Minimum touch target
+        message: '12px', // Message bubble padding
+        card: '16px', // Card padding
+        section: '24px', // Section spacing
+        page: '16px' // Page margins
       },
       borderRadius: {
         sm: 'var(--radius-sm)',

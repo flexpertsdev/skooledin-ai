@@ -23,9 +23,7 @@ export const generateSrcSet = (
   baseSrc: string,
   widths: number[] = [320, 640, 768, 1024, 1280, 1536]
 ): string => {
-  return widths
-    .map(width => `${baseSrc}?w=${width} ${width}w`)
-    .join(', ')
+  return widths.map(width => `${baseSrc}?w=${width} ${width}w`).join(', ')
 }
 
 // Generate sizes attribute based on breakpoints
@@ -36,7 +34,7 @@ export const generateSizes = (config: {
   default: string
 }): string => {
   const sizes: string[] = []
-  
+
   if (config.mobile) {
     sizes.push(`(max-width: 640px) ${config.mobile}`)
   }
@@ -46,7 +44,7 @@ export const generateSizes = (config: {
   if (config.desktop) {
     sizes.push(`(max-width: 1440px) ${config.desktop}`)
   }
-  
+
   sizes.push(config.default)
   return sizes.join(', ')
 }
@@ -57,9 +55,7 @@ export const calculateAspectRatio = (width: number, height: number): number => {
 }
 
 // Generate blur placeholder data URL
-export const generateBlurPlaceholder = (
-  dominantColor: string = '#f3f4f6'
-): string => {
+export const generateBlurPlaceholder = (dominantColor: string = '#f3f4f6'): string => {
   const svg = `
     <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
       <filter id="blur">
@@ -86,23 +82,26 @@ export const lazyLoadImages = (
   options?: IntersectionObserverInit
 ): void => {
   const images = document.querySelectorAll<HTMLImageElement>(selector)
-  
-  const imageObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const img = entry.target as HTMLImageElement
-        const src = img.dataset.src
-        const srcset = img.dataset.srcset
-        
-        if (src) img.src = src
-        if (srcset) img.srcset = srcset
-        
-        img.classList.add('loaded')
-        imageObserver.unobserve(img)
-      }
-    })
-  }, options ?? { rootMargin: '50px' })
-  
+
+  const imageObserver = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target as HTMLImageElement
+          const src = img.dataset.src
+          const srcset = img.dataset.srcset
+
+          if (src) img.src = src
+          if (srcset) img.srcset = srcset
+
+          img.classList.add('loaded')
+          imageObserver.unobserve(img)
+        }
+      })
+    },
+    options ?? { rootMargin: '50px' }
+  )
+
   images.forEach(img => imageObserver.observe(img))
 }
 
@@ -119,7 +118,7 @@ export const loadImageProgressively = async (
     lowQualityImg.onload = resolve
   })
   onLoad?.(lowQualitySrc)
-  
+
   // Then load high quality
   const highQualityImg = new Image()
   highQualityImg.src = highQualitySrc
@@ -134,17 +133,17 @@ export const getOptimalFormat = (): 'avif' | 'webp' | 'jpeg' => {
   const canvas = document.createElement('canvas')
   canvas.width = 1
   canvas.height = 1
-  
+
   // Check AVIF support
   if (canvas.toDataURL('image/avif').indexOf('image/avif') === 5) {
     return 'avif'
   }
-  
+
   // Check WebP support
   if (canvas.toDataURL('image/webp').indexOf('image/webp') === 5) {
     return 'webp'
   }
-  
+
   return 'jpeg'
 }
 
@@ -153,15 +152,15 @@ export const useImageLoader = () => {
   const loading = ref(true)
   const error = ref(false)
   const progress = ref(0)
-  
+
   const loadImage = async (src: string) => {
     loading.value = true
     error.value = false
     progress.value = 0
-    
+
     try {
       const img = new Image()
-      
+
       // Track loading progress if supported
       if ('decode' in img) {
         img.src = src
@@ -174,7 +173,7 @@ export const useImageLoader = () => {
           image.src = src
         })
       }
-      
+
       loading.value = false
       progress.value = 100
     } catch (err) {
@@ -183,7 +182,7 @@ export const useImageLoader = () => {
       console.error('Image loading failed:', err)
     }
   }
-  
+
   return {
     loading: readonly(loading),
     error: readonly(error),

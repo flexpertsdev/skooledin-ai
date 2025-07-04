@@ -18,11 +18,17 @@
 1. **TypeScript Import Errors**: Created `types/nuxt-imports.d.ts` to resolve `#imports` and `#app/nuxt` module declarations
 2. **Carousel SSR Issue**: Fixed `lazyLoadOnVisible` function in `utils/lazyComponent.ts` to handle SSR properly
 3. **Build Scripts**: Added typecheck and lint scripts to package.json
+4. **ESLint Configuration**: Migrated from v8 config format to v9 flat config format (eslint.config.js)
+   - Added comprehensive Nuxt and Vue auto-imports as globals
+   - Configured for TypeScript and Vue support
+   - Disabled `@typescript-eslint/no-explicit-any` warnings
+   - Disabled `vue/require-default-prop` warnings
+   - Set unused vars to warnings with proper ignore patterns
 
 ## Known Issues
 
-1. **ESLint Configuration**: Currently using v8 config format (.eslintrc.js), needs migration to v9 flat config format
-2. **Sourcemap Warnings**: TailwindCSS plugin generates warnings about missing sourcemaps (non-critical)
+1. **Sourcemap Warnings**: TailwindCSS plugin generates warnings about missing sourcemaps (non-critical)
+2. **ESLint Warnings**: 38 non-critical warnings remain (unused variables, v-html usage)
 
 ## Project Structure
 

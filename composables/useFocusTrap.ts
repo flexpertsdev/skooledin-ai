@@ -6,10 +6,7 @@ interface FocusTrapOptions {
   allowOutsideClick?: boolean
 }
 
-export function useFocusTrap(
-  target: Ref<HTMLElement | undefined>,
-  options: FocusTrapOptions = {}
-) {
+export function useFocusTrap(target: Ref<HTMLElement | undefined>, options: FocusTrapOptions = {}) {
   const isActive = ref(false)
   const previousActiveElement = ref<HTMLElement | null>(null)
 
@@ -22,10 +19,10 @@ export function useFocusTrap(
       'select:not([disabled])',
       '[tabindex]:not([tabindex="-1"])'
     ]
-    
-    return Array.from(
-      container.querySelectorAll<HTMLElement>(focusableSelectors.join(','))
-    ).filter(el => el.offsetParent !== null) // Filter out hidden elements
+
+    return Array.from(container.querySelectorAll<HTMLElement>(focusableSelectors.join(','))).filter(
+      el => el.offsetParent !== null
+    ) // Filter out hidden elements
   }
 
   const trapFocus = (e: KeyboardEvent) => {
@@ -63,7 +60,7 @@ export function useFocusTrap(
     // Focus the first focusable element or the container itself
     nextTick(() => {
       if (!target.value) return
-      
+
       const focusableElements = getFocusableElements(target.value)
       if (focusableElements.length > 0) {
         focusableElements[0].focus()
@@ -92,13 +89,17 @@ export function useFocusTrap(
 
   // Auto-activate if immediate is true
   if (options.immediate) {
-    watch(target, (newTarget) => {
-      if (newTarget) {
-        activate()
-      } else {
-        deactivate()
-      }
-    }, { immediate: true })
+    watch(
+      target,
+      newTarget => {
+        if (newTarget) {
+          activate()
+        } else {
+          deactivate()
+        }
+      },
+      { immediate: true }
+    )
   }
 
   return {

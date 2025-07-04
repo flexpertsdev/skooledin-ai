@@ -96,9 +96,7 @@
         <div class="demo-section">
           <h3>Full-screen Page Navigation</h3>
           <p>Swipe between full-screen pages</p>
-          <button @click="showPageView = true" class="demo-button">
-            Open PageView Demo
-          </button>
+          <button class="demo-button" @click="showPageView = true">Open PageView Demo</button>
         </div>
 
         <!-- Inline PageView -->
@@ -160,17 +158,9 @@
         <div class="demo-section">
           <h3>Mixed Content Types</h3>
           <p>Combining different content types in masonry layout</p>
-          <MasonryGrid
-            :items="mixedContent"
-            :columns="3"
-            :gap="24"
-            :fill-last-row="true"
-          >
+          <MasonryGrid :items="mixedContent" :columns="3" :gap="24" :fill-last-row="true">
             <template #default="{ item }">
-              <Card 
-                :variant="item.type === 'featured' ? 'elevated' : 'outlined'"
-                clickable
-              >
+              <Card :variant="item.type === 'featured' ? 'elevated' : 'outlined'" clickable>
                 <img v-if="item.image" :src="item.image" :alt="item.title" />
                 <div v-if="item.type === 'quote'" class="quote-content">
                   <blockquote>{{ item.content }}</blockquote>
@@ -191,9 +181,7 @@
     <!-- Full-screen PageView Modal -->
     <Teleport to="body">
       <div v-if="showPageView" class="fullscreen-pageview">
-        <button @click="showPageView = false" class="close-button">
-          ✕
-        </button>
+        <button class="close-button" @click="showPageView = false">✕</button>
         <PageView
           v-model="fullscreenPageIndex"
           :pages="onboardingPages"
@@ -208,10 +196,10 @@
                 <div class="onboarding-icon">{{ page.icon }}</div>
                 <h2>{{ page.title }}</h2>
                 <p>{{ page.description }}</p>
-                <button 
+                <button
                   v-if="index === onboardingPages.length - 1"
-                  @click="showPageView = false"
                   class="onboarding-button"
+                  @click="showPageView = false"
                 >
                   Get Started
                 </button>
@@ -231,28 +219,22 @@ import LoadingSpinner from '~/components/ui/LoadingSpinner.vue'
 import ErrorBoundary from '~/components/ui/ErrorBoundary.vue'
 
 // Lazy load heavy carousel components
-const Carousel = lazyComponent(
-  () => import('~/components/ui/Carousel.vue'),
-  { 
-    loadingComponent: LoadingSpinner, 
-    errorComponent: ErrorBoundary,
-    delay: 200 
-  }
-)
+const Carousel = lazyComponent(() => import('~/components/ui/Carousel.vue'), {
+  loadingComponent: LoadingSpinner,
+  errorComponent: ErrorBoundary,
+  delay: 200
+})
 
-const PageView = lazyLoadOnVisible(
-  () => import('~/components/ui/PageView.vue'),
-  { rootMargin: '100px' }
-)
+const PageView = lazyLoadOnVisible(() => import('~/components/ui/PageView.vue'), {
+  rootMargin: '100px'
+})
 
-const MasonryGrid = lazyLoadOnVisible(
-  () => import('~/components/content/MasonryGrid.vue'),
-  { rootMargin: '200px' }
-)
+const MasonryGrid = lazyLoadOnVisible(() => import('~/components/content/MasonryGrid.vue'), {
+  rootMargin: '200px'
+})
 
 // Import Card component normally (it's lightweight)
 import Card from '~/components/ui/Card.vue'
-
 
 // Carousel state
 const basicCarouselIndex = ref(0)
@@ -338,7 +320,7 @@ const onboardingPages = [
   {
     icon: '👋',
     title: 'Welcome!',
-    description: 'Let\'s get you started with our app'
+    description: "Let's get you started with our app"
   },
   {
     icon: '🎯',
@@ -348,7 +330,7 @@ const onboardingPages = [
   {
     icon: '🚀',
     title: 'Ready to Launch',
-    description: 'You\'re all set to begin your journey'
+    description: "You're all set to begin your journey"
   }
 ]
 

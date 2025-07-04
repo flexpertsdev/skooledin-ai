@@ -12,18 +12,10 @@
           <section>
             <h2>Modal Component</h2>
             <LayoutRow :gap="'md'" :wrap="true">
-              <button @click="modalSmall = true" class="demo-button">
-                Small Modal
-              </button>
-              <button @click="modalLarge = true" class="demo-button">
-                Large Modal
-              </button>
-              <button @click="modalFullscreen = true" class="demo-button">
-                Fullscreen Modal
-              </button>
-              <button @click="modalPersistent = true" class="demo-button">
-                Persistent Modal
-              </button>
+              <button class="demo-button" @click="modalSmall = true">Small Modal</button>
+              <button class="demo-button" @click="modalLarge = true">Large Modal</button>
+              <button class="demo-button" @click="modalFullscreen = true">Fullscreen Modal</button>
+              <button class="demo-button" @click="modalPersistent = true">Persistent Modal</button>
             </LayoutRow>
           </section>
 
@@ -31,13 +23,13 @@
           <section>
             <h2>BottomSheet Component</h2>
             <LayoutRow :gap="'md'" :wrap="true">
-              <button @click="bottomSheetBasic = true" class="demo-button">
+              <button class="demo-button" @click="bottomSheetBasic = true">
                 Basic Bottom Sheet
               </button>
-              <button @click="bottomSheetSnapPoints = true" class="demo-button">
+              <button class="demo-button" @click="bottomSheetSnapPoints = true">
                 With Snap Points
               </button>
-              <button @click="bottomSheetNoSwipe = true" class="demo-button">
+              <button class="demo-button" @click="bottomSheetNoSwipe = true">
                 No Swipe to Close
               </button>
             </LayoutRow>
@@ -47,15 +39,11 @@
           <section>
             <h2>ActionSheet Component</h2>
             <LayoutRow :gap="'md'" :wrap="true">
-              <button @click="actionSheetBasic = true" class="demo-button">
-                Basic Actions
-              </button>
-              <button @click="actionSheetDestructive = true" class="demo-button">
+              <button class="demo-button" @click="actionSheetBasic = true">Basic Actions</button>
+              <button class="demo-button" @click="actionSheetDestructive = true">
                 With Destructive Action
               </button>
-              <button @click="actionSheetIcons = true" class="demo-button">
-                With Icons
-              </button>
+              <button class="demo-button" @click="actionSheetIcons = true">With Icons</button>
             </LayoutRow>
           </section>
 
@@ -63,18 +51,10 @@
           <section>
             <h2>Drawer Component</h2>
             <LayoutGrid :cols="{ mobile: 2, tablet: 4 }" :gap="'md'">
-              <button @click="drawerLeft = true" class="demo-button">
-                Left Drawer
-              </button>
-              <button @click="drawerRight = true" class="demo-button">
-                Right Drawer
-              </button>
-              <button @click="drawerTop = true" class="demo-button">
-                Top Drawer
-              </button>
-              <button @click="drawerBottom = true" class="demo-button">
-                Bottom Drawer
-              </button>
+              <button class="demo-button" @click="drawerLeft = true">Left Drawer</button>
+              <button class="demo-button" @click="drawerRight = true">Right Drawer</button>
+              <button class="demo-button" @click="drawerTop = true">Top Drawer</button>
+              <button class="demo-button" @click="drawerBottom = true">Bottom Drawer</button>
             </LayoutGrid>
           </section>
 
@@ -82,40 +62,22 @@
           <section>
             <h2>Toast Notifications</h2>
             <LayoutGrid :cols="{ mobile: 2, tablet: 4 }" :gap="'md'">
-              <button @click="showInfoToast" class="demo-button">
-                Info Toast
-              </button>
-              <button @click="showSuccessToast" class="demo-button">
-                Success Toast
-              </button>
-              <button @click="showWarningToast" class="demo-button">
-                Warning Toast
-              </button>
-              <button @click="showErrorToast" class="demo-button">
-                Error Toast
-              </button>
+              <button class="demo-button" @click="showInfoToast">Info Toast</button>
+              <button class="demo-button" @click="showSuccessToast">Success Toast</button>
+              <button class="demo-button" @click="showWarningToast">Warning Toast</button>
+              <button class="demo-button" @click="showErrorToast">Error Toast</button>
             </LayoutGrid>
             <LayoutRow :gap="'md'" :wrap="true" style="margin-top: var(--spacing-md)">
-              <button @click="showActionToast" class="demo-button">
-                With Action
-              </button>
-              <button @click="showClickableToast" class="demo-button">
-                Clickable Toast
-              </button>
-              <button @click="showPersistentToast" class="demo-button">
-                Persistent Toast
-              </button>
+              <button class="demo-button" @click="showActionToast">With Action</button>
+              <button class="demo-button" @click="showClickableToast">Clickable Toast</button>
+              <button class="demo-button" @click="showPersistentToast">Persistent Toast</button>
             </LayoutRow>
           </section>
 
           <!-- TabBar Demo -->
           <section>
             <h2>TabBar Component</h2>
-            <TabBar
-              v-model="activeTab"
-              :tabs="tabs"
-              :swipeable="true"
-            >
+            <TabBar v-model="activeTab" :tabs="tabs" :swipeable="true">
               <template #panel-tab1>
                 <div class="tab-content">
                   <h3>Dashboard Content</h3>
@@ -149,9 +111,7 @@
             <LayoutRow :gap="'md'" :wrap="true">
               <Popover placement="top">
                 <template #trigger="{ toggle }">
-                  <button @click="toggle" class="demo-button">
-                    Click Popover
-                  </button>
+                  <button class="demo-button" @click="toggle">Click Popover</button>
                 </template>
                 <div>
                   <h4 style="margin-top: 0">Click Triggered</h4>
@@ -161,9 +121,7 @@
 
               <Popover :triggers="['hover']" placement="right">
                 <template #trigger>
-                  <button class="demo-button">
-                    Hover Popover
-                  </button>
+                  <button class="demo-button">Hover Popover</button>
                 </template>
                 <div>
                   <h4 style="margin-top: 0">Hover Triggered</h4>
@@ -173,9 +131,7 @@
 
               <Popover placement="bottom" :show-arrow="false">
                 <template #trigger="{ toggle }">
-                  <button @click="toggle" class="demo-button">
-                    No Arrow
-                  </button>
+                  <button class="demo-button" @click="toggle">No Arrow</button>
                 </template>
                 <div>
                   <p>This popover has no arrow pointer.</p>
@@ -184,17 +140,17 @@
 
               <Popover placement="left">
                 <template #trigger="{ toggle, isOpen }">
-                  <button @click="toggle" class="demo-button" :class="{ active: isOpen }">
+                  <button class="demo-button" :class="{ active: isOpen }" @click="toggle">
                     {{ isOpen ? 'Close' : 'Open' }} Menu
                   </button>
                 </template>
                 <template v-if="$slots.default" #default="slotProps">
                   <div class="popover-menu">
-                    <button @click="slotProps?.close?.()" class="menu-item">Profile</button>
-                    <button @click="slotProps?.close?.()" class="menu-item">Settings</button>
-                    <button @click="slotProps?.close?.()" class="menu-item">Help</button>
+                    <button class="menu-item" @click="slotProps?.close?.()">Profile</button>
+                    <button class="menu-item" @click="slotProps?.close?.()">Settings</button>
+                    <button class="menu-item" @click="slotProps?.close?.()">Help</button>
                     <hr />
-                    <button @click="slotProps?.close?.()" class="menu-item">Logout</button>
+                    <button class="menu-item" @click="slotProps?.close?.()">Logout</button>
                   </div>
                 </template>
               </Popover>
@@ -206,28 +162,20 @@
             <h2>Tooltip Component</h2>
             <LayoutRow :gap="'lg'" :wrap="true">
               <Tooltip content="This is a helpful tooltip" placement="top">
-                <button class="demo-button">
-                  Top Tooltip
-                </button>
+                <button class="demo-button">Top Tooltip</button>
               </Tooltip>
 
               <Tooltip content="Appears on the right side" placement="right">
-                <button class="demo-button">
-                  Right Tooltip
-                </button>
+                <button class="demo-button">Right Tooltip</button>
               </Tooltip>
 
               <Tooltip content="Bottom positioned tooltip" placement="bottom">
-                <button class="demo-button">
-                  Bottom Tooltip
-                </button>
+                <button class="demo-button">Bottom Tooltip</button>
               </Tooltip>
 
               <Tooltip placement="left">
                 <template #default>
-                  <button class="demo-button">
-                    Custom Content
-                  </button>
+                  <button class="demo-button">Custom Content</button>
                 </template>
                 <template #content>
                   <div>
@@ -247,19 +195,11 @@
     </LayoutSafeArea>
 
     <!-- Modals -->
-    <Modal
-      v-model="modalSmall"
-      title="Small Modal"
-      size="sm"
-    >
+    <Modal v-model="modalSmall" title="Small Modal" size="sm">
       <p>This is a small modal dialog. Perfect for confirmations and simple messages.</p>
     </Modal>
 
-    <Modal
-      v-model="modalLarge"
-      title="Large Modal"
-      size="lg"
-    >
+    <Modal v-model="modalLarge" title="Large Modal" size="lg">
       <LayoutStack :spacing="'md'">
         <p>This is a large modal with more content space.</p>
         <p>You can add forms, lists, or any other content here.</p>
@@ -269,11 +209,7 @@
       </LayoutStack>
     </Modal>
 
-    <Modal
-      v-model="modalFullscreen"
-      title="Fullscreen Modal"
-      :fullscreen="true"
-    >
+    <Modal v-model="modalFullscreen" title="Fullscreen Modal" :fullscreen="true">
       <LayoutStack :spacing="'lg'">
         <p>This modal takes up the full screen.</p>
         <p>Great for immersive experiences or complex forms.</p>
@@ -292,10 +228,7 @@
     </Modal>
 
     <!-- Bottom Sheets -->
-    <BottomSheet
-      v-model="bottomSheetBasic"
-      title="Basic Bottom Sheet"
-    >
+    <BottomSheet v-model="bottomSheetBasic" title="Basic Bottom Sheet">
       <LayoutStack :spacing="'md'">
         <p>This is a basic bottom sheet. Drag down to close on mobile!</p>
         <p>It automatically adjusts its height based on content.</p>
@@ -327,11 +260,7 @@
     </BottomSheet>
 
     <!-- Action Sheets -->
-    <ActionSheet
-      v-model="actionSheetBasic"
-      title="Choose an Option"
-      :actions="basicActions"
-    />
+    <ActionSheet v-model="actionSheetBasic" title="Choose an Option" :actions="basicActions" />
 
     <ActionSheet
       v-model="actionSheetDestructive"
@@ -340,49 +269,31 @@
       :actions="destructiveActions"
     />
 
-    <ActionSheet
-      v-model="actionSheetIcons"
-      :actions="iconActions"
-    />
+    <ActionSheet v-model="actionSheetIcons" :actions="iconActions" />
 
     <!-- Drawers -->
-    <Drawer
-      v-model="drawerLeft"
-      position="left"
-      title="Left Drawer"
-    >
+    <Drawer v-model="drawerLeft" position="left" title="Left Drawer">
       <LayoutStack :spacing="'md'">
         <p>This drawer slides in from the left.</p>
         <p>Swipe left to close on mobile devices.</p>
       </LayoutStack>
     </Drawer>
 
-    <Drawer
-      v-model="drawerRight"
-      position="right"
-      title="Right Drawer"
-      size="lg"
-    >
+    <Drawer v-model="drawerRight" position="right" title="Right Drawer" size="lg">
       <LayoutStack :spacing="'md'">
         <p>This drawer slides in from the right with a larger size.</p>
         <p>Perfect for filters, settings, or additional navigation.</p>
       </LayoutStack>
     </Drawer>
 
-    <Drawer
-      v-model="drawerTop"
-      position="top"
-      title="Top Drawer"
-    >
+    <Drawer v-model="drawerTop" position="top" title="Top Drawer">
       <p>This drawer slides down from the top. Great for notifications or alerts.</p>
     </Drawer>
 
-    <Drawer
-      v-model="drawerBottom"
-      position="bottom"
-      title="Bottom Drawer"
-    >
-      <p>This drawer slides up from the bottom. Similar to a bottom sheet but with different styling.</p>
+    <Drawer v-model="drawerBottom" position="bottom" title="Bottom Drawer">
+      <p>
+        This drawer slides up from the bottom. Similar to a bottom sheet but with different styling.
+      </p>
     </Drawer>
   </div>
 </template>
@@ -434,7 +345,7 @@ const destructiveActions = [
 ]
 
 const iconActions = [
-  { 
+  {
     label: 'Camera',
     icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>',
     action: () => console.log('Camera clicked')
@@ -515,7 +426,10 @@ const showPersistentToast = () => {
 useHead({
   title: 'Overlay Components - Mobile-First Nuxt',
   meta: [
-    { name: 'description', content: 'Demo of overlay components including modals, sheets, and toasts' }
+    {
+      name: 'description',
+      content: 'Demo of overlay components including modals, sheets, and toasts'
+    }
   ]
 })
 </script>

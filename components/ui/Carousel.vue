@@ -1,5 +1,5 @@
 <template>
-  <div 
+  <div
     ref="carouselRef"
     class="carousel"
     :class="[
@@ -24,16 +24,8 @@
     </button>
 
     <!-- Viewport -->
-    <div 
-      ref="viewportRef"
-      class="carousel__viewport"
-      :style="viewportStyle"
-    >
-      <div 
-        ref="trackRef"
-        class="carousel__track"
-        :style="trackStyle"
-      >
+    <div ref="viewportRef" class="carousel__viewport" :style="viewportStyle">
+      <div ref="trackRef" class="carousel__track" :style="trackStyle">
         <div
           v-for="(item, index) in items"
           :key="`slide-${index}`"
@@ -117,7 +109,7 @@ const props = withDefaults(defineProps<CarouselProps>(), {
 
 const emit = defineEmits<{
   'update:modelValue': [value: number]
-  'change': [index: number]
+  change: [index: number]
 }>()
 
 // Refs
@@ -156,10 +148,8 @@ const viewportStyle = computed(() => ({
 
 const trackStyle = computed(() => {
   const position = isDragging.value ? currentTranslate.value : trackPosition.value
-  const transform = isHorizontal.value 
-    ? `translateX(${position}px)`
-    : `translateY(${position}px)`
-  
+  const transform = isHorizontal.value ? `translateX(${position}px)` : `translateY(${position}px)`
+
   return {
     transform,
     transition: isDragging.value ? 'none' : 'transform 0.3s ease-out'
@@ -169,7 +159,7 @@ const trackStyle = computed(() => {
 const slideStyle = computed(() => {
   const dimension = isHorizontal.value ? 'width' : 'height'
   const size = isHorizontal.value ? slideWidth.value : slideHeight.value
-  
+
   return {
     [dimension]: props.itemsToShow > 1 ? `${100 / props.itemsToShow}%` : '100%',
     flexShrink: 0
@@ -179,10 +169,10 @@ const slideStyle = computed(() => {
 // Methods
 const updateSlideSize = () => {
   if (!viewportRef.value) return
-  
+
   const rect = viewportRef.value.getBoundingClientRect()
   const totalGap = props.gap * (props.itemsToShow - 1)
-  
+
   if (isHorizontal.value) {
     slideWidth.value = (rect.width - totalGap) / props.itemsToShow
   } else {
@@ -199,16 +189,16 @@ const calculateTrackPosition = (index: number) => {
 const goTo = (index: number) => {
   // Prevent invalid indices that could cause infinite loops
   if (!props.items || props.items.length === 0) return
-  
+
   let targetIndex = index
-  
+
   if (props.loop) {
     if (index < 0) targetIndex = totalSlides.value - 1
     else if (index >= totalSlides.value) targetIndex = 0
   } else {
     targetIndex = Math.max(0, Math.min(maxIndex.value, index))
   }
-  
+
   // Only update if the index actually changed
   if (targetIndex !== currentIndex.value) {
     currentIndex.value = targetIndex
@@ -236,14 +226,14 @@ const handleTouchStart = (e: TouchEvent) => {
 const handleMouseDown = (e: MouseEvent) => {
   e.preventDefault()
   handleStart(e.clientX, e.clientY)
-  
+
   const handleMouseMove = (e: MouseEvent) => handleMove(e.clientX, e.clientY)
   const handleMouseUp = () => {
     handleEnd()
     document.removeEventListener('mousemove', handleMouseMove)
     document.removeEventListener('mouseup', handleMouseUp)
   }
-  
+
   document.addEventListener('mousemove', handleMouseMove)
   document.addEventListener('mouseup', handleMouseUp)
 }
@@ -252,7 +242,7 @@ const handleStart = (clientX: number, clientY: number) => {
   isDragging.value = true
   startPosition.value = isHorizontal.value ? clientX : clientY
   prevTranslate.value = trackPosition.value
-  
+
   if (animationId.value) {
     cancelAnimationFrame(animationId.value)
   }
@@ -260,30 +250,30 @@ const handleStart = (clientX: number, clientY: number) => {
 
 const handleMove = (clientX: number, clientY: number) => {
   if (!isDragging.value) return
-  
+
   const currentPosition = isHorizontal.value ? clientX : clientY
   const diff = currentPosition - startPosition.value
-  
+
   // Apply rubberband effect at edges
   let translate = prevTranslate.value + diff
-  
+
   if (!props.loop && props.rubberband) {
     const minTranslate = calculateTrackPosition(maxIndex.value)
     const maxTranslate = 0
-    
+
     if (translate > maxTranslate) {
       translate = maxTranslate + (translate - maxTranslate) * 0.15
     } else if (translate < minTranslate) {
       translate = minTranslate + (translate - minTranslate) * 0.15
     }
   }
-  
+
   currentTranslate.value = translate
 }
 
 const handleTouchMove = (e: TouchEvent) => {
   if (!isDragging.value) return
-  
+
   touchEndX.value = e.touches[0].clientX
   touchEndY.value = e.touches[0].clientY
   handleMove(e.touches[0].clientX, e.touches[0].clientY)
@@ -295,10 +285,10 @@ const handleTouchEnd = () => {
 
 const handleEnd = () => {
   isDragging.value = false
-  
+
   const diff = currentTranslate.value - prevTranslate.value
   const threshold = props.threshold
-  
+
   if (Math.abs(diff) > threshold) {
     if (diff > 0) {
       previous()
@@ -316,7 +306,7 @@ let autoplayTimer: NodeJS.Timeout | null = null
 
 const startAutoplay = () => {
   if (!props.autoplay) return
-  
+
   stopAutoplay()
   autoplayTimer = setInterval(() => {
     next()
@@ -334,14 +324,14 @@ const stopAutoplay = () => {
 onMounted(() => {
   // Ensure we're on the client side
   if (typeof window === 'undefined') return
-  
+
   updateSlideSize()
   trackPosition.value = calculateTrackPosition(currentIndex.value)
-  
+
   if (props.autoplay) {
     startAutoplay()
   }
-  
+
   // Add mouse event listeners for autoplay pause
   if (carouselRef.value) {
     carouselRef.value.addEventListener('mouseenter', handleMouseEnter)
@@ -351,7 +341,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   stopAutoplay()
-  
+
   // Clean up event listeners
   if (carouselRef.value) {
     carouselRef.value.removeEventListener('mouseenter', handleMouseEnter)
@@ -360,19 +350,25 @@ onUnmounted(() => {
 })
 
 // Watchers
-watch(() => props.modelValue, (newValue) => {
-  if (newValue !== currentIndex.value && newValue >= 0 && newValue < props.items.length) {
-    goTo(newValue)
+watch(
+  () => props.modelValue,
+  newValue => {
+    if (newValue !== currentIndex.value && newValue >= 0 && newValue < props.items.length) {
+      goTo(newValue)
+    }
   }
-})
+)
 
-watch(() => props.autoplay, (newValue) => {
-  if (newValue) {
-    startAutoplay()
-  } else {
-    stopAutoplay()
+watch(
+  () => props.autoplay,
+  newValue => {
+    if (newValue) {
+      startAutoplay()
+    } else {
+      stopAutoplay()
+    }
   }
-})
+)
 
 // Resize observer
 if (typeof window !== 'undefined') {
@@ -538,7 +534,7 @@ defineExpose({
   .carousel__control {
     display: none;
   }
-  
+
   .carousel--with-controls .carousel__control {
     display: flex;
   }

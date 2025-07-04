@@ -25,7 +25,7 @@
           <section>
             <h2>LayoutRow</h2>
             <p class="section-description">Horizontal layout with flexible spacing and alignment</p>
-            
+
             <div class="demo-subsection">
               <h3>Basic Row</h3>
               <div class="demo-section">
@@ -64,7 +64,7 @@
           <section>
             <h2>LayoutColumn</h2>
             <p class="section-description">Vertical layout with consistent spacing</p>
-            
+
             <div class="demo-section">
               <LayoutColumn :gap="'md'">
                 <div class="demo-box">First Item</div>
@@ -78,7 +78,7 @@
           <section>
             <h2>LayoutGrid</h2>
             <p class="section-description">Responsive grid system with multiple layout options</p>
-            
+
             <div class="demo-subsection">
               <h3>Fixed Columns</h3>
               <div class="demo-section">
@@ -93,10 +93,7 @@
             <div class="demo-subsection">
               <h3>Responsive Columns</h3>
               <div class="demo-section">
-                <LayoutGrid 
-                  :cols="{ mobile: 1, tablet: 2, laptop: 3, desktop: 4 }"
-                  :gap="'md'"
-                >
+                <LayoutGrid :cols="{ mobile: 1, tablet: 2, laptop: 3, desktop: 4 }" :gap="'md'">
                   <div v-for="i in 8" :key="`responsive-${i}`" class="demo-box">
                     {{ i }}
                   </div>
@@ -108,9 +105,7 @@
               <h3>Auto-fit Grid</h3>
               <div class="demo-section">
                 <LayoutGrid :auto-fit="true" :min-child-width="'200px'" :gap="'md'">
-                  <div v-for="i in 5" :key="`autofit-${i}`" class="demo-box">
-                    Auto {{ i }}
-                  </div>
+                  <div v-for="i in 5" :key="`autofit-${i}`" class="demo-box">Auto {{ i }}</div>
                 </LayoutGrid>
               </div>
             </div>
@@ -120,7 +115,7 @@
           <section>
             <h2>LayoutStack</h2>
             <p class="section-description">Overlapping layout for creating depth and layered UIs</p>
-            
+
             <div class="demo-section">
               <LayoutStack style="height: 200px">
                 <div class="stack-layer stack-layer-1">Background Layer</div>
@@ -138,12 +133,10 @@
           <section>
             <h2>LayoutWrap</h2>
             <p class="section-description">Wrapping layout that flows items to new rows</p>
-            
+
             <div class="demo-section">
               <LayoutWrap :gap="'md'">
-                <div v-for="i in 10" :key="`wrap-${i}`" class="demo-chip">
-                  Tag {{ i }}
-                </div>
+                <div v-for="i in 10" :key="`wrap-${i}`" class="demo-chip">Tag {{ i }}</div>
               </LayoutWrap>
             </div>
           </section>
@@ -152,7 +145,7 @@
           <section>
             <h2>LayoutExpanded</h2>
             <p class="section-description">Expands child to fill available space</p>
-            
+
             <div class="demo-section">
               <LayoutRow :gap="'md'" style="height: 100px">
                 <div class="demo-box">Fixed</div>
@@ -168,7 +161,7 @@
           <section>
             <h2>LayoutAligned</h2>
             <p class="section-description">Positions content within its parent</p>
-            
+
             <div class="demo-section" style="height: 300px; position: relative">
               <LayoutAligned alignment="topLeft">
                 <div class="aligned-box">Top Left</div>
@@ -204,11 +197,14 @@
           <section>
             <h2>LayoutSafeArea</h2>
             <p class="section-description">Ensures content avoids device notches and system UI</p>
-            
+
             <div class="demo-section demo-safe-area">
               <LayoutSafeArea :all="true">
                 <div class="demo-box">
-                  <p>This content respects safe area insets on devices with notches or rounded corners</p>
+                  <p>
+                    This content respects safe area insets on devices with notches or rounded
+                    corners
+                  </p>
                 </div>
               </LayoutSafeArea>
             </div>
@@ -218,7 +214,7 @@
           <section>
             <h2>Complex Layout Example</h2>
             <p class="section-description">Combining multiple layout primitives</p>
-            
+
             <div class="demo-section">
               <LayoutContainer>
                 <LayoutColumn :gap="'lg'">
@@ -238,7 +234,7 @@
                       </LayoutColumn>
                     </div>
                   </LayoutRow>
-                  
+
                   <LayoutGrid :cols="{ mobile: 2, tablet: 4 }" :gap="'md'">
                     <div v-for="i in 4" :key="`stat-${i}`" class="stat-card">
                       <div class="stat-value">{{ 25 * i }}%</div>
@@ -260,7 +256,10 @@
 useHead({
   title: 'Layout Primitives - Mobile-First Nuxt',
   meta: [
-    { name: 'description', content: 'Demo of Flutter-inspired layout components for predictable UI composition' }
+    {
+      name: 'description',
+      content: 'Demo of Flutter-inspired layout components for predictable UI composition'
+    }
   ]
 })
 </script>

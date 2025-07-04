@@ -42,7 +42,7 @@ export const validators = {
       return true
     }
   },
-  
+
   minLength: (min: number, message?: string): ValidationRule => {
     return (value: any) => {
       const msg = message || `Minimum length is ${min}`
@@ -52,7 +52,7 @@ export const validators = {
       return true
     }
   },
-  
+
   maxLength: (max: number, message?: string): ValidationRule => {
     return (value: any) => {
       const msg = message || `Maximum length is ${max}`
@@ -62,7 +62,7 @@ export const validators = {
       return true
     }
   },
-  
+
   min: (min: number, message?: string): ValidationRule => {
     return (value: any) => {
       const msg = message || `Minimum value is ${min}`
@@ -71,7 +71,7 @@ export const validators = {
       return true
     }
   },
-  
+
   max: (max: number, message?: string): ValidationRule => {
     return (value: any) => {
       const msg = message || `Maximum value is ${max}`
@@ -80,7 +80,7 @@ export const validators = {
       return true
     }
   },
-  
+
   email: (message = 'Invalid email address'): ValidationRule => {
     return (value: any) => {
       if (!value) return true
@@ -88,7 +88,7 @@ export const validators = {
       return emailRegex.test(value) || message
     }
   },
-  
+
   url: (message = 'Invalid URL'): ValidationRule => {
     return (value: any) => {
       if (!value) return true
@@ -100,14 +100,14 @@ export const validators = {
       }
     }
   },
-  
+
   pattern: (regex: RegExp, message = 'Invalid format'): ValidationRule => {
     return (value: any) => {
       if (!value) return true
       return regex.test(String(value)) || message
     }
   },
-  
+
   match: (fieldName: string, message?: string): ValidationRule => {
     return (value: any, formValues?: any) => {
       const msg = message || `Must match ${fieldName}`
@@ -115,13 +115,13 @@ export const validators = {
       return value === formValues[fieldName] || msg
     }
   },
-  
+
   custom: (fn: (value: any) => boolean, message = 'Invalid value'): ValidationRule => {
     return (value: any) => {
       return fn(value) || message
     }
   },
-  
+
   async: (fn: (value: any) => Promise<boolean>, message = 'Invalid value'): ValidationRule => {
     return async (value: any) => {
       const result = await fn(value)
@@ -141,18 +141,18 @@ export const useFormValidation = <T extends Record<string, any>>(
     debounceTime = 300,
     validateOnMount = false
   } = options
-  
+
   // Form values
   const values = reactive<T>({ ...initialValues })
-  
+
   // Validation state for each field
   const validationState = reactive<FormValidationState>({})
-  
+
   // Overall form state
   const isValidating = ref(false)
   const isSubmitting = ref(false)
   const submitCount = ref(0)
-  
+
   // Initialize validation state for each field
   Object.keys(rules).forEach(field => {
     validationState[field] = {
@@ -163,7 +163,7 @@ export const useFormValidation = <T extends Record<string, any>>(
       errors: []
     }
   })
-  
+
   // Get all errors
   const errors = computed(() => {
     const allErrors: ValidationErrors = {}
@@ -174,32 +174,32 @@ export const useFormValidation = <T extends Record<string, any>>(
     })
     return allErrors
   })
-  
+
   // Check if form is valid
   const isValid = computed(() => {
     return Object.values(validationState).every(state => state.isValid)
   })
-  
+
   // Check if form is dirty
   const isDirty = computed(() => {
     return Object.values(validationState).some(state => state.isDirty)
   })
-  
+
   // Check if form is touched
   const isTouched = computed(() => {
     return Object.values(validationState).some(state => state.isTouched)
   })
-  
+
   // Validate a single field
   const validateField = async (field: string, formValues?: any): Promise<boolean> => {
     if (!rules[field]) return true
-    
+
     const fieldRules = Array.isArray(rules[field]) ? rules[field] : [rules[field]]
     const value = (values as any)[field]
-    
+
     validationState[field].isValidating = true
     validationState[field].errors = []
-    
+
     try {
       for (const rule of fieldRules) {
         const result = await rule(value)
@@ -207,24 +207,22 @@ export const useFormValidation = <T extends Record<string, any>>(
           validationState[field].errors.push(result as string)
         }
       }
-      
+
       validationState[field].isValid = validationState[field].errors.length === 0
       return validationState[field].isValid
     } finally {
       validationState[field].isValidating = false
     }
   }
-  
+
   // Validate all fields
   const validate = async (): Promise<boolean> => {
     isValidating.value = true
-    const results = await Promise.all(
-      Object.keys(rules).map(field => validateField(field))
-    )
+    const results = await Promise.all(Object.keys(rules).map(field => validateField(field)))
     isValidating.value = false
     return results.every(result => result)
   }
-  
+
   // Clear errors for a field
   const clearFieldErrors = (field: string) => {
     if (validationState[field]) {
@@ -232,17 +230,17 @@ export const useFormValidation = <T extends Record<string, any>>(
       validationState[field].isValid = true
     }
   }
-  
+
   // Clear all errors
   const clearErrors = () => {
     Object.keys(validationState).forEach(field => {
       clearFieldErrors(field)
     })
   }
-  
+
   // Reset a field
   const resetField = (field: string) => {
-    (values as any)[field] = (initialValues as any)[field]
+    ;(values as any)[field] = (initialValues as any)[field]
     validationState[field] = {
       isDirty: false,
       isTouched: false,
@@ -251,11 +249,11 @@ export const useFormValidation = <T extends Record<string, any>>(
       errors: []
     }
   }
-  
+
   // Reset form
   const reset = () => {
     Object.keys(initialValues).forEach(field => {
-      (values as any)[field] = (initialValues as any)[field]
+      ;(values as any)[field] = (initialValues as any)[field]
     })
     Object.keys(validationState).forEach(field => {
       validationState[field] = {
@@ -268,37 +266,37 @@ export const useFormValidation = <T extends Record<string, any>>(
     })
     submitCount.value = 0
   }
-  
+
   // Handle field change
   const handleFieldChange = useDebounceFn(async (field: string) => {
     validationState[field].isDirty = true
-    
+
     if (mode === 'change' || (validationState[field].isTouched && revalidateMode === 'change')) {
       await validateField(field)
     }
   }, debounceTime)
-  
+
   // Handle field blur
   const handleFieldBlur = async (field: string) => {
     validationState[field].isTouched = true
-    
+
     if (mode === 'blur' || (validationState[field].isDirty && revalidateMode === 'blur')) {
       await validateField(field)
     }
   }
-  
+
   // Handle form submit
   const handleSubmit = async (onValid: (values: T) => void | Promise<void>) => {
     isSubmitting.value = true
     submitCount.value++
-    
+
     // Mark all fields as touched
     Object.keys(validationState).forEach(field => {
       validationState[field].isTouched = true
     })
-    
+
     const isFormValid = await validate()
-    
+
     if (isFormValid) {
       try {
         await onValid(values as T)
@@ -309,13 +307,13 @@ export const useFormValidation = <T extends Record<string, any>>(
       isSubmitting.value = false
     }
   }
-  
+
   // Field helpers
   const field = (name: string) => ({
     value: computed({
       get: () => (values as any)[name],
       set: (val: any) => {
-        (values as any)[name] = val
+        ;(values as any)[name] = val
         handleFieldChange(name)
       }
     }),
@@ -330,23 +328,27 @@ export const useFormValidation = <T extends Record<string, any>>(
     reset: () => resetField(name),
     blur: () => handleFieldBlur(name)
   })
-  
+
   // Watch for changes
-  watch(values, () => {
-    if (mode === 'change') {
-      validate()
-    }
-  }, { deep: true })
-  
+  watch(
+    values,
+    () => {
+      if (mode === 'change') {
+        validate()
+      }
+    },
+    { deep: true }
+  )
+
   // Validate on mount if enabled
   if (validateOnMount) {
     validate()
   }
-  
+
   return {
     // Values
     values,
-    
+
     // State
     errors,
     isValid,
@@ -355,7 +357,7 @@ export const useFormValidation = <T extends Record<string, any>>(
     isValidating,
     isSubmitting,
     submitCount,
-    
+
     // Methods
     validate,
     validateField,
@@ -365,7 +367,7 @@ export const useFormValidation = <T extends Record<string, any>>(
     resetField,
     handleSubmit,
     field,
-    
+
     // Direct field access
     fields: new Proxy({} as Record<string, ReturnType<typeof field>>, {
       get(target, prop: string) {
@@ -377,9 +379,6 @@ export const useFormValidation = <T extends Record<string, any>>(
 
 // Helper to create typed form validation
 export function createFormValidation<T extends Record<string, any>>() {
-  return (
-    initialValues: T,
-    rules: ValidationRules,
-    options?: UseFormValidationOptions
-  ) => useFormValidation(initialValues, rules, options)
+  return (initialValues: T, rules: ValidationRules, options?: UseFormValidationOptions) =>
+    useFormValidation(initialValues, rules, options)
 }

@@ -1,9 +1,5 @@
 <template>
-  <div 
-    class="layout-row"
-    :class="rowClasses"
-    :style="rowStyles"
-  >
+  <div class="layout-row" :class="rowClasses" :style="rowStyles">
     <slot />
   </div>
 </template>
@@ -49,10 +45,14 @@ const rowClasses = computed(() => ({
 const rowStyles = computed(() => ({
   gap: gapValues[props.gap],
   alignItems: props.align,
-  justifyContent: props.justify === 'between' ? 'space-between' : 
-                 props.justify === 'around' ? 'space-around' :
-                 props.justify === 'evenly' ? 'space-evenly' :
-                 `flex-${props.justify}`
+  justifyContent:
+    props.justify === 'between'
+      ? 'space-between'
+      : props.justify === 'around'
+        ? 'space-around'
+        : props.justify === 'evenly'
+          ? 'space-evenly'
+          : `flex-${props.justify}`
 }))
 </script>
 
@@ -75,7 +75,7 @@ const rowStyles = computed(() => ({
   .layout-row {
     flex-direction: column;
   }
-  
+
   .row-reverse {
     flex-direction: column-reverse;
   }

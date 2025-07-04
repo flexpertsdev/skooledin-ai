@@ -78,7 +78,7 @@ export const colors = {
     900: '#0c4a6e',
     950: '#082f49'
   },
-  
+
   // Surface colors
   surface: {
     light: {
@@ -94,7 +94,7 @@ export const colors = {
       overlay: 'rgba(0, 0, 0, 0.7)'
     }
   },
-  
+
   // Text colors
   text: {
     light: {
@@ -110,7 +110,7 @@ export const colors = {
       inverse: '#0f172a'
     }
   },
-  
+
   // Border colors
   border: {
     light: {

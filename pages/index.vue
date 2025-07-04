@@ -18,7 +18,7 @@
           <!-- Features Grid -->
           <section>
             <h2>Core Features</h2>
-            <LayoutGrid 
+            <LayoutGrid
               :cols="{ mobile: 1, tablet: 2, laptop: 3 }"
               :gap="'lg'"
               class="features-grid"
@@ -58,9 +58,7 @@
                 <p class="demos-description">
                   Check out our comprehensive collection of mobile-first components
                 </p>
-                <NuxtLink to="/demo" class="demos-button">
-                  View All Demos →
-                </NuxtLink>
+                <NuxtLink to="/demo" class="demos-button"> View All Demos → </NuxtLink>
               </div>
             </LayoutAligned>
           </section>
@@ -83,9 +81,7 @@
               <div class="demo-section">
                 <h3>Auto-Fit Grid</h3>
                 <LayoutGrid :auto-fit="true" :min-child-width="'200px'" :gap="'md'">
-                  <div v-for="i in 6" :key="i" class="demo-box">
-                    Grid Item {{ i }}
-                  </div>
+                  <div v-for="i in 6" :key="i" class="demo-box">Grid Item {{ i }}</div>
                 </LayoutGrid>
               </div>
             </LayoutStack>
@@ -100,9 +96,7 @@
 // Page meta
 useHead({
   title: 'Mobile-First Nuxt Project',
-  meta: [
-    { name: 'description', content: 'A comprehensive mobile-first design system for Nuxt 3' }
-  ]
+  meta: [{ name: 'description', content: 'A comprehensive mobile-first design system for Nuxt 3' }]
 })
 </script>
 

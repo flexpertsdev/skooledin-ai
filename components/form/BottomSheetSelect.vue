@@ -1,11 +1,7 @@
 <template>
   <div class="bottom-sheet-select">
     <!-- Trigger -->
-    <div 
-      class="select-trigger"
-      :class="triggerClasses"
-      @click="openSheet"
-    >
+    <div class="select-trigger" :class="triggerClasses" @click="openSheet">
       <div class="select-content">
         <span v-if="label" class="select-label">{{ label }}</span>
         <span class="select-value" :class="{ 'is-placeholder': !hasValue }">
@@ -13,10 +9,10 @@
         </span>
       </div>
       <svg class="select-arrow" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M7 10l5 5 5-5H7z"/>
+        <path d="M7 10l5 5 5-5H7z" />
       </svg>
     </div>
-    
+
     <!-- Bottom Sheet -->
     <BottomSheet
       v-model="isOpen"
@@ -34,20 +30,18 @@
           :placeholder="searchPlaceholder"
           class="search-input"
           @input="handleSearch"
-        >
+        />
         <svg class="search-icon" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+          <path
+            d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+          />
         </svg>
       </div>
-      
+
       <!-- Groups/Options -->
       <div class="select-options" :class="{ 'has-search': searchable }">
         <template v-if="grouped">
-          <div
-            v-for="group in filteredGroups"
-            :key="group.label"
-            class="option-group"
-          >
+          <div v-for="group in filteredGroups" :key="group.label" class="option-group">
             <div class="group-header">{{ group.label }}</div>
             <div
               v-for="option in group.options"
@@ -65,13 +59,18 @@
                   {{ getOptionDescription(option) }}
                 </span>
               </div>
-              <svg v-if="isSelected(option)" class="option-check" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+              <svg
+                v-if="isSelected(option)"
+                class="option-check"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
               </svg>
             </div>
           </div>
         </template>
-        
+
         <template v-else>
           <div
             v-for="option in filteredOptions"
@@ -89,12 +88,17 @@
                 {{ getOptionDescription(option) }}
               </span>
             </div>
-            <svg v-if="isSelected(option)" class="option-check" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M9 16.2L4.8 12l-1.4-1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+            <svg
+              v-if="isSelected(option)"
+              class="option-check"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path d="M9 16.2L4.8 12l-1.4-1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
             </svg>
           </div>
         </template>
-        
+
         <!-- Empty state -->
         <div v-if="filteredOptions.length === 0" class="select-empty">
           <slot name="empty">
@@ -102,7 +106,7 @@
           </slot>
         </div>
       </div>
-      
+
       <!-- Actions -->
       <div v-if="showActions" class="select-actions">
         <button
@@ -113,13 +117,7 @@
         >
           Clear
         </button>
-        <button
-          type="button"
-          class="action-btn done-btn"
-          @click="closeSheet"
-        >
-          Done
-        </button>
+        <button type="button" class="action-btn done-btn" @click="closeSheet">Done</button>
       </div>
     </BottomSheet>
   </div>
@@ -188,9 +186,9 @@ const props = withDefaults(defineProps<BottomSheetSelectProps>(), {
 // Emits
 const emit = defineEmits<{
   'update:modelValue': [value: any]
-  'change': [value: any]
-  'open': []
-  'close': []
+  change: [value: any]
+  open: []
+  close: []
 }>()
 
 // State
@@ -207,7 +205,7 @@ const hasValue = computed(() => {
 
 const selectedOption = computed(() => {
   if (!hasValue.value) return null
-  
+
   if (grouped.value) {
     for (const group of props.groups) {
       const option = group.options.find(opt => getOptionValue(opt) === modelValue.value)
@@ -216,7 +214,7 @@ const selectedOption = computed(() => {
   } else {
     return props.options.find(opt => getOptionValue(opt) === modelValue.value)
   }
-  
+
   return null
 })
 
@@ -229,7 +227,7 @@ const displayValue = computed(() => {
 
 const filteredOptions = computed(() => {
   if (!searchQuery.value) return props.options
-  
+
   const query = searchQuery.value.toLowerCase()
   return props.options.filter(option => {
     const label = getOptionLabel(option).toLowerCase()
@@ -240,7 +238,7 @@ const filteredOptions = computed(() => {
 
 const filteredGroups = computed(() => {
   if (!searchQuery.value) return props.groups
-  
+
   const query = searchQuery.value.toLowerCase()
   return props.groups
     .map(group => ({
@@ -295,11 +293,11 @@ const isSelected = (option: any): boolean => {
 
 const selectOption = (option: any) => {
   if (isDisabled(option)) return
-  
+
   const value = getOptionValue(option)
   modelValue.value = value
   emit('change', value)
-  
+
   if (!props.showActions) {
     closeSheet()
   }
@@ -327,7 +325,7 @@ const handleSearch = () => {
 }
 
 // Clear search when sheet closes
-watch(isOpen, (open) => {
+watch(isOpen, open => {
   if (!open) {
     searchQuery.value = ''
   }

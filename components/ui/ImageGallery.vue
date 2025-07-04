@@ -1,9 +1,6 @@
 <template>
   <div class="image-gallery" :class="`image-gallery--${layout}`">
-    <div 
-      class="image-gallery__grid"
-      :style="gridStyle"
-    >
+    <div class="image-gallery__grid" :style="gridStyle">
       <div
         v-for="(image, index) in images"
         :key="image.id || index"
@@ -26,37 +23,30 @@
           :fit="fit"
           :fade-in="true"
         />
-        
+
         <div v-if="showOverlay && image.title" class="image-gallery__overlay">
           <h4 v-if="image.title">{{ image.title }}</h4>
           <p v-if="image.description">{{ image.description }}</p>
         </div>
       </div>
     </div>
-    
+
     <!-- Lightbox -->
-    <Teleport to="body" v-if="showLightbox && selectedImage">
-      <div 
-        class="image-lightbox"
-        @click="closeLightbox"
-      >
-        <button 
-          class="lightbox__close"
-          @click="closeLightbox"
-          aria-label="Close lightbox"
-        >
+    <Teleport v-if="showLightbox && selectedImage" to="body">
+      <div class="image-lightbox" @click="closeLightbox">
+        <button class="lightbox__close" aria-label="Close lightbox" @click="closeLightbox">
           ✕
         </button>
-        
-        <button 
+
+        <button
           v-if="selectedIndex > 0"
           class="lightbox__nav lightbox__nav--prev"
-          @click.stop="navigateLightbox(-1)"
           aria-label="Previous image"
+          @click.stop="navigateLightbox(-1)"
         >
           ‹
         </button>
-        
+
         <div class="lightbox__content" @click.stop>
           <ResponsiveImage
             :src="selectedImage.src"
@@ -66,18 +56,18 @@
             :fit="'contain'"
             class="lightbox__image"
           />
-          
+
           <div v-if="selectedImage.title || selectedImage.description" class="lightbox__info">
             <h3 v-if="selectedImage.title">{{ selectedImage.title }}</h3>
             <p v-if="selectedImage.description">{{ selectedImage.description }}</p>
           </div>
         </div>
-        
-        <button 
+
+        <button
           v-if="selectedIndex < images.length - 1"
           class="lightbox__nav lightbox__nav--next"
-          @click.stop="navigateLightbox(1)"
           aria-label="Next image"
+          @click.stop="navigateLightbox(1)"
         >
           ›
         </button>
@@ -144,7 +134,7 @@ const gridStyle = computed(() => {
   const style: any = {
     gap: `${props.gap}px`
   }
-  
+
   if (props.layout === 'grid') {
     if (typeof props.columns === 'number') {
       style.gridTemplateColumns = `repeat(${props.columns}, 1fr)`
@@ -152,7 +142,7 @@ const gridStyle = computed(() => {
       // Responsive columns will be handled by CSS
     }
   }
-  
+
   return style
 })
 
@@ -172,21 +162,21 @@ const getSizes = (layout: string): string => {
 
 const getItemClass = (image: GalleryImage, index: number): string => {
   const classes = []
-  
+
   if (image.featured && props.layout === 'grid') {
     classes.push('image-gallery__item--featured')
   }
-  
+
   if (props.aspectRatio) {
     classes.push(`aspect-${props.aspectRatio.replace(':', '-')}`)
   }
-  
+
   return classes.join(' ')
 }
 
 const handleImageClick = (image: GalleryImage, index: number) => {
   emit('image-click', image, index)
-  
+
   if (props.enableLightbox) {
     openLightbox(image, index)
   }
@@ -203,7 +193,7 @@ const closeLightbox = () => {
   showLightbox.value = false
   document.body.style.overflow = ''
   emit('lightbox-close')
-  
+
   // Reset after animation
   setTimeout(() => {
     selectedIndex.value = -1
@@ -212,7 +202,7 @@ const closeLightbox = () => {
 
 const navigateLightbox = (direction: number) => {
   const newIndex = selectedIndex.value + direction
-  
+
   if (newIndex >= 0 && newIndex < props.images.length) {
     selectedIndex.value = newIndex
   }
@@ -222,7 +212,7 @@ const navigateLightbox = (direction: number) => {
 onMounted(() => {
   const handleKeydown = (e: KeyboardEvent) => {
     if (!showLightbox.value) return
-    
+
     switch (e.key) {
       case 'Escape':
         closeLightbox()
@@ -235,9 +225,9 @@ onMounted(() => {
         break
     }
   }
-  
+
   window.addEventListener('keydown', handleKeydown)
-  
+
   onUnmounted(() => {
     window.removeEventListener('keydown', handleKeydown)
   })
@@ -429,7 +419,7 @@ onMounted(() => {
   .image-gallery--grid .image-gallery__grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .image-gallery--masonry .image-gallery__grid {
     columns: 2;
   }
@@ -439,22 +429,22 @@ onMounted(() => {
   .image-gallery--grid .image-gallery__grid {
     grid-template-columns: 1fr;
   }
-  
+
   .image-gallery--masonry .image-gallery__grid {
     columns: 1;
   }
-  
+
   .image-gallery__item--featured {
     grid-column: span 1;
     grid-row: span 1;
   }
-  
+
   .lightbox__nav {
     width: 44px;
     height: 44px;
     font-size: 24px;
   }
-  
+
   .lightbox__close {
     width: 44px;
     height: 44px;

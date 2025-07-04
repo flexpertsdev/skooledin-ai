@@ -3,11 +3,7 @@
     <div v-if="modelValue || isAnimating" class="drawer-wrapper">
       <!-- Backdrop -->
       <Transition name="backdrop">
-        <div 
-          v-if="modelValue && backdrop"
-          class="drawer-backdrop"
-          @click="handleBackdropClick"
-        />
+        <div v-if="modelValue && backdrop" class="drawer-backdrop" @click="handleBackdropClick" />
       </Transition>
 
       <!-- Drawer -->
@@ -30,13 +26,20 @@
             </slot>
             <button
               v-if="showCloseButton"
-              @click="close"
               class="drawer-close"
               aria-label="Close drawer"
               type="button"
+              @click="close"
             >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M18 6L6 18M6 6l12 12"/>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M18 6L6 18M6 6l12 12" />
               </svg>
             </button>
           </div>
@@ -89,8 +92,8 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   'update:modelValue': [value: boolean]
-  'open': []
-  'close': []
+  open: []
+  close: []
 }>()
 
 const drawerRef = ref<HTMLElement>()
@@ -118,7 +121,7 @@ const drawerStyles = computed(() => {
   const isHorizontal = props.position === 'left' || props.position === 'right'
   const dimension = isHorizontal ? 'width' : 'height'
   const sizeValue = props[dimension] || sizeMap[props.size][dimension]
-  
+
   return {
     [dimension]: props.size === 'full' ? '100%' : sizeValue
   }
@@ -145,18 +148,21 @@ const close = () => {
 }
 
 // Watch model value
-watch(() => props.modelValue, (isOpen) => {
-  if (isOpen) {
-    isAnimating.value = true
-    document.body.style.overflow = 'hidden'
-    emit('open')
-  } else {
-    document.body.style.overflow = ''
-    setTimeout(() => {
-      isAnimating.value = false
-    }, 300)
+watch(
+  () => props.modelValue,
+  isOpen => {
+    if (isOpen) {
+      isAnimating.value = true
+      document.body.style.overflow = 'hidden'
+      emit('open')
+    } else {
+      document.body.style.overflow = ''
+      setTimeout(() => {
+        isAnimating.value = false
+      }, 300)
+    }
   }
-})
+)
 
 // Swipe to close
 if (props.swipeToClose && isMobile.value && drawerRef.value) {
@@ -165,12 +171,24 @@ if (props.swipeToClose && isMobile.value && drawerRef.value) {
     onSwipeEnd() {
       const horizontalSwipe = Math.abs(lengthX.value) > Math.abs(lengthY.value)
       const verticalSwipe = Math.abs(lengthY.value) > Math.abs(lengthX.value)
-      
+
       if (
-        (props.position === 'left' && direction.value === 'left' && lengthX.value > 100 && horizontalSwipe) ||
-        (props.position === 'right' && direction.value === 'right' && lengthX.value > 100 && horizontalSwipe) ||
-        (props.position === 'top' && direction.value === 'up' && lengthY.value > 100 && verticalSwipe) ||
-        (props.position === 'bottom' && direction.value === 'down' && lengthY.value > 100 && verticalSwipe)
+        (props.position === 'left' &&
+          direction.value === 'left' &&
+          lengthX.value > 100 &&
+          horizontalSwipe) ||
+        (props.position === 'right' &&
+          direction.value === 'right' &&
+          lengthX.value > 100 &&
+          horizontalSwipe) ||
+        (props.position === 'top' &&
+          direction.value === 'up' &&
+          lengthY.value > 100 &&
+          verticalSwipe) ||
+        (props.position === 'bottom' &&
+          direction.value === 'down' &&
+          lengthY.value > 100 &&
+          verticalSwipe)
       ) {
         close()
       }
@@ -185,16 +203,19 @@ const { activate, deactivate } = useFocusTrap(drawerRef, {
   allowOutsideClick: true
 })
 
-watch(() => props.modelValue, (isOpen) => {
-  if (isOpen) {
-    nextTick(() => {
-      drawerRef.value?.focus()
-      activate()
-    })
-  } else {
-    deactivate()
+watch(
+  () => props.modelValue,
+  isOpen => {
+    if (isOpen) {
+      nextTick(() => {
+        drawerRef.value?.focus()
+        activate()
+      })
+    } else {
+      deactivate()
+    }
   }
-})
+)
 
 // Cleanup
 onUnmounted(() => {
@@ -403,7 +424,7 @@ onUnmounted(() => {
   .drawer-bottom-leave-active {
     transition: opacity var(--transition-fast) var(--easing-standard);
   }
-  
+
   .drawer-left-enter-from,
   .drawer-left-leave-to,
   .drawer-right-enter-from,

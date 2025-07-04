@@ -1,16 +1,16 @@
 :root {
-  /* Colors - Primary */
-  --color-primary-50: #eff6ff;
-  --color-primary-100: #dbeafe;
-  --color-primary-200: #bfdbfe;
-  --color-primary-300: #93bbfd;
-  --color-primary-400: #60a5fa;
-  --color-primary-500: #3b82f6;
-  --color-primary-600: #2563eb;
-  --color-primary-700: #1d4ed8;
-  --color-primary-800: #1e40af;
-  --color-primary-900: #1e3a8a;
-  --color-primary-950: #172554;
+  /* Colors - Primary (Skooledin Brand Purple) */
+  --color-primary-50: #f5f3ff;
+  --color-primary-100: #ede9fe;
+  --color-primary-200: #ddd6fe;
+  --color-primary-300: #c4b5fd;
+  --color-primary-400: #a78bfa;
+  --color-primary-500: #8b5cf6;
+  --color-primary-600: #7c3aed;
+  --color-primary-700: #6d28d9;
+  --color-primary-800: #5b21b6;
+  --color-primary-900: #4c1d95;
+  --color-primary-950: #2e1065;
 
   /* Colors - Secondary */
   --color-secondary-50: #f8fafc;
@@ -77,6 +77,24 @@
   --color-info-900: #0c4a6e;
   --color-info-950: #082f49;
 
+  /* Subject Colors */
+  --color-subject-math: #3b82f6;
+  --color-subject-science: #10b981;
+  --color-subject-language: #f59e0b;
+  --color-subject-history: #a78bfa;
+  --color-subject-arts: #ec4899;
+  --color-subject-sports: #14b8a6;
+
+  /* AI-Specific Colors */
+  --color-ai-thinking: #8b5cf6;
+  --color-ai-confident: #10b981;
+  --color-ai-uncertain: #f59e0b;
+  --color-ai-error: #ef4444;
+
+  /* Surface Colors - Additional */
+  --surface-chat: #faf5ff;
+  --surface-modal: rgba(0, 0, 0, 0.5);
+
   /* Spacing */
   --spacing-0: 0px;
   --spacing-px: 1px;
@@ -113,6 +131,13 @@
   --spacing-3xl: var(--spacing-16);
   --spacing-4xl: var(--spacing-20);
   --spacing-5xl: var(--spacing-32);
+
+  /* Component-specific spacing */
+  --spacing-touch: 44px; /* Minimum touch target */
+  --spacing-message: 12px; /* Message bubble padding */
+  --spacing-card: 16px; /* Card padding */
+  --spacing-section: 24px; /* Section spacing */
+  --spacing-page: 16px; /* Page margins */
 
   /* Typography */
   --font-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";

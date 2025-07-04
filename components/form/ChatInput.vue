@@ -1,15 +1,12 @@
 <template>
-  <div 
-    :class="classes"
-    :style="cssVars"
-  >
+  <div :class="classes" :style="cssVars">
     <!-- Main input container -->
     <div class="chat-input-container">
       <!-- Left slot (e.g., attachments) -->
       <div v-if="$slots.left" class="chat-input-left">
         <slot name="left" />
       </div>
-      
+
       <!-- Input wrapper -->
       <div class="chat-input-wrapper">
         <!-- Growing textarea -->
@@ -28,16 +25,16 @@
           @focus="handleFocus"
           @blur="handleBlur"
         />
-        
+
         <!-- Character counter -->
-        <div 
+        <div
           v-if="showCounter && maxLength"
           class="chat-input-counter"
           :class="{ 'is-exceeded': characterCount > maxLength }"
         >
           {{ characterCount }}/{{ maxLength }}
         </div>
-        
+
         <!-- Typing indicator -->
         <transition name="fade">
           <div v-if="showTypingIndicator && isTyping" class="chat-input-typing">
@@ -47,7 +44,7 @@
           </div>
         </transition>
       </div>
-      
+
       <!-- Right actions -->
       <div class="chat-input-actions">
         <!-- Voice button -->
@@ -60,14 +57,18 @@
           @click="toggleVoiceRecording"
         >
           <svg v-if="!isRecording" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+            <path
+              d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"
+            />
+            <path
+              d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"
+            />
           </svg>
           <svg v-else viewBox="0 0 24 24" fill="currentColor">
-            <path d="M6 6h12v12H6z"/>
+            <path d="M6 6h12v12H6z" />
           </svg>
         </button>
-        
+
         <!-- Send button -->
         <button
           type="button"
@@ -77,20 +78,20 @@
           @click="handleSend"
         >
           <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
           </svg>
         </button>
-        
+
         <!-- Custom action slot -->
         <slot name="action" />
       </div>
     </div>
-    
+
     <!-- Bottom toolbar -->
     <div v-if="$slots.toolbar" class="chat-input-toolbar">
       <slot name="toolbar" />
     </div>
-    
+
     <!-- Suggestions -->
     <transition name="slide-up">
       <div v-if="showSuggestions && suggestions.length > 0" class="chat-input-suggestions">
@@ -153,12 +154,12 @@ const props = withDefaults(defineProps<ChatInputProps>(), {
 // Emits
 const emit = defineEmits<{
   'update:modelValue': [value: string]
-  'send': [value: string]
-  'focus': [event: FocusEvent]
-  'blur': [event: FocusEvent]
+  send: [value: string]
+  focus: [event: FocusEvent]
+  blur: [event: FocusEvent]
   'voice-start': []
   'voice-end': []
-  'typing': [isTyping: boolean]
+  typing: [isTyping: boolean]
 }>()
 
 // Refs
@@ -185,12 +186,12 @@ const canSend = computed(() => {
 
 const textareaHeight = computed(() => {
   if (!props.autoResize) return 'auto'
-  
+
   const lineHeight = 24 // Approximate line height
   const padding = 16 // Top + bottom padding
   const minHeight = props.minRows * lineHeight + padding
   const maxHeight = props.maxRows * lineHeight + padding
-  
+
   return `${Math.min(Math.max(minHeight, textarea.value?.scrollHeight || minHeight), maxHeight)}px`
 })
 
@@ -216,13 +217,13 @@ const cssVars = computed(() => ({
 const handleInput = (event: Event) => {
   const target = event.target as HTMLTextAreaElement
   modelValue.value = target.value
-  
+
   if (props.autoResize) {
     nextTick(() => {
       triggerResize()
     })
   }
-  
+
   // Handle typing indicator
   if (props.showTypingIndicator) {
     handleTypingIndicator()
@@ -249,11 +250,11 @@ const handleBlur = (event: FocusEvent) => {
 
 const handleSend = () => {
   if (!canSend.value) return
-  
+
   const message = modelValue.value.trim()
   emit('send', message)
   modelValue.value = ''
-  
+
   // Reset height
   if (props.autoResize) {
     nextTick(() => {
@@ -269,7 +270,7 @@ const selectSuggestion = (suggestion: string) => {
 
 const toggleVoiceRecording = () => {
   isRecording.value = !isRecording.value
-  
+
   if (isRecording.value) {
     emit('voice-start')
   } else {
@@ -281,12 +282,12 @@ const toggleVoiceRecording = () => {
 const handleTypingIndicator = useDebounceFn(() => {
   isTyping.value = true
   emit('typing', true)
-  
+
   // Clear previous timer
   if (typingTimer.value) {
     clearTimeout(typingTimer.value)
   }
-  
+
   // Stop typing after 2 seconds of inactivity
   typingTimer.value = setTimeout(() => {
     isTyping.value = false
@@ -336,7 +337,7 @@ defineExpose({
   --counter-text: var(--color-text-tertiary);
   --suggestion-bg: var(--color-surface-elevated);
   --suggestion-text: var(--color-text);
-  
+
   position: relative;
   width: 100%;
 }
@@ -469,7 +470,9 @@ defineExpose({
 }
 
 @keyframes typing-bounce {
-  0%, 80%, 100% {
+  0%,
+  80%,
+  100% {
     transform: translateY(0);
     opacity: 0.5;
   }
