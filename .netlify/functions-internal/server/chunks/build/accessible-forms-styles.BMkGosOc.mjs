@@ -1,6 +1,0 @@
-import { a as accessibleForms_vue_vue_type_style_index_0_scoped_430daf8b_lang } from './accessible-forms-styles-1.mjs-DrQnk4rj.mjs';
-
-const accessibleFormsStyles_BMkGosOc = [accessibleForms_vue_vue_type_style_index_0_scoped_430daf8b_lang];
-
-export { accessibleFormsStyles_BMkGosOc as default };
-//# sourceMappingURL=accessible-forms-styles.BMkGosOc.mjs.map

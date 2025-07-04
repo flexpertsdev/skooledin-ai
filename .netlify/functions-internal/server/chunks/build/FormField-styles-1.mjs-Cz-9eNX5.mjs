@@ -1,0 +1,4 @@
+const FormField_vue_vue_type_style_index_0_scoped_b5fbe302_lang = ".form-field[data-v-b5fbe302]{@apply space-y-1.5;}.form-field-label[data-v-b5fbe302]{@apply block text-sm font-medium text-gray-700;}.form-field-required[data-v-b5fbe302]{@apply text-red-500 ml-0.5;}.form-field-input[data-v-b5fbe302]{@apply relative;}.form-field-error[data-v-b5fbe302]{@apply flex items-center gap-1 text-sm text-red-600;}.form-field-error-icon[data-v-b5fbe302]{@apply w-4 h-4;}.form-field-hint[data-v-b5fbe302]{@apply text-sm text-gray-500;}.form-field--error[data-v-b5fbe302] input,.form-field--error[data-v-b5fbe302] select,.form-field--error[data-v-b5fbe302] textarea{@apply border-red-500 focus:border-red-500 focus:ring-red-500/20;}";
+
+export { FormField_vue_vue_type_style_index_0_scoped_b5fbe302_lang as F };
+//# sourceMappingURL=FormField-styles-1.mjs-Cz-9eNX5.mjs.map

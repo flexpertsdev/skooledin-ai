@@ -335,188 +335,291 @@ const completeTask = (taskId: string) => {
 
 <style scoped>
 .student-dashboard {
-  @apply min-h-screen bg-gray-50 py-6;
+  min-height: 100vh;
+  background-color: rgb(249 250 251);
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
 }
 
 /* Welcome Section */
 .dashboard-welcome {
-  @apply bg-gradient-to-r from-primary-600 to-primary-700 rounded-2xl p-8
-         text-white mb-8 flex items-center justify-between gap-6;
+  background-image: linear-gradient(to right, var(--primary-600), var(--primary-700));
+  border-radius: 1rem;
+  padding: 2rem;
+  color: #ffffff;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
 }
 
 .welcome-content {
-  @apply flex-1;
+  flex: 1 1 0%;
 }
 
 .welcome-title {
-  @apply text-3xl font-bold mb-2;
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
 }
 
 .welcome-subtitle {
-  @apply text-primary-100 text-lg;
+  color: var(--primary-100);
+  font-size: 1.125rem;
 }
 
 .welcome-stats {
-  @apply flex gap-4;
+  display: flex;
+  gap: 1rem;
 }
 
 .stat-card {
-  @apply bg-white/10 backdrop-blur-sm rounded-xl p-4 flex items-center gap-3;
+  background-color: rgb(255 255 255 / 0.1);
+  backdrop-filter: blur(4px);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .stat-icon {
-  @apply w-10 h-10;
+  width: 2.5rem;
+  height: 2.5rem;
 }
 
 .stat-icon--streak {
-  @apply text-orange-300;
+  color: rgb(253 186 116);
 }
 
 .stat-icon--points {
-  @apply text-yellow-300;
+  color: rgb(252 211 77);
 }
 
 .stat-info {
-  @apply text-white;
+  color: #ffffff;
 }
 
 .stat-value {
-  @apply text-2xl font-bold;
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
 .stat-label {
-  @apply text-sm text-primary-100;
+  font-size: 0.875rem;
+  color: var(--primary-100);
 }
 
 /* Sections */
 .dashboard-section {
-  @apply mb-8;
+  margin-bottom: 2rem;
 }
 
 .section-header {
-  @apply flex items-center justify-between mb-6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
 }
 
 .section-title {
-  @apply text-xl font-semibold text-gray-900;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: rgb(17 24 39);
 }
 
 .section-link {
-  @apply flex items-center gap-1 text-sm text-primary-600 hover:text-primary-700
-         font-medium transition-colors;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--primary-600);
+  font-weight: 500;
+  transition: color 150ms ease;
+}
+
+.section-link:hover {
+  color: var(--primary-700);
 }
 
 .section-link Icon {
-  @apply w-4 h-4;
+  width: 1rem;
+  height: 1rem;
 }
 
 /* Quick Actions */
 .quick-action {
-  @apply flex flex-col items-center justify-center gap-3 p-6 rounded-xl
-         border-2 border-transparent hover:scale-105 transition-all
-         text-white font-medium;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  border: 2px solid transparent;
+  transition: all 150ms ease;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.quick-action:hover {
+  transform: scale(1.05);
 }
 
 .quick-action-icon {
-  @apply w-8 h-8;
+  width: 2rem;
+  height: 2rem;
 }
 
 .quick-action-label {
-  @apply text-sm;
+  font-size: 0.875rem;
 }
 
 .quick-action--purple {
-  @apply bg-purple-600 hover:bg-purple-700;
+  background-color: rgb(147 51 234);
+}
+
+.quick-action--purple:hover {
+  background-color: rgb(126 34 206);
 }
 
 .quick-action--blue {
-  @apply bg-blue-600 hover:bg-blue-700;
+  background-color: rgb(37 99 235);
+}
+
+.quick-action--blue:hover {
+  background-color: rgb(29 78 216);
 }
 
 .quick-action--green {
-  @apply bg-green-600 hover:bg-green-700;
+  background-color: rgb(34 197 94);
+}
+
+.quick-action--green:hover {
+  background-color: rgb(21 128 61);
 }
 
 .quick-action--orange {
-  @apply bg-orange-600 hover:bg-orange-700;
+  background-color: rgb(251 146 60);
+}
+
+.quick-action--orange:hover {
+  background-color: rgb(234 88 12);
 }
 
 /* Course Grid */
 .course-grid {
-  @apply grid grid-cols-1 md:grid-cols-2 gap-6;
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .course-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 /* Tool Cards */
 .tool-card {
-  @apply cursor-pointer hover:shadow-lg transition-all;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.tool-card:hover {
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.05);
 }
 
 .tool-icon {
-  @apply w-12 h-12 rounded-xl flex items-center justify-center mb-4;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
 }
 
 .tool-icon Icon {
-  @apply w-6 h-6 text-white;
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #ffffff;
 }
 
 .tool-icon--purple {
-  @apply bg-purple-600;
+  background-color: rgb(147 51 234);
 }
 
 .tool-icon--green {
-  @apply bg-green-600;
+  background-color: rgb(34 197 94);
 }
 
 .tool-icon--blue {
-  @apply bg-blue-600;
+  background-color: rgb(37 99 235);
 }
 
 .tool-title {
-  @apply text-lg font-semibold text-gray-900 mb-2;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: rgb(17 24 39);
+  margin-bottom: 0.5rem;
 }
 
 .tool-description {
-  @apply text-sm text-gray-600 mb-4;
+  font-size: 0.875rem;
+  color: rgb(75 85 99);
+  margin-bottom: 1rem;
 }
 
 .tool-stats {
-  @apply flex items-center justify-between text-sm;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem;
 }
 
 .tool-updated {
-  @apply text-gray-500;
+  color: rgb(107 114 128);
 }
 
 /* Task List */
 .task-list {
-  @apply space-y-3;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 /* Activity Timeline */
 .activity-timeline {
-  @apply space-y-4;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 /* Mobile adjustments */
 @media (max-width: 768px) {
   .dashboard-welcome {
-    @apply flex-col text-center;
+    flex-direction: column;
+    text-align: center;
   }
   
   .welcome-stats {
-    @apply w-full justify-center;
+    width: 100%;
+    justify-content: center;
   }
   
   .stat-card {
-    @apply flex-1;
+    flex: 1 1 0%;
   }
   
   .quick-action {
-    @apply p-4;
+    padding: 1rem;
   }
   
   .quick-action-icon {
-    @apply w-6 h-6;
+    width: 1.5rem;
+    height: 1.5rem;
   }
 }
 </style>

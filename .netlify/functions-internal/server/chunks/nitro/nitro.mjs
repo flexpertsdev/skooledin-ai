@@ -100,7 +100,7 @@ function encodeQueryValue(input) {
 function encodeQueryKey(text) {
   return encodeQueryValue(text).replace(EQUAL_RE, "%3D");
 }
-function decode(text = "") {
+function decode$1(text = "") {
   try {
     return decodeURIComponent("" + text);
   } catch {
@@ -108,10 +108,10 @@ function decode(text = "") {
   }
 }
 function decodeQueryKey(text) {
-  return decode(text.replace(PLUS_RE, " "));
+  return decode$1(text.replace(PLUS_RE, " "));
 }
 function decodeQueryValue(text) {
-  return decode(text.replace(PLUS_RE, " "));
+  return decode$1(text.replace(PLUS_RE, " "));
 }
 
 function parseQuery(parametersString = "") {
@@ -370,6 +370,53 @@ function stringifyParsedURL(parsed) {
   const host = parsed.host || "";
   const proto = parsed.protocol || parsed[protocolRelative] ? (parsed.protocol || "") + "//" : "";
   return proto + auth + host + pathname + search + hash;
+}
+
+function parse(str, options) {
+  if (typeof str !== "string") {
+    throw new TypeError("argument str must be a string");
+  }
+  const obj = {};
+  const opt = {};
+  const dec = opt.decode || decode;
+  let index = 0;
+  while (index < str.length) {
+    const eqIdx = str.indexOf("=", index);
+    if (eqIdx === -1) {
+      break;
+    }
+    let endIdx = str.indexOf(";", index);
+    if (endIdx === -1) {
+      endIdx = str.length;
+    } else if (endIdx < eqIdx) {
+      index = str.lastIndexOf(";", eqIdx - 1) + 1;
+      continue;
+    }
+    const key = str.slice(index, eqIdx).trim();
+    if (opt?.filter && !opt?.filter(key)) {
+      index = endIdx + 1;
+      continue;
+    }
+    if (void 0 === obj[key]) {
+      let val = str.slice(eqIdx + 1, endIdx).trim();
+      if (val.codePointAt(0) === 34) {
+        val = val.slice(1, -1);
+      }
+      obj[key] = tryDecode(val, dec);
+    }
+    index = endIdx + 1;
+  }
+  return obj;
+}
+function decode(str) {
+  return str.includes("%") ? decodeURIComponent(str) : str;
+}
+function tryDecode(str, decode2) {
+  try {
+    return decode2(str);
+  } catch {
+    return str;
+  }
 }
 
 const NODE_TYPES = {
@@ -833,6 +880,7 @@ function getRequestHeader(event, name) {
   const value = headers[name.toLowerCase()];
   return value;
 }
+const getHeader = getRequestHeader;
 function getRequestHost(event, opts = {}) {
   if (opts.xForwardedHost) {
     const xForwardedHost = event.node.req.headers["x-forwarded-host"];
@@ -1063,6 +1111,13 @@ function sanitizeStatusCode(statusCode, defaultStatusCode = 200) {
     return defaultStatusCode;
   }
   return statusCode;
+}
+
+function parseCookies(event) {
+  return parse(event.node.req.headers.cookie || "");
+}
+function getCookie(event, name) {
+  return parseCookies(event)[name];
 }
 function splitCookiesString(cookiesString) {
   if (Array.isArray(cookiesString)) {
@@ -4057,7 +4112,7 @@ function _expandFromEnv(value) {
 const _inlineRuntimeConfig = {
   "app": {
     "baseURL": "/",
-    "buildId": "bf827ad9-9ad9-44df-afaa-7540e9c479ff",
+    "buildId": "26135ca3-3e12-42c8-acdc-e0b7ec6cfbf0",
     "buildAssetsDir": "/_nuxt/",
     "cdnURL": ""
   },
@@ -4084,7 +4139,18 @@ const _inlineRuntimeConfig = {
       }
     }
   },
-  "public": {},
+  "public": {
+    "firebaseApiKey": "",
+    "firebaseAuthDomain": "",
+    "firebaseProjectId": "",
+    "firebaseStorageBucket": "",
+    "firebaseMessagingSenderId": "",
+    "firebaseAppId": "",
+    "firebaseMeasurementId": "",
+    "useFirebaseEmulator": false,
+    "isDevelopment": false
+  },
+  "anthropicApiKey": "",
   "ipx": {
     "baseURL": "/_ipx",
     "alias": {},
@@ -4495,15 +4561,26 @@ async function errorHandler(error, event) {
 
 const script = "\"use strict\";(()=>{const t=window,e=document.documentElement,c=[\"dark\",\"light\"],n=getStorageValue(\"localStorage\",\"theme\")||\"system\";let i=n===\"system\"?u():n;const r=e.getAttribute(\"data-color-mode-forced\");r&&(i=r),l(i),t[\"__NUXT_COLOR_MODE__\"]={preference:n,value:i,getColorScheme:u,addColorScheme:l,removeColorScheme:d};function l(o){const s=\"\"+o+\"\",a=\"\";e.classList?e.classList.add(s):e.className+=\" \"+s,a&&e.setAttribute(\"data-\"+a,o)}function d(o){const s=\"\"+o+\"\",a=\"\";e.classList?e.classList.remove(s):e.className=e.className.replace(new RegExp(s,\"g\"),\"\"),a&&e.removeAttribute(\"data-\"+a)}function f(o){return t.matchMedia(\"(prefers-color-scheme\"+o+\")\")}function u(){if(t.matchMedia&&f(\"\").media!==\"not all\"){for(const o of c)if(f(\":\"+o).matches)return o}return\"light\"}})();function getStorageValue(t,e){switch(t){case\"localStorage\":return window.localStorage.getItem(e);case\"sessionStorage\":return window.sessionStorage.getItem(e);case\"cookie\":return getCookie(e);default:return null}}function getCookie(t){const c=(\"; \"+window.document.cookie).split(\"; \"+t+\"=\");if(c.length===2)return c.pop()?.split(\";\").shift()}";
 
-const _4we73c6YEdZywc746pWe2lIOTymrNiaFFEcWPOoUexA = (function(nitro) {
+const _W9146YjXszB1lZuUB1QopK8MatLqQ0iDncvTSWKBE = (function(nitro) {
   nitro.hooks.hook("render:html", (htmlContext) => {
     htmlContext.head.push(`<script>${script}<\/script>`);
   });
 });
 
 const plugins = [
-  _4we73c6YEdZywc746pWe2lIOTymrNiaFFEcWPOoUexA
+  _W9146YjXszB1lZuUB1QopK8MatLqQ0iDncvTSWKBE
 ];
+
+const _MmcjD6 = defineEventHandler(async (event) => {
+  var _a, _b;
+  if ((_a = event.node.req.url) == null ? void 0 : _a.startsWith("/api/public")) {
+    return;
+  }
+  const token = getCookie(event, "auth-token") || ((_b = getHeader(event, "authorization")) == null ? void 0 : _b.replace("Bearer ", ""));
+  if (!token) {
+    return;
+  }
+});
 
 const VueResolver = (_, value) => {
   return isRef(value) ? toValue(value) : value;
@@ -4910,7 +4987,7 @@ function defineRenderHandler(render) {
   });
 }
 
-const _ssrsNx = lazyEventHandler(() => {
+const _cEjLLW = lazyEventHandler(() => {
   const opts = useRuntimeConfig().ipx || {};
   const fsDir = opts?.fs?.dir ? (Array.isArray(opts.fs.dir) ? opts.fs.dir : [opts.fs.dir]).map((dir) => isAbsolute(dir) ? dir : fileURLToPath(new URL(dir, globalThis._importMeta_.url))) : void 0;
   const fsStorage = opts.fs?.dir ? ipxFSStorage({ ...opts.fs, dir: fsDir }) : void 0;
@@ -4928,13 +5005,20 @@ const _ssrsNx = lazyEventHandler(() => {
   return useBase(opts.baseURL, ipxHandler);
 });
 
-const _lazy_GMn8T6 = () => import('../routes/renderer.mjs');
+const _lazy_cE3ZcP = () => import('../routes/api/ai/generate-quiz.post.mjs').then(function (n) { return n.c; });
+const _lazy_MX3DAb = () => import('../routes/api/ai/generate-quiz.post.mjs').then(function (n) { return n.e; });
+const _lazy_e61mY3 = () => import('../routes/api/ai/generate-quiz.post.mjs').then(function (n) { return n.g; });
+const _lazy_WqCiIy = () => import('../routes/renderer.mjs');
 
 const handlers = [
-  { route: '/__nuxt_error', handler: _lazy_GMn8T6, lazy: true, middleware: false, method: undefined },
+  { route: '', handler: _MmcjD6, lazy: false, middleware: true, method: undefined },
+  { route: '/api/ai/chat', handler: _lazy_cE3ZcP, lazy: true, middleware: false, method: "post" },
+  { route: '/api/ai/explain', handler: _lazy_MX3DAb, lazy: true, middleware: false, method: "post" },
+  { route: '/api/ai/generate-quiz', handler: _lazy_e61mY3, lazy: true, middleware: false, method: "post" },
+  { route: '/__nuxt_error', handler: _lazy_WqCiIy, lazy: true, middleware: false, method: undefined },
   { route: '/__nuxt_island/**', handler: _SxA8c9, lazy: false, middleware: false, method: undefined },
-  { route: '/_ipx/**', handler: _ssrsNx, lazy: false, middleware: false, method: undefined },
-  { route: '/**', handler: _lazy_GMn8T6, lazy: true, middleware: false, method: undefined }
+  { route: '/_ipx/**', handler: _cEjLLW, lazy: false, middleware: false, method: undefined },
+  { route: '/**', handler: _lazy_WqCiIy, lazy: true, middleware: false, method: undefined }
 ];
 
 function createNitroApp() {
@@ -5121,5 +5205,5 @@ function getCacheHeaders(url) {
   return {};
 }
 
-export { $fetch as $, getContext as A, baseURL as B, createHooks as C, executeAsync as D, toRouteMatcher as E, createRouter$1 as F, defu as G, parseQuery as H, withTrailingSlash as I, withoutTrailingSlash as J, handler as K, getResponseStatus as a, appId as b, buildAssetsURL as c, defineRenderHandler as d, appTeleportTag as e, appTeleportAttrs as f, getResponseStatusText as g, getQuery as h, createError$1 as i, createSSRContext as j, appHead as k, getRouteRules as l, getRenderer as m, getEntryIds as n, replaceIslandTeleports as o, publicAssetsURL as p, headSymbol as q, renderInlineStyles as r, setSSRError as s, hasProtocol as t, useNitroApp as u, isScriptProtocol as v, joinURL as w, withQuery as x, useHead as y, sanitizeStatusCode as z };
+export { $fetch as $, getQuery as A, createSSRContext as B, appHead as C, setSSRError as D, getRouteRules as E, getRenderer as F, getEntryIds as G, renderInlineStyles as H, replaceIslandTeleports as I, useNitroApp as J, handler as K, hasProtocol as a, baseURL as b, createError$1 as c, createHooks as d, executeAsync as e, createRouter$1 as f, getContext as g, headSymbol as h, isScriptProtocol as i, joinURL as j, defu as k, withTrailingSlash as l, withoutTrailingSlash as m, getResponseStatusText as n, getResponseStatus as o, parseQuery as p, appId as q, defineRenderHandler as r, sanitizeStatusCode as s, toRouteMatcher as t, useHead as u, buildAssetsURL as v, withQuery as w, publicAssetsURL as x, appTeleportTag as y, appTeleportAttrs as z };
 //# sourceMappingURL=nitro.mjs.map

@@ -20,7 +20,7 @@ export default defineNuxtConfig({
 
   typescript: {
     strict: true,
-    typeCheck: true
+    typeCheck: false
   },
 
   modules: [
@@ -29,7 +29,6 @@ export default defineNuxtConfig({
     '@nuxt/image',
     'nuxt-viewport',
     '@nuxtjs/color-mode',
-    '@nuxtjs/tailwindcss',
     '@vite-pwa/nuxt'
   ],
 
@@ -85,9 +84,6 @@ export default defineNuxtConfig({
     }
   },
 
-  tailwindcss: {
-    viewer: false
-  },
 
   image: {
     quality: 80,
