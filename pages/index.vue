@@ -7,84 +7,67 @@
           <section class="hero-section">
             <LayoutAligned :alignment="'center'">
               <div class="hero-content">
-                <h1>Mobile-First Nuxt Project</h1>
+                <h1>Learn Smarter with AI-Powered Education</h1>
                 <p class="hero-subtitle">
-                  A comprehensive design system built with Vue 3, TypeScript, and modern CSS
+                  Your personal AI tutor that adapts to your learning style. Master any subject with interactive conversations.
                 </p>
+                <div class="hero-actions">
+                  <Button to="/auth/signup" size="lg">Start Learning Free</Button>
+                  <Button to="/features" variant="secondary" size="lg">Explore Features</Button>
+                </div>
               </div>
             </LayoutAligned>
           </section>
 
           <!-- Features Grid -->
           <section>
-            <h2>Core Features</h2>
+            <h2>Why Choose Skooledin AI?</h2>
             <LayoutGrid
-              :cols="{ mobile: 1, tablet: 2, laptop: 3 }"
+              :auto-fit="true"
+              :min-child-width="'300px'"
               :gap="'lg'"
               class="features-grid"
             >
               <div class="feature-card">
-                <h3>🎨 Design Tokens</h3>
-                <p>Comprehensive token system for colors, spacing, typography, and more</p>
+                <h3>🤖 AI-Powered Tutor</h3>
+                <p>Conversational AI that understands your learning style and adapts to your pace</p>
               </div>
               <div class="feature-card">
-                <h3>📱 Mobile-First</h3>
-                <p>Responsive system with smooth breakpoints and container queries</p>
+                <h3>📚 Smart Notebook</h3>
+                <p>AI-enhanced notes with automatic summaries, flashcards, and concept extraction</p>
               </div>
               <div class="feature-card">
-                <h3>🧩 Layout Primitives</h3>
-                <p>Flutter-like layout components for predictable UI composition</p>
+                <h3>🎯 Personalized Learning</h3>
+                <p>Dynamic context switching between subjects with tailored recommendations</p>
               </div>
               <div class="feature-card">
-                <h3>🌓 Dark Mode</h3>
-                <p>Built-in light/dark theme support with CSS custom properties</p>
+                <h3>📱 Works Offline</h3>
+                <p>Full functionality even without internet - learn anywhere, anytime</p>
               </div>
               <div class="feature-card">
-                <h3>⚡ Performance</h3>
-                <p>Optimized for speed with auto-imports and lazy loading</p>
+                <h3>🧠 Study Tools</h3>
+                <p>Flashcards, quizzes, mind maps, and practice problems with spaced repetition</p>
               </div>
               <div class="feature-card">
-                <h3>♿ Accessible</h3>
-                <p>WCAG 2.1 compliant with keyboard navigation and screen reader support</p>
+                <h3>📊 Track Progress</h3>
+                <p>Visual analytics to monitor learning progress and identify areas for improvement</p>
               </div>
             </LayoutGrid>
           </section>
 
-          <!-- Component Demos Link -->
-          <section class="demos-link-section">
+          <!-- CTA Section -->
+          <section class="cta-section">
             <LayoutAligned :alignment="'center'">
               <div>
-                <h2>Explore Components</h2>
-                <p class="demos-description">
-                  Check out our comprehensive collection of mobile-first components
+                <h2>Ready to Transform Your Learning?</h2>
+                <p class="cta-description">
+                  Join thousands of students already learning smarter with AI
                 </p>
-                <NuxtLink to="/demo" class="demos-button"> View All Demos → </NuxtLink>
+                <Button to="/auth/signup" size="lg" class="cta-button">
+                  Get Started Free
+                </Button>
               </div>
             </LayoutAligned>
-          </section>
-
-          <!-- Demo Section -->
-          <section>
-            <h2>Layout Demonstrations</h2>
-            <LayoutStack :spacing="'lg'">
-              <!-- Row Demo -->
-              <div class="demo-section">
-                <h3>Responsive Row</h3>
-                <LayoutRow :gap="'md'" :wrap="true">
-                  <div class="demo-box" style="flex: 1">Item 1</div>
-                  <div class="demo-box" style="flex: 2">Item 2 (2x)</div>
-                  <div class="demo-box" style="flex: 1">Item 3</div>
-                </LayoutRow>
-              </div>
-
-              <!-- Grid Demo -->
-              <div class="demo-section">
-                <h3>Auto-Fit Grid</h3>
-                <LayoutGrid :auto-fit="true" :min-child-width="'200px'" :gap="'md'">
-                  <div v-for="i in 6" :key="i" class="demo-box">Grid Item {{ i }}</div>
-                </LayoutGrid>
-              </div>
-            </LayoutStack>
           </section>
         </LayoutStack>
       </LayoutContainer>
@@ -95,8 +78,8 @@
 <script setup lang="ts">
 // Page meta
 useHead({
-  title: 'Mobile-First Nuxt Project',
-  meta: [{ name: 'description', content: 'A comprehensive mobile-first design system for Nuxt 3' }]
+  title: 'Skooledin AI - Learn Smarter with AI-Powered Education',
+  meta: [{ name: 'description', content: 'Your personal AI tutor that adapts to your learning style. Master any subject with interactive conversations, smart notebooks, and personalized study tools.' }]
 })
 </script>
 
@@ -168,35 +151,25 @@ h2 {
   justify-content: center;
 }
 
-/* Component Demos Link */
-.demos-link-section {
+/* CTA Section */
+.cta-section {
   background: var(--surface-elevated);
   padding: var(--spacing-3xl);
   border-radius: var(--radius-lg);
   text-align: center;
 }
 
-.demos-description {
+.cta-description {
   font-size: var(--font-size-lg);
   color: var(--text-secondary);
   margin: var(--spacing-md) 0 var(--spacing-xl);
 }
 
-.demos-button {
-  display: inline-block;
-  background: var(--primary-color);
-  color: white;
-  padding: var(--spacing-md) var(--spacing-xl);
-  border-radius: var(--radius-md);
-  text-decoration: none;
-  font-weight: var(--font-weight-medium);
-  transition: all var(--transition-fast) var(--easing-standard);
-}
-
-.demos-button:hover {
-  background: var(--color-primary-600);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+.hero-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+  margin-top: var(--spacing-xl);
 }
 
 /* Dark mode adjustments */
@@ -208,7 +181,7 @@ h2 {
   background-color: var(--surface-default);
 }
 
-.dark-mode .demos-link-section {
+.dark-mode .cta-section {
   background: var(--surface-card);
 }
 </style>

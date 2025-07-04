@@ -14,6 +14,9 @@ export const useResponsive = () => {
   const points = useBreakpoints(breakpoints)
 
   const current = computed<Breakpoint>(() => {
+    // Default to mobile on server to prevent hydration mismatch
+    if (process.server) return 'mobile'
+    
     if (points.smaller('tablet').value) return 'mobile'
     if (points.between('tablet', 'laptop').value) return 'tablet'
     if (points.between('laptop', 'desktop').value) return 'laptop'
@@ -21,15 +24,46 @@ export const useResponsive = () => {
     return 'ultrawide'
   })
 
-  const isMobile = computed(() => points.smaller('tablet').value)
-  const isTablet = computed(() => points.between('tablet', 'laptop').value)
-  const isLaptop = computed(() => points.between('laptop', 'desktop').value)
-  const isDesktop = computed(() => points.between('desktop', 'ultrawide').value)
-  const isUltrawide = computed(() => points.greater('ultrawide').value)
+  const isMobile = computed(() => {
+    // Default to false on server to prevent hydration mismatch
+    if (process.server) return false
+    return points.smaller('tablet').value
+  })
+  
+  const isTablet = computed(() => {
+    if (process.server) return false
+    return points.between('tablet', 'laptop').value
+  })
+  
+  const isLaptop = computed(() => {
+    if (process.server) return false
+    return points.between('laptop', 'desktop').value
+  })
+  
+  const isDesktop = computed(() => {
+    if (process.server) return false
+    return points.between('desktop', 'ultrawide').value
+  })
+  
+  const isUltrawide = computed(() => {
+    if (process.server) return false
+    return points.greater('ultrawide').value
+  })
 
-  const isTabletAndUp = computed(() => points.greaterOrEqual('tablet').value)
-  const isLaptopAndUp = computed(() => points.greaterOrEqual('laptop').value)
-  const isDesktopAndUp = computed(() => points.greaterOrEqual('desktop').value)
+  const isTabletAndUp = computed(() => {
+    if (process.server) return true // Default to true for better SSR
+    return points.greaterOrEqual('tablet').value
+  })
+  
+  const isLaptopAndUp = computed(() => {
+    if (process.server) return true
+    return points.greaterOrEqual('laptop').value
+  })
+  
+  const isDesktopAndUp = computed(() => {
+    if (process.server) return true
+    return points.greaterOrEqual('desktop').value
+  })
 
   const match = <T>(values: Partial<Record<Breakpoint, T>>): T | undefined => {
     const currentBreakpoint = current.value

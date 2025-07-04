@@ -47,6 +47,25 @@ export default defineNuxtConfig({
 
   ssr: true,
 
+  // Runtime configuration
+  runtimeConfig: {
+    // Private keys (server-only)
+    anthropicApiKey: process.env.ANTHROPIC_API_KEY || '',
+    
+    // Public keys (client + server)
+    public: {
+      firebaseApiKey: process.env.NUXT_PUBLIC_FIREBASE_API_KEY || '',
+      firebaseAuthDomain: process.env.NUXT_PUBLIC_FIREBASE_AUTH_DOMAIN || '',
+      firebaseProjectId: process.env.NUXT_PUBLIC_FIREBASE_PROJECT_ID || '',
+      firebaseStorageBucket: process.env.NUXT_PUBLIC_FIREBASE_STORAGE_BUCKET || '',
+      firebaseMessagingSenderId: process.env.NUXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || '',
+      firebaseAppId: process.env.NUXT_PUBLIC_FIREBASE_APP_ID || '',
+      firebaseMeasurementId: process.env.NUXT_PUBLIC_FIREBASE_MEASUREMENT_ID || '',
+      useFirebaseEmulator: process.env.NUXT_PUBLIC_USE_FIREBASE_EMULATOR === 'true',
+      isDevelopment: process.env.NODE_ENV === 'development'
+    }
+  },
+
   // Module configurations
   colorMode: {
     preference: 'system',

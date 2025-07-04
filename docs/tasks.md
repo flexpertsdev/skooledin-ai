@@ -37,11 +37,13 @@
 - [x] Document design patterns
 
 #### Task 3: Authentication Setup
-**Status**: 📋 Planned
+**Status**: 🟡 In Progress
 **Effort**: 8 hours
+**Started**: January 4, 2024
 
 - [ ] Configure Firebase Auth
 - [ ] Create login/signup pages
+- [x] Create empty placeholder files needed for all features in @/Users/jos/Developer/Skooledin copy/PROJECT/skooledin-ai/docs/features.md with //2-3 lines of details for each. NO CODE. LIVIBNG DOCS
 - [ ] Implement OAuth (Google)
 - [ ] Add role-based routing
 - [ ] Create auth middleware
