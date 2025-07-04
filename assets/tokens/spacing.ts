@@ -50,5 +50,59 @@ export const spacingAliases = {
   '6xl': spacing[40] // 160px
 } as const
 
+// Mobile-specific spacing
+export const mobileSpacing = {
+  // Touch targets
+  touchMin: '44px', // iOS minimum
+  touchOptimal: '48px', // Optimal touch target
+  touchLarge: '56px', // Large touch target
+  
+  // Safe areas
+  safeTop: 'env(safe-area-inset-top, 0px)',
+  safeRight: 'env(safe-area-inset-right, 0px)',
+  safeBottom: 'env(safe-area-inset-bottom, 0px)',
+  safeLeft: 'env(safe-area-inset-left, 0px)',
+  
+  // Navigation
+  navHeight: '56px',
+  tabHeight: '48px',
+  bottomNavHeight: '64px',
+  
+  // Content margins
+  pagePadding: spacing[4], // 16px
+  sectionGap: spacing[6], // 24px
+  cardPadding: spacing[4], // 16px
+  listItemPadding: spacing[3] // 12px
+} as const
+
+// Educational UI spacing
+export const educationalSpacing = {
+  // Message bubbles (WhatsApp-style)
+  messagePadding: {
+    x: spacing[3], // 12px horizontal
+    y: spacing[2] // 8px vertical
+  },
+  messageGap: spacing[2], // 8px between messages
+  messageMaxWidth: '85%',
+  
+  // Study cards
+  flashcardPadding: spacing[6], // 24px
+  flashcardGap: spacing[4], // 16px
+  
+  // Quiz/test layouts
+  questionSpacing: spacing[8], // 32px between questions
+  optionGap: spacing[3], // 12px between options
+  
+  // Notebook entries
+  notePadding: spacing[4], // 16px
+  noteMargin: spacing[3], // 12px
+  
+  // AI thinking indicator
+  thinkingDotSize: '8px',
+  thinkingDotGap: '4px'
+} as const
+
 export type SpacingToken = typeof spacing
 export type SpacingAlias = typeof spacingAliases
+export type MobileSpacing = typeof mobileSpacing
+export type EducationalSpacing = typeof educationalSpacing

@@ -79,17 +79,34 @@
 
   /* Subject Colors */
   --color-subject-math: #3b82f6;
+  --color-subject-math-light: #60a5fa;
+  --color-subject-math-dark: #1d4ed8;
   --color-subject-science: #10b981;
+  --color-subject-science-light: #34d399;
+  --color-subject-science-dark: #047857;
   --color-subject-language: #f59e0b;
+  --color-subject-language-light: #fbbf24;
+  --color-subject-language-dark: #b45309;
   --color-subject-history: #a78bfa;
+  --color-subject-history-light: #c4b5fd;
+  --color-subject-history-dark: #7c3aed;
   --color-subject-arts: #ec4899;
+  --color-subject-arts-light: #f472b6;
+  --color-subject-arts-dark: #be185d;
   --color-subject-sports: #14b8a6;
+  --color-subject-sports-light: #2dd4bf;
+  --color-subject-sports-dark: #0f766e;
 
   /* AI-Specific Colors */
-  --color-ai-thinking: #8b5cf6;
-  --color-ai-confident: #10b981;
-  --color-ai-uncertain: #f59e0b;
-  --color-ai-error: #ef4444;
+  --color-ai-thinking: #6366f1;
+  --color-ai-thinking-light: #818cf8;
+  --color-ai-thinking-dark: #4f46e5;
+  --color-ai-response: #a5b4fc;
+  --color-ai-response-light: #c7d2fe;
+  --color-ai-response-dark: #818cf8;
+  --color-ai-context: #c4b5fd;
+  --color-ai-context-light: #ddd6fe;
+  --color-ai-context-dark: #a78bfa;
 
   /* Surface Colors - Additional */
   --surface-chat: #faf5ff;

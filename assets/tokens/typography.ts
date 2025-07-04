@@ -97,5 +97,55 @@ export const typeScale = {
   }
 } as const
 
+// Educational-specific typography
+export const educationalType = {
+  // Question/problem text
+  question: {
+    size: typography.fontSize.lg.size,
+    lineHeight: typography.lineHeight.relaxed,
+    weight: typography.fontWeight.medium
+  },
+  // Answer text
+  answer: {
+    size: typography.fontSize.base.size,
+    lineHeight: typography.lineHeight.relaxed,
+    weight: typography.fontWeight.normal
+  },
+  // Math/code blocks
+  code: {
+    family: typography.fontFamily.mono,
+    size: typography.fontSize.sm.size,
+    lineHeight: typography.lineHeight.normal,
+    weight: typography.fontWeight.normal
+  },
+  // Study notes
+  note: {
+    size: typography.fontSize.sm.size,
+    lineHeight: typography.lineHeight.relaxed,
+    weight: typography.fontWeight.normal
+  },
+  // Labels and metadata
+  label: {
+    size: typography.fontSize.xs.size,
+    lineHeight: typography.lineHeight.tight,
+    weight: typography.fontWeight.medium,
+    letterSpacing: typography.letterSpacing.wide
+  },
+  // Flashcard text
+  flashcard: {
+    front: {
+      size: typography.fontSize['2xl'].size,
+      lineHeight: typography.lineHeight.snug,
+      weight: typography.fontWeight.semibold
+    },
+    back: {
+      size: typography.fontSize.lg.size,
+      lineHeight: typography.lineHeight.relaxed,
+      weight: typography.fontWeight.normal
+    }
+  }
+} as const
+
 export type TypographyToken = typeof typography
 export type TypeScale = typeof typeScale
+export type EducationalType = typeof educationalType
